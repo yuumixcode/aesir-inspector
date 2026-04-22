@@ -1,0 +1,14 @@
+{
+  "name": "RunLab.AesirInspector.Tests",
+  "rootNamespace": "RunLab.AesirInspector.Tests",
+  "references": ["RunLab.AesirInspector", "UnityEngine.TestRunner"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

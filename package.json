@@ -1,0 +1,14 @@
+{
+  "name": "com.runlab.aesir-inspector",
+  "displayName": "Aesir Inspector",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "依赖 Odin Inspector，提供基于 Odin Inspector 的扩展功能。",
+  "keywords": ["odin", "inspector", "editor"],
+  "category": "Unity",
+  "author": {
+    "name": "RunLab - Yuumix"
+  },
+  "dependencies": {},
+  "license": "MIT"
+}
