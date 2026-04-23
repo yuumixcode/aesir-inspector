@@ -21,16 +21,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // ----------------------------------------------------------------------------
+// 方法与区域规范 (Methods & Regions):
+// 1. 供外部调用的公开方法必须使用 #region --- Public Methods --- 宏定义分区域。
+// 2. 所有公开方法（构造函数除外）必须同时包含 XML /// <summary> 和 [Summary] 特性。XML 注释仅保留 summary 标签，移除 param, returns 等多余标签。
+// 3. 公共构造函数不需要添加 XML (/// <summary>) 和 [Summary] 特性。
+// 4. 内部/私有方法必须使用 #region Internal 宏定义分区域。
+// 5. 如果私有方法逻辑上对应某个公开方法（如同名逻辑实现），私有方法应增加 Internal_ 前缀。
+
+// Odin Inspector 规范 (Odin Inspector Integration):
+// 注意：以下 Processor、Drawer 等针对特殊类的规范，其前提是仅针对 Aesir Inspector 核心开发。如果用户自定义其他的特殊类扩展，是不受此规范约束。
+// 1. 优先使用 Odin Attribute 来构建 UI，而非编写原始的 Editor 代码。
+// 2. 模块必须保证在未安装 Odin Inspector 时依然可以正常编译。所有对 Sirenix.OdinInspector 命名空间的引用、特性的应用、以及对 Odin API 的调用，都必须使用 #if ODIN_INSPECTOR_3_3 宏定义包裹。仅包裹 Odin 特有的类型或 API，标准 C# 类型属性不应被包裹。注意：OdinInspectorSafeEditorUtility 是编辑器桥梁工具，其自身及对其公开方法的调用不需要被宏包裹。
+// 3. 优先选择使用 OdinAttributeProcessor 的方式去动态添加特性，而不是在原本的类中通过大量的宏定义 (#if ODIN_INSPECTOR_3_3) 装饰字段或方法。
+// 4. 自定义的 OdinAttributeProcessor 必须与对应的 Attribute 或受其处理的类定义在同一个脚本文件中。继承 OdinAttributeDrawer 的类，依旧独立在 Drawers 文件夹。
+// 5. Processor 必须使用 internal 访问修饰符。
+// 6. Processor 与 Drawer 必须使用 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3 宏定义进行包裹。
+// 7. 继承自 OdinAttributeProcessor<T> 的类不需要编写 XML (/// <summary>) 和 [Summary] 特性注释。
+// 8. 只有当用户可调用的类中包含了 Odin Inspector 的内容才使用 #region --- Odin Inspector ---。对于不推荐用户调用的类中，比如继承了 OdinAttributeProcessor 的类，是不需要包裹在 Odin Inspector 区域内的。
+// ----------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
-using Component = UnityEngine.Component;
+#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using Sirenix.OdinInspector.Editor;
+#endif
 
 // ReSharper disable ConvertToAutoPropertyWithPrivateSetter  
 // ReSharper disable ConvertToAutoPropertyWhenPossible  
@@ -85,12 +101,6 @@ namespace RunLab.AesirInspector
         string DamageTypeName { get; }
 
         /// <summary>
-        /// 伤害值
-        /// </summary>
-        [Summary("伤害值")]
-        float DamageValue { get; }
-
-        /// <summary>
         /// 应用伤害
         /// </summary>
         [Summary("应用伤害")]
@@ -114,61 +124,9 @@ namespace RunLab.AesirInspector
     /// Aesir Inspector 代码风格示例，展示本项目的规范和最佳实践，基于 Rider 默认推荐格式
     /// </summary>
     [Summary("Aesir Inspector 代码风格示例，展示本项目的规范和最佳实践，基于 Rider 默认推荐格式")]
-    [DisallowMultipleComponent]
-    [RequireComponent(typeof(BoxCollider))]
     [AesirInspectorExample]
     public sealed class AesirInspectorCodeStyle : MonoBehaviour, IDamageable<float>
     {
-        // 成员排序规范 (适配 Rider Unity Layout)：
-        // 1. 公共委托 (Public Delegates)
-        // 2. 公共枚举 (Public Enums)
-        // 3. 静态字段与常量 (Static Fields & Constants - 常量优先)
-        // 4. 序列化字段 (Serialized Fields - 保持 Inspector 排序)
-        // 5. 非序列化字段 (Non-serialized Fields - 只读优先)
-        // 6. 构造函数 (Constructors - 静态优先)
-        // 7. 属性与索引器 (Properties & Indexers)
-        // 8. Unity 事件函数 (Event Functions / Unity Messages)
-        // 9. 接口实现 (Interface Implementations)
-        // 10. 其他所有成员 (All other members - 方法与事件)
-        // 11. 嵌套类型 (Nested Types)
-
-        // 方法与区域规范 (Methods & Regions):
-        // 1. 供外部调用的公开方法必须使用 #region --- Public Methods --- 宏定义分区域。
-        // 2. 所有公开方法（构造函数除外）必须同时包含 XML /// <summary> 和 [Summary] 特性。
-        // 3. 公共构造函数不需要添加 XML (/// <summary>) 和 [Summary] 特性。
-        // 4. 内部/私有方法必须使用 #region Internal 宏定义分区域。
-        // 5. 如果私有方法逻辑上对应某个公开方法（如同名逻辑实现），私有方法应增加 Internal_ 前缀。
-
-        // Odin Inspector 规范 (Odin Inspector Integration):
-        // 1. 优先使用 Odin Attribute 来构建 UI，而非编写原始的 Editor 代码。
-        // 2. 模块必须保证在未安装 Odin Inspector 时依然可以正常编译。所有对 Sirenix.OdinInspector 命名空间的引用、特性的应用、以及对 Odin API 的调用，都必须使用 #if ODIN_INSPECTOR_3_3 宏定义包裹。仅包裹 Odin 特有的类型或 API，标准 C# 类型属性不应被包裹。注意：OdinInspectorSafeEditorUtility 是编辑器桥梁工具，其自身及对其公开方法的调用不需要被宏包裹。
-        // 3. 优先选择使用 OdinAttributeProcessor 的方式去动态添加特性，而不是在原本的类中通过大量的宏定义 (#if ODIN_INSPECTOR_3_3) 装饰字段或方法。
-        // 4. 自定义的 OdinAttributeProcessor 必须与对应的 Attribute 或受其处理的类定义在同一个脚本文件中。继承 OdinAttributeDrawer 的类，依旧独立在 Drawers 文件夹。
-        // 5. Processor 与 Drawer 必须使用 internal 访问修饰符。
-        // 6. Processor 与 Drawer 必须使用 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3 宏定义进行包裹。
-        // 7. 继承自 OdinAttributeProcessor<T> 的类不需要编写 XML (/// <summary>) 和 [Summary] 特性注释。
-
-        // --- 1. 公共委托 ---
-        /// <summary>
-        /// 状态改变委托
-        /// </summary>
-        [Summary("状态改变委托")]
-        public delegate void StateChangedHandler(string stateName);
-
-        // --- 2. 公共枚举 ---
-        /// <summary>
-        /// 内部状态枚举
-        /// </summary>
-        [Summary("内部状态枚举")]
-        public enum InternalState
-        {
-            None = 0,
-            Active = 1,
-            Inactive = 2
-        }
-
-        // --- 3. 静态字段与常量 ---
-        // 常量优先
         /// <summary>
         /// 最大计数器
         /// </summary>
@@ -187,14 +145,9 @@ namespace RunLab.AesirInspector
         [Summary("缓存的颜色属性 ID")]
         static readonly int ColorPropertyId = Shader.PropertyToID("_BaseColor");
 
-        // --- 4. 序列化字段 ---
-        // 保持 Inspector 排序，不自动按名称排序
         [Header("Player Settings")]
         [SerializeField]
         bool isPlayerDead;
-
-        [SerializeField]
-        PlayerStats stats;
 
         [Space(10)]
         [Header("Stats Settings")]
@@ -203,23 +156,13 @@ namespace RunLab.AesirInspector
         [Range(0f, 100f)]
         float anotherStat;
 
-        [SerializeField]
-        [TextArea(3, 5)]
-        string descriptionText;
-
-        // --- 5. 非序列化字段 ---
         // 只读优先
         readonly int _instanceId;
         int _elapsedTimeInDays;
         int _maxHealth;
 
-        // --- 6. 构造函数 ---
-        // 静态构造函数优先
-        static AesirInspectorCodeStyle() => SharedCount = 0;
-
         public AesirInspectorCodeStyle() => _instanceId = GetHashCode();
 
-        // --- 7. 属性与索引器 ---
         /// <summary>
         /// 最大生命值（只读）
         /// </summary>
@@ -244,10 +187,7 @@ namespace RunLab.AesirInspector
 
         // --- 8. Unity 事件函数 ---
         // 按照执行顺序或 Rider 默认顺序排列
-        void Awake()
-        {
-            Initialize();
-        }
+        void Awake() { }
 
 #if UNITY_EDITOR
         // 编辑器专用代码：使用条件编译确保不会被包含进构建包
@@ -274,7 +214,6 @@ namespace RunLab.AesirInspector
             Debug.Log("Update");
         }
 
-        // --- 9. 接口实现 ---
         /// <summary>
         /// IDamageable 接口实现：处理伤害
         /// </summary>
@@ -284,7 +223,6 @@ namespace RunLab.AesirInspector
             _maxHealth -= (int)damageTaken;
         }
 
-        // --- 10. 其他所有成员 (方法与事件) ---
         /// <summary>
         /// 正在开门
         /// </summary>
@@ -308,15 +246,6 @@ namespace RunLab.AesirInspector
         /// </summary>
         [Summary("触发自定义事件")]
         public event Action<CustomEventArgs> ThingHappened;
-
-        /// <summary>
-        /// 启动协程示例
-        /// </summary>
-        [Summary("启动协程示例")]
-        public void StartSampleRoutine()
-        {
-            StartCoroutine(SampleRoutine());
-        }
 
         /// <summary>
         /// 设置最大生命值
@@ -352,24 +281,7 @@ namespace RunLab.AesirInspector
             Debug.Log("基础回调：门已打开");
         }
 
-        /// <summary>
-        /// 事件订阅方法 (2)：若存在多个订阅方法，应在 On + 事件名后增加动作描述以示区分。
-        /// </summary>
-        [Summary("事件订阅方法 (2)：使用 On + 事件名 + 动作描述 命名。")]
-        public void OnDoorOpenedNotifyUI()
-        {
-            Debug.Log("UI 回调：更新 UI 状态");
-        }
-
-        IEnumerator SampleRoutine()
-        {
-            yield return new WaitForSeconds(1f);
-            Debug.Log("Coroutine waited for 1 second.");
-        }
-
-        void Initialize() { }
-
-        void FormatExamples(int someExpression)
+        void FormatExamples()
         {
             // 性能优化：使用 TryGetComponent 避免两次底层查询
             if (TryGetComponent<BoxCollider>(out var boxCollider))
@@ -387,82 +299,12 @@ namespace RunLab.AesirInspector
             // 严禁对 UnityEngine.Object 及其派生类（如 MonoBehaviour, Transform）使用 ?. 或 ?? 运算符。
             // 因为 Unity 对象的 null 检查是自定义的（处理 C++ 层面的销毁），原生 C# 运算符会绕过这种检查。
             var targetTransform = transform;
-            if (targetTransform != null) // 正确写法
+            if (targetTransform != null)
             {
-                // targetTransform?.position; // 错误写法，可能导致逻辑不一致
-            }
-
-            // 字符串内插：提升可读性，优于字符串加法
-            var message = $"Current state is: {someExpression} at {Time.time}";
-            Debug.Log(message);
-
-            // 断言：用于验证逻辑假设，仅在开发阶段生效
-            Debug.Assert(someExpression >= 0, "Expression should never be negative");
-
-            // 集合初始化：var 关键字简化类型声明
-            var powerUps = new List<PlayerStats>();
-            var dict = new Dictionary<string, List<GameObject>>();
-
-            // 对象初始化器：简化对象创建和赋值
-            var statsInfo = new PlayerStats
-            {
-                movementSpeed = 10,
-                hitPoints = 100,
-                hasHealthPotion = true
-            };
-
-            // LINQ 示例：提升逻辑处理的可读性，注意在 Update 中避开以防 GC
-            var filtered = powerUps.Where(p => p.hitPoints > 50).Select(p => p.movementSpeed).ToList();
-
-            // 异常处理：只针对不可预见的外部错误，不应作为业务逻辑流程控制
-            try
-            {
-                // 可能发生错误的操作
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-
-            // switch 语句：每个 case 独立分行，格式统一
-            switch (someExpression)
-            {
-                case 0:
-                    // 业务逻辑注释
-                    break;
-                case 1:
-                    // 业务逻辑注释
-                    break;
-                case 2:
-                    // 业务逻辑注释
-                    break;
-            }
-
-            // if 语句规范：必须使用大括号，大括号换行
-            if (someExpression > 0)
-            {
-                DoSomething(someExpression);
-            }
-
-            // for 循环：变量声明简化，大括号换行
-            for (var i = 0; i < 100; i++)
-            {
-                DoSomething(i);
-            }
-
-            // 嵌套循环：缩进一致，避免过度嵌套
-            for (var i = 0; i < 10; i++)
-            {
-                for (var j = 0; j < 10; j++)
-                {
-                    DoSomething(j);
-                }
+                // targetTransform.position; // 正确写法
             }
         }
 
-        void DoSomething(int x) { }
-
-        // --- 11. 嵌套类型 ---
         /// <summary>
         /// 事件参数结构体：参数较多时用结构体整合
         /// </summary>
@@ -489,77 +331,6 @@ namespace RunLab.AesirInspector
         }
     }
 
-    /// <summary>
-    /// 可序列化结构体：用于存储配置数据，字段命名简洁
-    /// </summary>
-    [Summary("可序列化结构体：用于存储配置数据，字段命名简洁")]
-    [Serializable]
-    public struct PlayerStats
-    {
-        /// <summary>
-        /// 移动速度
-        /// </summary>
-        [Summary("移动速度")]
-        public int movementSpeed;
-
-        /// <summary>
-        /// 生命值
-        /// </summary>
-        [Summary("生命值")]
-        public int hitPoints;
-
-        /// <summary>
-        /// 是否持有生命药剂
-        /// </summary>
-        [Summary("是否持有生命药剂")]
-        public bool hasHealthPotion;
-    }
-
-    /// <summary>
-    /// ScriptableObject 规范：数据驱动设计的基础，帕斯卡命名，通过 CreateAssetMenu 创建。
-    /// 示例：[CreateAssetMenu(fileName = "NewInspectorData", menuName = "Aesir Inspector/Data")]
-    /// </summary>
-    [Summary("ScriptableObject 规范：数据驱动设计的基础，帕斯卡命名，通过 CreateAssetMenu 创建")]
-    internal class AesirInspectorData : ScriptableObject
-    {
-        /// <summary>
-        /// 配置名称
-        /// </summary>
-        [Summary("配置名称")]
-        [SerializeField]
-        string configName;
-
-        /// <summary>
-        /// 配置名称
-        /// </summary>
-        [Summary("配置名称")]
-        public string ConfigName => configName;
-    }
-
-    /// <summary>
-    /// 静态工具类规范：使用 static 关键字，通常用于扩展方法或纯函数
-    /// </summary>
-    [Summary("静态工具类规范：使用 static 关键字，通常用于扩展方法或纯函数")]
-    public static class AesirInspectorExtensions
-    {
-        /// <summary>
-        /// 扩展方法示例：首个参数使用 this 关键字，帕斯卡命名
-        /// </summary>
-        /// <param name="gameObject">目标 GameObject</param>
-        /// <returns>是否有指定组件</returns>
-        [Summary("扩展方法示例：首个参数使用 this 关键字，帕斯卡命名")]
-        public static bool HasComponent<T>(this GameObject gameObject) where T : Component =>
-            gameObject.GetComponent<T>() != null;
-    }
-
-    /// <summary>
-    /// C# 9.0 Record 规范：用于不可变数据模型
-    /// </summary>
-    [Summary("C# 9.0 Record 规范：用于不可变数据模型")]
-    public record PlayerInfo(
-        string Name,
-        int Level);
-
     // --- 11. Odin Inspector 规范 ---
     /// <summary>
     /// 编辑器扩展组织规范：优先选择使用 OdinAttributeProcessor 的方式去动态添加特性。
@@ -570,8 +341,6 @@ namespace RunLab.AesirInspector
     internal class AesirInspectorExampleAttribute : Attribute { }
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
-    #region --- Odin Inspector ---
 
     internal sealed class AesirInspectorAttributeExampleProcessor<T> : OdinAttributeProcessor<T>
         where T : class
@@ -591,16 +360,5 @@ namespace RunLab.AesirInspector
         }
     }
 
-    #endregion
-
 #endif
-}
-
-namespace System.Runtime.CompilerServices
-{
-    /// <summary>
-    /// 在旧版 .NET 框架中使用 C# 9.0 init 属性或 Record 所需的兼容类
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class IsExternalInit { }
 }

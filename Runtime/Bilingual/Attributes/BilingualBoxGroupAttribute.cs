@@ -90,6 +90,9 @@ namespace RunLab.AesirInspector
         public bool HasCombineValues { get; set; }
 
 #if ODIN_INSPECTOR_3_3
+
+        #region Internal
+
         /// <summary>
         /// 统一 Group 的设置，自定义合并规则。
         /// </summary>
@@ -109,6 +112,9 @@ namespace RunLab.AesirInspector
             CenterLabel |= multiLanguageBoxGroupAttribute.CenterLabel;
             HasCombineValues = true;
         }
+
+        #endregion
+
 #endif
     }
 }

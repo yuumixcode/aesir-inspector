@@ -25,9 +25,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-#if ODIN_INSPECTOR_3_3
 #endif
 
 namespace RunLab.AesirInspector
@@ -64,8 +64,6 @@ namespace RunLab.AesirInspector
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
 namespace RunLab.AesirInspector
 {
-    #region --- Odin Inspector ---
-
     internal sealed class
         BilingualDisplayAsStringProcessor : OdinAttributeProcessor<DisplayAsStringBilingualWidget>
     {
@@ -74,12 +72,12 @@ namespace RunLab.AesirInspector
             attributes.Add(new HideLabelAttribute());
             attributes.Add(new InlinePropertyAttribute());
 
-            var config = property.GetAttribute<BilingualDisplayAsStringWidgetConfigAttribute>();
+            var config = property.GetAttribute<DisplayAsStringBilingualWidgetConfigAttribute>();
             if (config == null)
             {
                 attributes.Add(new BilingualInfoBoxAttribute(
-                    "BilingualDisplayAsStringWidget 字段必须添加 BilingualDisplayAsStringWidgetConfigAttribute 才能生效",
-                    "BilingualDisplayAsStringWidget field must add BilingualDisplayAsStringWidgetConfigAttribute to take effect",
+                    $"{nameof(DisplayAsStringBilingualWidget)} 字段必须添加 {nameof(DisplayAsStringBilingualWidgetConfigAttribute)} 才能生效",
+                    $"{nameof(DisplayAsStringBilingualWidget)} field must add {nameof(DisplayAsStringBilingualWidgetConfigAttribute)} to take effect",
                     InfoMessageType.Warning));
             }
         }
@@ -96,7 +94,7 @@ namespace RunLab.AesirInspector
                     attributes.Add(new ShowInInspectorAttribute());
                     attributes.Add(new EnableGUIAttribute());
 
-                    var config = parentProperty.GetAttribute<BilingualDisplayAsStringWidgetConfigAttribute>();
+                    var config = parentProperty.GetAttribute<DisplayAsStringBilingualWidgetConfigAttribute>();
                     if (config != null)
                     {
                         attributes.Add(config.CreateDisplayAsStringAttribute());
@@ -106,7 +104,5 @@ namespace RunLab.AesirInspector
             }
         }
     }
-
-    #endregion
 }
 #endif

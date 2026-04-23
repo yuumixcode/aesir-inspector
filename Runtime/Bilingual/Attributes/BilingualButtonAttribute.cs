@@ -220,8 +220,6 @@ namespace RunLab.AesirInspector
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
 
-    #region --- Odin Inspector ---
-
     internal sealed class BilingualAttributeProcessor<T> : OdinAttributeProcessor<T> where T : class
     {
         public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,
@@ -237,8 +235,6 @@ namespace RunLab.AesirInspector
             }
         }
     }
-
-    #endregion
 
 #endif
 }

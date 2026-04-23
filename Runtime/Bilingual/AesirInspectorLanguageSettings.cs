@@ -25,10 +25,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 #if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 #endif
 #if UNITY_EDITOR
 using UnityEditor;
@@ -43,10 +43,10 @@ namespace RunLab.AesirInspector
     public enum InspectorLanguage
     {
         [Summary("中文")]
-        Chinese,
+        Chinese = 0,
 
         [Summary("英文")]
-        English
+        English = 1
     }
 
     /// <summary>
@@ -55,34 +55,17 @@ namespace RunLab.AesirInspector
     [Summary("Aesir Inspector 检查器语言管理")]
     public class AesirInspectorLanguageSettings : ScriptableObject
     {
-#if ODIN_INSPECTOR_3_3
         static readonly string ConfigName =
             OdinInspectorSafeEditorUtility.GetNiceFullName(typeof(AesirInspectorLanguageSettings));
-#else
-        static readonly string ConfigName = typeof(AesirInspectorLanguageSettings).FullName;
-#endif
 
         [SerializeField]
         [Summary("当前语言设置")]
         InspectorLanguage currentLanguage = InspectorLanguage.Chinese;
 
-        public static void SetChinese()
-        {
-            Instance.currentLanguage = InspectorLanguage.Chinese;
-            LanguageChanged?.Invoke();
-        }
-
-        public static void SetEnglish()
-        {
-            Instance.currentLanguage = InspectorLanguage.English;
-            LanguageChanged?.Invoke();
-        }
-
-        public static event Action LanguageChanged;
-
         /// <summary>
         /// 获取语言设置实例。
         /// </summary>
+        [Summary("获取语言设置实例")]
         public static AesirInspectorLanguageSettings Instance =>
             ScriptableObjectSafeEditorUtility
                 .GetOrCreateEditorScriptableObject<AesirInspectorLanguageSettings>(ConfigName,
@@ -91,6 +74,7 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 当前是否为中文。
         /// </summary>
+        [Summary("当前是否为中文")]
         public static bool IsChinese
         {
             get
@@ -107,6 +91,7 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 当前是否为英文。
         /// </summary>
+        [Summary("当前是否为英文")]
         public static bool IsEnglish
         {
             get
@@ -120,7 +105,36 @@ namespace RunLab.AesirInspector
             }
         }
 
+        public static event Action LanguageChanged;
+
+        #region --- Public Methods ---
+
+        /// <summary>
+        /// 设置为中文。
+        /// </summary>
+        [Summary("设置为中文")]
+        public static void SetChinese()
+        {
+            Instance.currentLanguage = InspectorLanguage.Chinese;
+            LanguageChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// 设置为英文。
+        /// </summary>
+        [Summary("设置为英文")]
+        public static void SetEnglish()
+        {
+            Instance.currentLanguage = InspectorLanguage.English;
+            LanguageChanged?.Invoke();
+        }
+
+        #endregion
+
 #if UNITY_EDITOR
+
+        #region Internal
+
         [InitializeOnLoadMethod]
         static void InitializeEditor()
         {
@@ -135,12 +149,13 @@ namespace RunLab.AesirInspector
                 LanguageChanged = null;
             }
         }
+
+        #endregion
+
 #endif
     }
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
-    #region --- Odin Inspector ---
 
     internal sealed class
         AesirInspectorLanguageSettingsProcessor : OdinAttributeProcessor<AesirInspectorLanguageSettings>
@@ -164,8 +179,6 @@ namespace RunLab.AesirInspector
             }
         }
     }
-
-    #endregion
 
 #endif
 }

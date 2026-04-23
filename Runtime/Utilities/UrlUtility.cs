@@ -32,6 +32,8 @@ namespace RunLab.AesirInspector
     [Summary("URL 工具类")]
     public static class UrlUtility
     {
+        #region --- Public Methods ---
+
         /// <summary>
         /// 验证并规范化 URL，如果输入无效则返回回退 URL。
         /// </summary>
@@ -54,12 +56,14 @@ namespace RunLab.AesirInspector
             return fallbackUrl;
         }
 
-        /// <summary>
-        /// 检查 URL 方案是否为有效的 Web 协议（HTTP 或 HTTPS）。
-        /// </summary>
-        [Summary("检查 URL 方案是否为有效的 Web 协议（HTTP 或 HTTPS）")]
+        #endregion
+
+        #region Internal
+
         static bool IsValidWebProtocol(string scheme) =>
             string.Equals(scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
             string.Equals(scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase);
+
+        #endregion
     }
 }

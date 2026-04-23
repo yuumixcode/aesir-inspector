@@ -26,10 +26,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 #if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 #endif
 
 namespace RunLab.AesirInspector
@@ -41,18 +41,21 @@ namespace RunLab.AesirInspector
     [Summary("双语顶部说明控件，用于模块的简单介绍")]
     public class HeaderBilingualWidget
     {
-        [BilingualDisplayAsStringWidgetConfig(false, TextAlignment.Left, 30)]
+        // --- 4. 序列化字段 ---
+        [DisplayAsStringBilingualWidgetConfig(false, TextAlignment.Left, 30)]
         [SerializeField]
         DisplayAsStringBilingualWidget headerName;
 
-        [BilingualDisplayAsStringWidgetConfig(false, TextAlignment.Left, 14, true)]
+        [DisplayAsStringBilingualWidgetConfig(false, TextAlignment.Left, 14, true)]
         [SerializeField]
         DisplayAsStringBilingualWidget headerIntroduction;
 
+        // --- 5. 非序列化字段 ---
         string _chineseIntroduction;
         string _englishIntroduction;
         string _targetUrl;
 
+        // --- 6. 构造函数 ---
         public HeaderBilingualWidget(string chineseName,
             string englishName = null,
             string chineseIntroduction = null,
@@ -67,6 +70,7 @@ namespace RunLab.AesirInspector
             _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitWebsite;
         }
 
+        // --- 7. 属性 ---
         /// <summary>
         /// 顶部标题控件名称
         /// </summary>
@@ -80,21 +84,7 @@ namespace RunLab.AesirInspector
         bool HideHeaderIntroduction => string.IsNullOrWhiteSpace(_chineseIntroduction) &&
                                        string.IsNullOrWhiteSpace(_englishIntroduction);
 
-        void PlaceholderMethod1() { }
-
-        [Summary("切换当前语言")]
-        [Conditional("UNITY_EDITOR")]
-        void SwitchLanguage()
-        {
-            if (AesirInspectorLanguageSettings.IsChinese)
-            {
-                AesirInspectorLanguageSettings.SetEnglish();
-            }
-            else
-            {
-                AesirInspectorLanguageSettings.SetChinese();
-            }
-        }
+        #region --- Public Methods ---
 
         /// <summary>
         /// 打开相关文档链接
@@ -106,8 +96,6 @@ namespace RunLab.AesirInspector
                 UrlUtility.ValidateAndNormalizeUrl(_targetUrl, AesirInspectorWebLinks.GitWebsite);
             Application.OpenURL(validatedUrl);
         }
-
-        void PlaceholderMethod2() { }
 
         /// <summary>
         /// 修改控件数据。
@@ -126,11 +114,33 @@ namespace RunLab.AesirInspector
             _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitWebsite;
             return this;
         }
+
+        #endregion
+
+        #region Internal
+
+        void PlaceholderMethod1() { }
+
+        [Summary("切换当前语言")]
+        [Conditional("UNITY_EDITOR")]
+        void SwitchLanguage()
+        {
+            if (AesirInspectorLanguageSettings.IsChinese)
+            {
+                AesirInspectorLanguageSettings.SetEnglish();
+            }
+            else
+            {
+                AesirInspectorLanguageSettings.SetChinese();
+            }
+        }
+
+        void PlaceholderMethod2() { }
+
+        #endregion
     }
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
-    #region --- Odin Inspector ---
 
     internal sealed class BilingualHeaderProcessor : OdinAttributeProcessor<HeaderBilingualWidget>
     {
@@ -190,8 +200,6 @@ namespace RunLab.AesirInspector
             }
         }
     }
-
-    #endregion
 
 #endif
 }

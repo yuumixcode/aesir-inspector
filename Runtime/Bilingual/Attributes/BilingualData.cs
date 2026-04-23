@@ -47,6 +47,8 @@ namespace RunLab.AesirInspector
             _english = english;
         }
 
+        #region --- Public Methods ---
+
         /// <summary>
         /// 获取中文文本。
         /// </summary>
@@ -94,5 +96,7 @@ namespace RunLab.AesirInspector
         /// </summary>
         [Summary("隐式类型转换，BilingualData 可以直接转换为 String")]
         public static implicit operator string(BilingualData data) => data.GetCurrentOrFallback();
+
+        #endregion
     }
 }

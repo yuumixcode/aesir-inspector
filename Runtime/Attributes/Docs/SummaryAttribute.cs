@@ -34,21 +34,17 @@ namespace RunLab.AesirInspector
     [AttributeUsage(AttributeTargets.All)]
     public class SummaryAttribute : Attribute
     {
-        /// <summary>
-        /// 摘要文本
-        /// </summary>
         readonly string _summaryText;
-
-        /// <summary>
-        /// 初始化 <see cref="SummaryAttribute" /> 类的新实例。
-        /// </summary>
-        /// <param name="summaryText">摘要文本</param>
         public SummaryAttribute(string summaryText) => _summaryText = summaryText;
+
+        #region --- Public Methods ---
 
         /// <summary>
         /// 获取摘要文本
         /// </summary>
         [Summary("获取摘要文本")]
         public string GetSummary() => _summaryText;
+
+        #endregion
     }
 }

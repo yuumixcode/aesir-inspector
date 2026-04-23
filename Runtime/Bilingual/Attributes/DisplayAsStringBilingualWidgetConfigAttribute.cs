@@ -37,9 +37,9 @@ namespace RunLab.AesirInspector
     [Summary("双语以字符串显示组件配置特性")]
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     [Conditional("UNITY_EDITOR")]
-    public class BilingualDisplayAsStringWidgetConfigAttribute : Attribute
+    public class DisplayAsStringBilingualWidgetConfigAttribute : Attribute
     {
-        public BilingualDisplayAsStringWidgetConfigAttribute(bool overflow = false,
+        public DisplayAsStringBilingualWidgetConfigAttribute(bool overflow = false,
             TextAlignment alignment = TextAlignment.Left,
             int fontSize = 13,
             bool enableRichText = false,
@@ -83,6 +83,9 @@ namespace RunLab.AesirInspector
         public bool Overflow { get; set; }
 
 #if ODIN_INSPECTOR_3_3
+
+        #region --- Public Methods ---
+
         /// <summary>
         /// 创建 Odin 的 DisplayAsString 特性。
         /// </summary>
@@ -95,6 +98,9 @@ namespace RunLab.AesirInspector
                 EnableRichText = EnableRichText,
                 Format = Format
             };
+
+        #endregion
+
 #endif
     }
 }

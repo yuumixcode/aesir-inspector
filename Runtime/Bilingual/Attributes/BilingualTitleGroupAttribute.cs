@@ -110,6 +110,9 @@ namespace RunLab.AesirInspector
         public BilingualData TitleData { get; set; }
 
 #if ODIN_INSPECTOR_3_3
+
+        #region Internal
+
         /// <summary>
         /// 合并属性组特性值。
         /// </summary>
@@ -169,6 +172,9 @@ namespace RunLab.AesirInspector
                 Indent = multiLanguageTitleGroupAttribute.Indent;
             }
         }
+
+        #endregion
+
 #endif
     }
 }

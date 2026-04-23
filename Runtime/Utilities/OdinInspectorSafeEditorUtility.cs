@@ -46,27 +46,22 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取成员的值（支持字段和属性）。
         /// </summary>
-        /// <param name="member">成员信息</param>
-        /// <param name="obj">目标对象</param>
-        /// <returns>成员的值</returns>
         [Summary("获取成员的值（支持字段和属性）。")]
         public static object GetMemberValue(MemberInfo member, object obj)
         {
             if ((object)(member as FieldInfo) != null)
             {
-                return (member as FieldInfo).GetValue(obj);
+                return ((FieldInfo)member).GetValue(obj);
             }
 
             return (object)(member as PropertyInfo) != null
-                ? (member as PropertyInfo).GetGetMethod(true).Invoke(obj, null)
+                ? ((PropertyInfo)member).GetGetMethod(true).Invoke(obj, null)
                 : throw new ArgumentException($"Can't get the value of a {member.GetType().Name}");
         }
 
         /// <summary>
         /// 获取成员的返回类型（支持字段、属性、方法和事件）。
         /// </summary>
-        /// <param name="memberInfo">成员信息</param>
-        /// <returns>返回类型</returns>
         [Summary("获取成员的返回类型（支持字段、属性、方法和事件）。")]
         public static Type GetReturnType(MemberInfo memberInfo)
         {
@@ -95,8 +90,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 判断成员是否为静态成员。
         /// </summary>
-        /// <param name="member">成员信息</param>
-        /// <returns>是否为静态</returns>
         [Summary("判断成员是否为静态成员。")]
         public static bool IsStatic(MemberInfo member)
         {
@@ -140,9 +133,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取成员上的指定类型特性。
         /// </summary>
-        /// <typeparam name="T">特性类型</typeparam>
-        /// <param name="member">成员信息</param>
-        /// <returns>特性集合</returns>
         [Summary("获取成员上的指定类型特性。")]
         public static IEnumerable<T> GetAttributes<T>(ICustomAttributeProvider member) where T : Attribute =>
             GetAttributes<T>(member, false);
@@ -150,10 +140,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取成员上的指定类型特性。
         /// </summary>
-        /// <typeparam name="T">特性类型</typeparam>
-        /// <param name="member">成员信息</param>
-        /// <param name="inherit">是否搜索继承链</param>
-        /// <returns>特性集合</returns>
         [Summary("获取成员上的指定类型特性。")]
         public static IEnumerable<T> GetAttributes<T>(ICustomAttributeProvider member, bool inherit)
             where T : Attribute
@@ -171,29 +157,24 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 判断方法是否为扩展方法。
         /// </summary>
-        /// <param name="method">方法信息</param>
-        /// <returns>是否为扩展方法</returns>
         [Summary("判断方法是否为扩展方法。")]
         public static bool IsExtensionMethod(MethodBase method)
         {
             var declaringType = method.DeclaringType;
-            return declaringType.IsSealed && !declaringType.IsGenericType && !declaringType.IsNested &&
-                   method.IsDefined(typeof(ExtensionAttribute), false);
+            return declaringType != null && declaringType.IsSealed && !declaringType.IsGenericType &&
+                   !declaringType.IsNested && method.IsDefined(typeof(ExtensionAttribute), false);
         }
 
         /// <summary>
         /// 获取类型的所有基类和接口。
         /// </summary>
-        /// <param name="type">目标类型</param>
-        /// <param name="includeSelf">是否包含自身</param>
-        /// <returns>基类和接口集合</returns>
         [Summary("获取类型的所有基类和接口。")]
         public static IEnumerable<Type> GetBaseTypes(Type type, bool includeSelf = false)
         {
             var first = GetBaseClasses(type, includeSelf).Concat(type.GetInterfaces());
             if (includeSelf && type.IsInterface)
             {
-                first.Concat(new Type[1]
+                first = first.Concat(new Type[1]
                 {
                     type
                 });
@@ -205,13 +186,10 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取类型的所有基类。
         /// </summary>
-        /// <param name="type">目标类型</param>
-        /// <param name="includeSelf">是否包含自身</param>
-        /// <returns>基类集合</returns>
         [Summary("获取类型的所有基类。")]
         public static IEnumerable<Type> GetBaseClasses(Type type, bool includeSelf = false)
         {
-            if (!(type == null) && !(type.BaseType == null))
+            if (type?.BaseType != null)
             {
                 if (includeSelf)
                 {
@@ -226,9 +204,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取泛型约束字符串。如果是 Odin 环境，则调用 Odin 的扩展方法。
         /// </summary>
-        /// <param name="type">目标类型</param>
-        /// <param name="useFullTypeNames">是否使用全名</param>
-        /// <returns>约束字符串</returns>
         [Summary("获取泛型约束字符串。")]
         public static string GetGenericConstraintsString(Type type, bool useFullTypeNames = false)
         {
@@ -242,8 +217,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取类型的友好名称。如果是 Odin 环境，则调用 Odin 的扩展方法。
         /// </summary>
-        /// <param name="type">目标类型</param>
-        /// <returns>友好名称</returns>
         [Summary("获取类型的友好名称。")]
         public static string GetNiceName(Type type)
         {
@@ -257,8 +230,6 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 获取类型的友好全名。如果是 Odin 环境，则调用 Odin 的扩展方法。
         /// </summary>
-        /// <param name="type">目标类型</param>
-        /// <returns>友好全名</returns>
         [Summary("获取类型的友好全名。")]
         public static string GetNiceFullName(Type type)
         {
