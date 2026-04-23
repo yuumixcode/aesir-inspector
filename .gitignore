@@ -8,3 +8,5 @@
 # Unity generated files on crash
 sysinfo.txt
 
+# Codely
+.codely-cli
