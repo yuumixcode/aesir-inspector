@@ -4,11 +4,25 @@
   "version": "0.1.0",
   "unity": "2022.3",
   "description": "依赖 Odin Inspector，提供基于 Odin Inspector 的扩展功能。",
-  "keywords": ["odin", "inspector", "editor"],
-  "category": "Unity",
+  "keywords": [
+    "Odin",
+    "Inspector",
+    "Editor",
+    "Aesir"
+  ],
+  "category": "Inspector",
   "author": {
-    "name": "RunLab - Yuumix"
+    "name": "RunLab-Yuumix",
+    "email": "zeriying@gmail.com",
+    "url": "https://github.com/yuumixcode"
   },
+  "license": "MIT",
   "dependencies": {},
-  "license": "MIT"
+  "samples": [
+    {
+      "displayName": "Codely Skill Custom Package Creator",
+      "description": "适配 Codely 的 Skill，Custom Package Creator，快速创建 Unity Custom Package 目录结构，在此基础上积累属于自己的自定义包。需要把 custom-package-creator 放到特定目录下使用。",
+      "path": "Samples~/Codely Skill Custom Package Creator"
+    }
+  ]
 }

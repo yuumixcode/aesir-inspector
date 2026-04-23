@@ -258,6 +258,7 @@ namespace RunLab.AesirInspector
             // 性能优化提示：
             // 1. 避免在 Update 中调用 GetComponent, Find 或分配内存（如 new, LINQ）。
             // 2. 避免在每帧进行字符串拼接。
+            Debug.Log("Update");
         }
 
         // --- 9. 接口实现 ---
