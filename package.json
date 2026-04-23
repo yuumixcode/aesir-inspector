@@ -20,9 +20,9 @@
   "dependencies": {},
   "samples": [
     {
-      "displayName": "Codely Skill Library",
+      "displayName": "Codely Skills Library",
       "description": "适配 Codely 的 Skills 案例库，复制 skill 到特定目录下使用。目前包含 custom-package-creator",
-      "path": "Samples~/Codely Skill Library"
+      "path": "Samples~/Codely Skills Library"
     }
   ]
 }

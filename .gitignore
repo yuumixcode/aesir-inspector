@@ -1,13 +1,6 @@
 # macOS system files
 .DS_Store
 
-# Temporary files
-*.tmp
-*.temp
-
-# Unity generated files on crash
-sysinfo.txt
-
 # Codely
 .codely-cli
 
