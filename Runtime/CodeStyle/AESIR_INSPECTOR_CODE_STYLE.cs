@@ -112,7 +112,7 @@ namespace RunLab.AesirInspector
     /// Aesir Inspector 代码风格示例，展示本项目的规范和最佳实践，基于 Rider 默认推荐格式
     /// </summary>
     [Summary("Aesir Inspector 代码风格示例，展示本项目的规范和最佳实践，基于 Rider 默认推荐格式")]
-    [HelpURL("https://example.com/aesir-inspector")]
+    [HelpURL("https://github.com/yuumixcode/aesir-inspector.git")]
     [AddComponentMenu("Aesir Inspector/Code Style Example")]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(BoxCollider))]
@@ -130,6 +130,20 @@ namespace RunLab.AesirInspector
         // 9. 接口实现 (Interface Implementations)
         // 10. 其他所有成员 (All other members - 方法与事件)
         // 11. 嵌套类型 (Nested Types)
+
+        // 方法与区域规范 (Methods & Regions):
+        // 1. 供外部调用的公开方法必须使用 #region --- Public Methods --- 宏定义分区域。
+        // 2. 所有公开方法必须同时包含 XML /// <summary> 和 [Summary] 特性。
+        // 3. 内部/私有方法必须使用 #region Internal 宏定义分区域。
+        // 4. 如果私有方法逻辑上对应某个公开方法（如同名逻辑实现），私有方法应增加 Internal_ 前缀。
+
+        // Odin Inspector 规范 (Odin Inspector Integration):
+        // 1. 优先使用 Odin Attribute 来构建 UI，而非编写原始的 Editor 代码。
+        // 2. 模块必须保证在未安装 Odin Inspector 时依然可以正常编译。所有对 Sirenix.OdinInspector 命名空间的引用、特性的应用、以及对 Odin API 的调用，都必须使用 #if ODIN_INSPECTOR_3_3 宏定义包裹。仅包裹 Odin 特有的类型或 API，标准 C# 类型属性不应被包裹。
+        // 3. 自定义的 OdinAttributeProcessor 必须与对应的 Attribute 类定义在同一个脚本文件中。继承 OdinAttributeDrawer 的类，依旧独立在 Drawers 文件夹。
+        // 4. Processor 与 Drawer 必须使用 internal 访问修饰符。
+        // 5. Processor 与 Drawer 必须使用 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3 宏定义进行包裹。
+        // 6. 继承自 OdinAttributeProcessor<T> 的类不需要编写 XML (/// <summary>) 和 [Summary] 特性注释。
 
         // --- 1. 公共委托 ---
         /// <summary>
@@ -546,6 +560,29 @@ namespace RunLab.AesirInspector
     public record PlayerInfo(
         string Name,
         int Level);
+
+    // --- 11. Odin Inspector 规范 ---
+    /// <summary>
+    /// 编辑器扩展组织规范：自定义的 OdinAttributeProcessor 必须与对应的 Attribute 类定义在同一个脚本文件中。
+    /// 继承 OdinAttributeDrawer 的类，依旧独立在 Drawers 文件夹。
+    /// 这样可以减少 Editor 文件夹的碎片化（针对 Processor），并保持 Attribute 相关逻辑的内聚性。
+    /// </summary>
+    [Summary("编辑器扩展组织规范：Processor 在 Attribute 脚本中；Drawer 独立在 Drawers 文件夹。")]
+    public class AesirInspectorAttributeExample : Attribute { }
+
+#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+    #region --- Odin Inspector ---
+
+    internal sealed class AesirInspectorAttributeExampleProcessor<T> : Sirenix.OdinInspector.Editor.OdinAttributeProcessor<T> where T : class
+    {
+        public override void ProcessSelfAttributes(Sirenix.OdinInspector.Editor.InspectorProperty property, List<Attribute> attributes)
+        {
+            // 处理逻辑...
+        }
+    }
+
+    #endregion
+#endif
 }
 
 namespace System.Runtime.CompilerServices
