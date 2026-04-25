@@ -13,6 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.1] - 2026-04-23
+
+### Added
+
+- 新增 Aesir Inspector 安装方式检测功能 [`b7de538`](https://github.com/yuumixcode/aesir-inspector/commit/b7de538eaf24efdd5b96d2c26d7c2897a8e6a6b5)
+
+---
+
 ## [0.2.0] - 2026-04-23
 
 ### Added

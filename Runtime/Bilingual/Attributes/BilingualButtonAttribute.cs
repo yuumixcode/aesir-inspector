@@ -37,9 +37,9 @@ using Sirenix.OdinInspector.Editor;
 namespace RunLab.AesirInspector
 {
     /// <summary>
-    /// 双语按钮特性。
+    /// 双语按钮特性，必须直接编写在代码中，不能使用 AttributeProcessor 添加使用。
     /// </summary>
-    [Summary("双语按钮特性")]
+    [Summary("双语按钮特性，必须直接编写在代码中，不能使用 AttributeProcessor 添加使用。")]
     [AttributeUsage(AttributeTargets.All, Inherited = false)]
     [Conditional("UNITY_EDITOR")]
 #if ODIN_INSPECTOR_3_3

@@ -1,18 +1,18 @@
 // ----------------------------------------------------------------------------
 // MIT License
-// 
+//
 // Copyright (c) 2026 RunLab - Yuumix
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -90,6 +90,7 @@ namespace RunLab.AesirInspector
         /// 打开相关文档链接
         /// </summary>
         [Summary("打开相关文档链接")]
+        [BilingualButton("文档", "Documentation", buttonHeight: 24, icon: SdfIconType.Link45deg)]
         public void OpenUrl()
         {
             var validatedUrl =
@@ -123,6 +124,7 @@ namespace RunLab.AesirInspector
 
         [Summary("切换当前语言")]
         [Conditional("UNITY_EDITOR")]
+        [BilingualButton("中文", "English", buttonHeight: 24, icon: SdfIconType.Translate)]
         void SwitchLanguage()
         {
             if (AesirInspectorLanguageSettings.IsChinese)
@@ -138,68 +140,70 @@ namespace RunLab.AesirInspector
         void PlaceholderMethod2() { }
 
         #endregion
-    }
+
+        #region --- Odin Inspector ---
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
 
-    internal sealed class BilingualHeaderProcessor : OdinAttributeProcessor<HeaderBilingualWidget>
-    {
-        public override void ProcessSelfAttributes(InspectorProperty property, List<Attribute> attributes)
+        internal sealed class BilingualHeaderProcessor : OdinAttributeProcessor<HeaderBilingualWidget>
         {
-            attributes.Add(new InlinePropertyAttribute());
-            attributes.Add(new HideLabelAttribute());
-        }
-
-        public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,
-            MemberInfo member,
-            List<Attribute> attributes)
-        {
-            switch (member.Name)
+            public override void ProcessSelfAttributes(InspectorProperty property, List<Attribute> attributes)
             {
-                case "headerName":
-                    attributes.Add(new PropertyOrderAttribute(0));
-                    attributes.Add(new PropertySpaceAttribute(13));
-                    attributes.Add(new BoxGroupAttribute("OuterBox"));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.75f));
-                    break;
-                case "headerIntroduction":
-                    attributes.Add(new HideIfAttribute("HideHeaderIntroduction"));
-                    attributes.Add(new PropertyOrderAttribute(30));
-                    attributes.Add(new BoxGroupAttribute("OuterBox"));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriBottom", 0.98f));
-                    attributes.Add(new PropertySpaceAttribute(10, 8));
-                    break;
-                case "PlaceholderMethod1":
-                    attributes.Add(new PropertyOrderAttribute(-10));
-                    attributes.Add(new OnInspectorGUIAttribute());
-                    attributes.Add(new BoxGroupAttribute("OuterBox", false));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.01f));
-                    break;
-                case "SwitchLanguage":
-                    attributes.Add(new PropertyOrderAttribute(5));
-                    attributes.Add(new BoxGroupAttribute("OuterBox"));
-                    attributes.Add(new PropertySpaceAttribute(8, 5));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.22f));
-                    attributes.Add(new VerticalGroupAttribute("OuterBox/HoriTop/VerRight"));
-                    attributes.Add(new BilingualButtonAttribute("中文", "English", buttonHeight: 24,
-                        icon: SdfIconType.Translate));
-                    break;
-                case nameof(HeaderBilingualWidget.OpenUrl):
-                    attributes.Add(new PropertyOrderAttribute(10));
-                    attributes.Add(new BoxGroupAttribute("OuterBox"));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.22f));
-                    attributes.Add(new VerticalGroupAttribute("OuterBox/HoriTop/VerRight"));
-                    attributes.Add(new BilingualButtonAttribute("文档", "Documentation", buttonHeight: 24,
-                        icon: SdfIconType.Link45deg));
-                    break;
-                case "PlaceholderMethod2":
-                    attributes.Add(new BoxGroupAttribute("OuterBox"));
-                    attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriBottom", 0.01f));
-                    attributes.Add(new OnInspectorGUIAttribute());
-                    break;
+                attributes.Add(new InlinePropertyAttribute());
+                attributes.Add(new HideLabelAttribute());
+            }
+
+            public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,
+                MemberInfo member,
+                List<Attribute> attributes)
+            {
+                switch (member.Name)
+                {
+                    case nameof(headerName):
+                        attributes.Add(new PropertyOrderAttribute(0));
+                        attributes.Add(new PropertySpaceAttribute(13));
+                        attributes.Add(new BoxGroupAttribute("OuterBox"));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.75f));
+                        break;
+                    case nameof(headerIntroduction):
+                        attributes.Add(new HideIfAttribute(nameof(HideHeaderIntroduction)));
+                        attributes.Add(new PropertyOrderAttribute(30));
+                        attributes.Add(new BoxGroupAttribute("OuterBox"));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriBottom", 0.98f));
+                        attributes.Add(new PropertySpaceAttribute(10, 8));
+                        break;
+                    case nameof(PlaceholderMethod1):
+                        attributes.Add(new PropertyOrderAttribute(-10));
+                        attributes.Add(new OnInspectorGUIAttribute());
+                        attributes.Add(new BoxGroupAttribute("OuterBox", false));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.01f));
+                        break;
+                    case nameof(SwitchLanguage):
+                        attributes.Add(new PropertyOrderAttribute(5));
+                        attributes.Add(new BoxGroupAttribute("OuterBox"));
+                        attributes.Add(new PropertySpaceAttribute(8, 5));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.22f));
+                        attributes.Add(new VerticalGroupAttribute("OuterBox/HoriTop/VerRight"));
+
+                        break;
+                    case nameof(OpenUrl):
+                        attributes.Add(new PropertyOrderAttribute(10));
+                        attributes.Add(new BoxGroupAttribute("OuterBox"));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriTop", 0.22f));
+                        attributes.Add(new VerticalGroupAttribute("OuterBox/HoriTop/VerRight"));
+
+                        break;
+                    case nameof(PlaceholderMethod2):
+                        attributes.Add(new BoxGroupAttribute("OuterBox"));
+                        attributes.Add(new HorizontalGroupAttribute("OuterBox/HoriBottom", 0.01f));
+                        attributes.Add(new OnInspectorGUIAttribute());
+                        break;
+                }
             }
         }
-    }
 
 #endif
+
+        #endregion
+    }
 }

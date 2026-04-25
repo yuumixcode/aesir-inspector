@@ -28,7 +28,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+#if UNITY_EDITOR
 using Sirenix.Utilities;
 #endif
 
@@ -41,7 +41,7 @@ namespace RunLab.AesirInspector
     [Summary("用于兼容 Odin Inspector 的 Editor-Only Mode 的工具类。桥梁工具类，安全跨越依赖。")]
     public static class OdinInspectorSafeEditorUtility
     {
-        #region --- Public Methods ---
+        #region Public Methods
 
         /// <summary>
         /// 获取成员的值（支持字段和属性）。

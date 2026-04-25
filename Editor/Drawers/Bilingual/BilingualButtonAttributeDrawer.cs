@@ -27,7 +27,6 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.ValueResolvers;
 using UnityEngine;
-using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor
 {
