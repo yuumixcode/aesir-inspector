@@ -63,6 +63,22 @@
 - **桥梁工具**：`OdinInspectorSafeEditorUtility.cs` 保留有关 Odin Inspector 的宏定义约束。
 
 
+## 双语特性使用规范
+
+以下双语特性依靠 OdinAttributeProcessor / Drawer 系统动态实现样式，**必须手动声明，严禁通过 AttributeProcessor 动态注入**：
+
+| 特性 | 样式实现方式 |
+|---|---|
+| `BilingualButtonAttribute` | Processor 注入 `ButtonAttribute` |
+| `BilingualTitleAttribute` | Drawer |
+| `BilingualTextAttribute` | Drawer |
+| `BilingualInfoBoxAttribute` | Drawer |
+| `BilingualBoxGroupAttribute` | Drawer |
+| `BilingualTitleGroupAttribute` | Drawer |
+| `DisplayAsStringBilingualWidgetConfigAttribute` | Processor 读取配置创建 `DisplayAsStringAttribute` |
+
+自包含特性（样式内嵌于定义，不依赖外部 Processor/Drawer）可动态注入：`ShowIfChineseAttribute`、`ShowIfEnglishAttribute`。
+
 ---
 
 违反 **Null 检查**、**命名** 或 **区域与注释** 规范的代码视为不可接受的 Bug。

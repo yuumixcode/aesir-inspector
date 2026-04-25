@@ -7,6 +7,113 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2026-04-25
+
+### Core
+
+#### Added
+- Added `AesirInspectorMenuItems` unified menu path and priority management class for Tools menu and Assets context menu [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Added Getting Started window with version display, feature list, and documentation links [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Added Preferences window with integrated language settings [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Added `AesirInspectorVersion` version info static class [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Added `IAesirInspectorReset` interface and `AesirInspectorResetAttributeProcessor` for auto-adding context menu reset entry [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Added `AesirCodeHighlighter` code syntax highlighter [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+
+#### Changed
+- Silenced installation detection log output (commented out `Debug.Log`) [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Extended `AesirInspectorPaths` with AttributeOverview and MiniTools path constants [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+- Extended `AesirInspectorWebLinks` with GitHub repository, license, changelog, and Odin Inspector docs links [`77f3b1b`](https://github.com/yuumixcode/aesir-inspector/commit/77f3b1b219eda197a67637c49c24c54ba4e8e0a5)
+
+### Bilingual
+
+#### Added
+- Added `ShowEnablePropertyAttribute` composite attribute [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `HorizontalSeparateWidget` horizontal separator Inspector component [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+#### Changed
+- Refactored `HeaderBilingualWidget` [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+### Utilities
+
+#### Added
+- Added `AesirInspectorLogger` logging utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `PathUtility` and `PathSafeEditorUtility` path utility classes [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `ReflectionUtility` reflection utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `RegexUtility` regular expression utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `HierarchyUtility` and `HierarchySafeEditorUtility` Hierarchy utility classes [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `MonoScriptSafeEditorUtility` MonoScript utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `PlayerLoopUtility` PlayerLoop utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `PredefinedAssemblyUtility` predefined assembly utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `ProjectSafeEditorUtility` project-safe editor utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+#### Changed
+- Extended `ScriptableObjectSafeEditorUtility` with additional ScriptableObject editor operation methods [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Extended `OdinInspectorSafeEditorUtility` and `UrlUtility` [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+### MiniTools
+
+#### Added
+- Added `AesirInspectorMiniToolsWindow` main window [`b7068eb`](https://github.com/yuumixcode/aesir-inspector/commit/b7068eb0d1ab0a6cf7d7db9293ae874516a59d89)
+- Added MenuItemViewer with `IAssemblyFilter` assembly filtering and `ISearchFilterable` search support [`b7068eb`](https://github.com/yuumixcode/aesir-inspector/commit/b7068eb0d1ab0a6cf7d7db9293ae874516a59d89)
+- Added OdinSyntaxHighlighter panel delegating to `AesirCodeHighlighter` [`b7068eb`](https://github.com/yuumixcode/aesir-inspector/commit/b7068eb0d1ab0a6cf7d7db9293ae874516a59d89)
+- Added QuickCreateSO context menu tool for quick ScriptableObject generation with single and multi-selection support [`b7068eb`](https://github.com/yuumixcode/aesir-inspector/commit/b7068eb0d1ab0a6cf7d7db9293ae874516a59d89)
+
+### ScriptDocGenerator
+
+#### Added
+- Added document generator window and visual panel ScriptableObject singleton [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added `ScriptDocGeneratorController` logic controller for type analysis and document generation [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added Assets context menu items for adding scripts to TargetType or TemporaryTypes [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added Chinese Scripting API configuration and document generator settings [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added complete type analysis data model layer: `MemberData`, `FieldData`, `PropertyData`, `MethodData`, `ConstructorData`, `EventData`, `ParameterData`, `TypeData` and corresponding interfaces [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added `TypeAnalyzerStaticExtensions` and `TypeAnalyzerUtility` type analyzer utilities [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added `AccessModifierType`, `TypeCategory`, `ParameterDirection` enumerations [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added `DefaultAnalysisDataFactory`, `DefaultAttributeFilter`, `DerivedMemberDataComparer` core utilities [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+- Added `ReferenceLinkURLAttribute` reference link attribute [`c2f2e75`](https://github.com/yuumixcode/aesir-inspector/commit/c2f2e7503937cd2f4fae106938605464e512c332)
+
+### AttributeOverview
+
+#### Added
+- Added `AttributeOverviewWindow` and `AttributeOverviewDatabaseSO` for attribute overview management [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added panel abstract framework: generic base `AttributeOverviewPanelSO<T>`, `AbstractAttributePanelSO` with Odin AttributeProcessor auto-configuration [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added AssetList, AssetsOnly, CustomValueDrawer built-in attribute panels [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added `AesirExampleAttribute` and `AttributeCategoryAttribute` attribute markers [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added attribute data models: `AbstractAttributeData`, `ParameterValue`, `ResolvedStringParameterValue`, `AttributeExamplePreviewItem` [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added `AesirAttributeCategory` category enumeration and `OdinInspectorDocumentationLinks` documentation link constants [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+- Added attribute overview editor utility and usage examples [`0e53a40`](https://github.com/yuumixcode/aesir-inspector/commit/0e53a40ef55c26dab037f3f6aaf11cc09fbc9dad)
+
+### SummaryTool
+
+#### Added
+- Added `XmlSummaryTool` for XML Summary comment processing with Sync/Replace/Remove operations [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `XmlCodePart` XML code part parser [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added SummaryTool Assets context menu items [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+### ExtensionManager
+
+#### Added
+- Added `ExtensionPackageManagerWindow` with Git URL installation support [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `ExtensionPackageCard` extension package card data class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added `PackageManagerEditorUtility` Package Manager editor utility class [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+### Samples
+
+#### Added
+- Added PluginConfigSolutions sample demonstrating ScriptableSingleton usage in Preferences and Project [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+- Added RuntimeInitializeLoadType sample demonstrating five initialization timings and best practices [`2ac8573`](https://github.com/yuumixcode/aesir-inspector/commit/2ac85734743e115703d19fd5e548e85acf52c65a)
+
+### Tests
+
+#### Added
+- Added ScriptDocGenerator comprehensive unit tests covering constructors, events, fields, methods, properties, type data, and member inheritance [`1cf6d6d`](https://github.com/yuumixcode/aesir-inspector/commit/1cf6d6ddd746628a03917783ca41cf378155f093)
+- Added SummaryTool XML comment processing tests [`1cf6d6d`](https://github.com/yuumixcode/aesir-inspector/commit/1cf6d6ddd746628a03917783ca41cf378155f093)
+- Added UnityEngine.Object operator overload Runtime tests [`1cf6d6d`](https://github.com/yuumixcode/aesir-inspector/commit/1cf6d6ddd746628a03917783ca41cf378155f093)
+
+#### Changed
+- Added `ODIN_INSPECTOR` define constraint to both test asmdef files [`1cf6d6d`](https://github.com/yuumixcode/aesir-inspector/commit/1cf6d6ddd746628a03917783ca41cf378155f093)
+
+---
+
 ## [0.2.1] - 2026-04-23
 
 ### Added
