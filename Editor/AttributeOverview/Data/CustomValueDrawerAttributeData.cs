@@ -1,0 +1,76 @@
+// ----------------------------------------------------------------------------
+// MIT License
+//
+// Copyright (c) 2026 RunLab - Yuumix
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// ----------------------------------------------------------------------------
+
+#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+
+namespace RunLab.AesirInspector
+{
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// CustomValueDrawer 特性的介绍数据，包含标题、参数说明、解析字符串参数和案例预览项。
+    /// </summary>
+    [Summary("CustomValueDrawer 特性的介绍数据，包含标题、参数说明、解析字符串参数和案例预览项")]
+    internal class CustomValueDrawerAttributeData : AbstractAttributeData
+    {
+        public override HeaderBilingualWidget HeaderWidget { get; set; } = new HeaderBilingualWidget(
+            "Custom Value Drawer", "Custom Value Drawer",
+            "使用 CustomValueDrawer 特性，代替声明一个 Attribute，同时声明一个对应 Drawer 类的流程。CustomValueDrawer 支持撤销，重做，多选。",
+            "Instead of making a new attribute, and a new drawer, for a one-time thing, you can with this attribute, make a method that acts as a custom property drawer. These drawers will out of the box have support for undo/redo and multi-selection.",
+            OdinInspectorDocumentationLinks.CustomValueDrawerUrl);
+
+        public override BilingualData[] UsageTips { get; set; } = null;
+
+        public override ParameterValue[] AttributeParameters { get; set; } = new ParameterValue[1]
+        {
+            new ParameterValue(typeof(string).FullName, "Action",
+                new BilingualData("设置自定义绘制方法或表达式。该方法通常接收 (T value, GUIContent label) 并返回 T",
+                    "A resolved string that defines the custom drawer action to take, such as an expression or method invocation."))
+        };
+
+        public override ResolvedStringParameterValue[] ResolvedStringParameters { get; set; } =
+        {
+            new ResolvedStringParameterValue("Action", ResolverType.ValueResolver, "T", "None",
+                new List<ParameterValue>
+                {
+                    new ParameterValue("T", "$value",
+                        new BilingualData("代表应用此特性的成员当前值，类型为成员类型",
+                            "Representing the member that has attribute applied to it.")),
+                    new ParameterValue("GUIContent", "$label",
+                        new BilingualData("代表成员的标签", "Representing the label of the member.")),
+                    new ParameterValue("InspectorProperty", "$property",
+                        new BilingualData("代表此成员的 Odin 属性实例",
+                            "Representing the Odin property instance for this member."))
+                })
+        };
+
+        public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } =
+        {
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Custom Value Drawer",
+                CustomValueDrawerExampleSO.Instance)
+        };
+    }
+}
+
+#endif
