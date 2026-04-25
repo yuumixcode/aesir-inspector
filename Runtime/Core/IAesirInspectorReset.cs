@@ -22,42 +22,39 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Sirenix.OdinInspector;
+#if UNITY_EDITOR
+using Sirenix.OdinInspector.Editor;
+#endif
+
 namespace RunLab.AesirInspector
 {
     /// <summary>
-    /// Aesir Inspector 相关的链接
+    /// Aesir Inspector 重置接口，实现该接口的类可以通过 AesirInspectorReset() 方法重置所有字段到默认值。
     /// </summary>
-    [Summary("Aesir Inspector 相关的链接")]
-    public static class AesirInspectorWebLinks
+    [Summary("Aesir Inspector 重置接口，实现该接口的类可以通过 AesirInspectorReset() 方法重置所有字段到默认值")]
+    public interface IAesirInspectorReset
     {
         /// <summary>
-        /// Git 仓库链接
+        /// 将所有字段重置为默认值。
         /// </summary>
-        [Summary("Git 仓库链接")]
-        public const string GitWebsite = "https://github.com/yuumixcode/aesir-inspector.git";
-
-        /// <summary>
-        /// GitHub 仓库页面链接
-        /// </summary>
-        [Summary("GitHub 仓库页面链接")]
-        public const string GithubRepository = "https://github.com/yuumixcode/aesir-inspector";
-
-        /// <summary>
-        /// 开源许可证链接
-        /// </summary>
-        [Summary("开源许可证链接")]
-        public const string LicenseUrl = "https://github.com/yuumixcode/aesir-inspector/blob/main/LICENSE.md";
-
-        /// <summary>
-        /// 更新日志链接
-        /// </summary>
-        [Summary("更新日志链接")]
-        public const string ChangelogUrl = "https://github.com/yuumixcode/aesir-inspector/blob/main/CHANGELOG.md";
-
-        /// <summary>
-        /// Odin Inspector 官方文档链接
-        /// </summary>
-        [Summary("Odin Inspector 官方文档链接")]
-        public const string OdinInspectorDocsUrl = "https://odininspector.com/documentation";
+        [Summary("将所有字段重置为默认值")]
+        void AesirInspectorReset();
     }
+
+#if UNITY_EDITOR
+    internal sealed class AesirInspectorResetAttributeProcessor : OdinAttributeProcessor<IAesirInspectorReset>
+    {
+        public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,
+            MemberInfo member,
+            List<Attribute> attributes)
+        {
+            attributes.Add(new CustomContextMenuAttribute("Aesir Toolkit Reset",
+                nameof(IAesirInspectorReset.AesirInspectorReset)));
+        }
+    }
+#endif
 }

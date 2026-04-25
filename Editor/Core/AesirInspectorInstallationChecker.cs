@@ -107,20 +107,19 @@ namespace RunLab.AesirInspector.Editor
 
         static void Internal_Detect()
         {
-            // PackageInfo.FindForAssembly returns non-null only when the assembly
-            // belongs to a package registered with UPM (files under Packages/).
+            // PackageInfo.FindForAssembly returns non-null only when the assembly belongs to a package registered with UPM (files under Packages/).
             // A null result means the assembly lives in Assets/ — Asset Store or submodule.
             var info = PackageInfo.FindForAssembly(Assembly.GetExecutingAssembly());
             if (info == null)
             {
                 InstallMode = AesirInstallMode.AssetFolder;
-                Debug.Log("[Aesir Inspector] 安装方式：AssetFolder（Assets/ 目录）");
+                // Debug.Log("[Aesir Inspector] 安装方式：AssetFolder（Assets/ 目录）");
                 return;
             }
 
             InstallMode = AesirInstallMode.Upm;
             UpmPackageSource = info.source;
-            Debug.Log($"[Aesir Inspector] 安装方式：UPM | 来源：{info.source} | 版本：{info.version} | 路径：{info.resolvedPath}");
+            // Debug.Log($"[Aesir Inspector] 安装方式：UPM | 来源：{info.source} | 版本：{info.version} | 路径：{info.resolvedPath}");
         }
 
         #endregion
