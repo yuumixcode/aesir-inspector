@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
-#if ODIN_INSPECTOR_3_3
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 #endif
@@ -41,7 +41,6 @@ namespace RunLab.AesirInspector
     [Summary("双语顶部说明控件，用于模块的简单介绍")]
     public class HeaderBilingualWidget
     {
-        // --- 4. 序列化字段 ---
         [DisplayAsStringBilingualWidgetConfig(false, TextAlignment.Left, 30)]
         [SerializeField]
         DisplayAsStringBilingualWidget headerName;
@@ -50,12 +49,10 @@ namespace RunLab.AesirInspector
         [SerializeField]
         DisplayAsStringBilingualWidget headerIntroduction;
 
-        // --- 5. 非序列化字段 ---
         string _chineseIntroduction;
         string _englishIntroduction;
         string _targetUrl;
 
-        // --- 6. 构造函数 ---
         public HeaderBilingualWidget(string chineseName,
             string englishName = null,
             string chineseIntroduction = null,
@@ -67,10 +64,9 @@ namespace RunLab.AesirInspector
             _englishIntroduction = englishIntroduction ?? chineseIntroduction;
             headerIntroduction =
                 new DisplayAsStringBilingualWidget(_chineseIntroduction, _englishIntroduction);
-            _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitWebsite;
+            _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitUrl;
         }
 
-        // --- 7. 属性 ---
         /// <summary>
         /// 顶部标题控件名称
         /// </summary>
@@ -84,8 +80,6 @@ namespace RunLab.AesirInspector
         bool HideHeaderIntroduction => string.IsNullOrWhiteSpace(_chineseIntroduction) &&
                                        string.IsNullOrWhiteSpace(_englishIntroduction);
 
-        #region --- Public Methods ---
-
         /// <summary>
         /// 打开相关文档链接
         /// </summary>
@@ -93,8 +87,7 @@ namespace RunLab.AesirInspector
         [BilingualButton("文档", "Documentation", buttonHeight: 24, icon: SdfIconType.Link45deg)]
         public void OpenUrl()
         {
-            var validatedUrl =
-                UrlUtility.ValidateAndNormalizeUrl(_targetUrl, AesirInspectorWebLinks.GitWebsite);
+            var validatedUrl = UrlUtility.ValidateAndNormalizeUrl(_targetUrl, AesirInspectorWebLinks.GitUrl);
             Application.OpenURL(validatedUrl);
         }
 
@@ -112,13 +105,9 @@ namespace RunLab.AesirInspector
             headerName.EnglishDisplay = englishName ?? chineseName;
             headerIntroduction.ChineseDisplay = chineseIntroduction;
             headerIntroduction.EnglishDisplay = englishIntroduction;
-            _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitWebsite;
+            _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitUrl;
             return this;
         }
-
-        #endregion
-
-        #region Internal
 
         void PlaceholderMethod1() { }
 
@@ -138,10 +127,6 @@ namespace RunLab.AesirInspector
         }
 
         void PlaceholderMethod2() { }
-
-        #endregion
-
-        #region --- Odin Inspector ---
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
 
@@ -203,7 +188,5 @@ namespace RunLab.AesirInspector
         }
 
 #endif
-
-        #endregion
     }
 }

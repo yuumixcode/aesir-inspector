@@ -46,8 +46,8 @@
 
 ## 方法与区域
 
-- 公开方法 → `#region Public Methods`
-- 私有方法 → `#region Internal`
+- 公开方法、属性、字段均不使用 `#region`，保持脚本简洁。
+- 私有/内部方法 → `#region Internal`
 - 对应公开方法的私有实现加 `Internal_` 前缀。
 
 ## Odin Inspector 使用规范
@@ -59,7 +59,6 @@
 - **Processor**：必须与对应 Attribute 或被处理类定义在**同一脚本文件**中；`internal` 修饰；无需 XML / `[Summary]`。
 - **Processor 访问私有成员**：需通过 `nameof` 引用目标类私有成员时，将 Processor 定义为目标类的**嵌套类**（仍 `internal`），以获得访问权限，此为"同文件"的合规形式。
 - **Drawer**：继承 `OdinAttributeDrawer` 的类独立存于 `Drawers` 文件夹。
-- **Region**：仅用户可调用的类含 Odin 内容时使用 `#region Odin Inspector`；Processor 等内部类不加。
 - **桥梁工具**：`OdinInspectorSafeEditorUtility.cs` 保留有关 Odin Inspector 的宏定义约束。
 
 

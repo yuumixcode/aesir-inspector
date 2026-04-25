@@ -34,7 +34,9 @@ namespace RunLab.AesirInspector
     [Summary("URL 工具类，提供 URL 验证、规范化及参数解析方法")]
     public static class UrlUtility
     {
-        #region Public Methods
+        static bool Internal_IsValidWebProtocol(string scheme) =>
+            string.Equals(scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// 验证并规范化 URL，如果输入无效则返回回退 URL。
@@ -92,8 +94,7 @@ namespace RunLab.AesirInspector
                     var keyValue = pair.Split('=');
                     if (keyValue.Length == 2)
                     {
-                        paramsDict[Uri.UnescapeDataString(keyValue[0])] =
-                            Uri.UnescapeDataString(keyValue[1]);
+                        paramsDict[Uri.UnescapeDataString(keyValue[0])] = Uri.UnescapeDataString(keyValue[1]);
                     }
                     else if (keyValue.Length == 1)
                     {
@@ -133,15 +134,5 @@ namespace RunLab.AesirInspector
             uriBuilder.Query = string.Join("&", existingParams.Select(p => $"{p.Key}={p.Value}"));
             return uriBuilder.ToString();
         }
-
-        #endregion
-
-        #region Internal
-
-        static bool Internal_IsValidWebProtocol(string scheme) =>
-            string.Equals(scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase);
-
-        #endregion
     }
 }

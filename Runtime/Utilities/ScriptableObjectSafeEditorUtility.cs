@@ -36,14 +36,11 @@ namespace RunLab.AesirInspector
     [Summary("ScriptableObject 的编辑器安全工具类，不需要编写宏定义。仅编辑器阶段有效，打包后运行时调用，返回 null 或者其他默认值。")]
     public static class ScriptableObjectSafeEditorUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 获取对应类型的 SO 资源单例的相对路径。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。
         /// 打包后此方法将失效，返回 string.Empty。
         /// </summary>
-        [Summary(
-            "获取对应类型的 SO 资源单例的相对路径。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 string.Empty。")]
+        [Summary("获取对应类型的 SO 资源单例的相对路径。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 string.Empty。")]
         public static string GetSingletonAssetPathAndDeleteOther<T>(string relativeFolderPath = "")
             where T : ScriptableObject
         {
@@ -58,8 +55,7 @@ namespace RunLab.AesirInspector
         /// 获取对应类型的 SO 资源单例。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。
         /// 打包后此方法将失效，返回 null。
         /// </summary>
-        [Summary(
-            "获取对应类型的 SO 资源单例。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 null。")]
+        [Summary("获取对应类型的 SO 资源单例。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 null。")]
         public static T GetSingletonAssetAndDeleteOther<T>(string relativeFolderPath = "")
             where T : ScriptableObject
         {
@@ -87,8 +83,6 @@ namespace RunLab.AesirInspector
             return null;
 #endif
         }
-
-        #endregion
 
         #region Internal
 

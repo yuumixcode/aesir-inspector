@@ -1,4 +1,3 @@
-
 // ----------------------------------------------------------------------------
 // MIT License
 // 
@@ -44,16 +43,18 @@ namespace RunLab.AesirInspector
         public const string PreferencesAssetsFolderPath = EditorDefaultResourcesPath + "/Preferences";
 
         /// <summary>
-        /// Attribute Overview 数据库 SO 的存放路径
+        /// Attribute Overview Pro 数据库资产存放文件夹路径
         /// </summary>
-        [Summary("Attribute Overview 数据库 SO 的存放路径")]
-        public const string AttributeOverviewDatabasePath = EditorDefaultResourcesPath + "/Attribute Overview Pro";
+        [Summary("Attribute Overview Pro 数据库资产存放文件夹路径")]
+        public const string AttributeOverviewDatabasePath =
+            EditorDefaultResourcesPath + "/Attribute Overview Pro";
 
         /// <summary>
-        /// Attribute Overview 所有面板 SO 的存放路径
+        /// Attribute Overview Pro 所有面板 SO 的存放路径
         /// </summary>
-        [Summary("Attribute Overview 所有面板 SO 的存放路径")]
-        public const string AttributePanelsPath = EditorDefaultResourcesPath + "/Attribute Overview Pro/Panels";
+        [Summary("Attribute Overview Pro 所有面板 SO 的存放路径")]
+        public const string AttributePanelsPath =
+            EditorDefaultResourcesPath + "/Attribute Overview Pro/Panels";
 
         /// <summary>
         /// MiniTools 资源的存放路径

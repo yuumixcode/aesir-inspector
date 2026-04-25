@@ -41,8 +41,6 @@ namespace RunLab.AesirInspector
     [InlineProperty]
     public class HorizontalSeparateWidget
     {
-        #region --- Non-Serialized Fields ---
-
         [Summary("深色横线高度")]
         int _darkLineHeight;
 
@@ -55,13 +53,6 @@ namespace RunLab.AesirInspector
         [Summary("分割线上方高度")]
         float _spaceBefore;
 
-        #endregion
-
-        #region --- Constructors ---
-
-        /// <summary>
-        /// 创建默认水平分割线控件。
-        /// </summary>
         public HorizontalSeparateWidget()
         {
             _darkLineHeight = 2;
@@ -73,6 +64,7 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 创建自定义水平分割线控件，浅色横线高度默认为深色横线高度 - 1。
         /// </summary>
+        [Summary("创建自定义水平分割线控件，浅色横线高度默认为深色横线高度 - 1。")]
         public HorizontalSeparateWidget(int darkLineHeight, float spaceBefore, float spaceAfter)
         {
             _darkLineHeight = darkLineHeight;
@@ -81,9 +73,6 @@ namespace RunLab.AesirInspector
             _spaceAfter = spaceAfter;
         }
 
-        /// <summary>
-        /// 创建自定义水平分割线控件，指定所有参数。
-        /// </summary>
         public HorizontalSeparateWidget(int darkLineHeight,
             int lightLineHeight,
             float spaceAfter,
@@ -94,10 +83,6 @@ namespace RunLab.AesirInspector
             _spaceAfter = spaceAfter;
             _spaceBefore = spaceBefore;
         }
-
-        #endregion
-
-        #region --- Odin Inspector ---
 
 #if UNITY_EDITOR
 
@@ -133,7 +118,5 @@ namespace RunLab.AesirInspector
         }
 
 #endif
-
-        #endregion
     }
 }

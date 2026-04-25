@@ -22,10 +22,10 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-using System.Diagnostics;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System.Diagnostics;
 using Object = UnityEngine.Object;
 
 namespace RunLab.AesirInspector
@@ -36,8 +36,6 @@ namespace RunLab.AesirInspector
     [Summary("关于 Project 操作的编辑器安全工具类。仅在编辑器阶段可用，打包后自动剔除。")]
     public static class ProjectSafeEditorUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// Ping 项目中的任何资源，可以是文件夹路径。传入相对路径。仅在编辑器阶段可用，打包后自动剔除。
         /// </summary>
@@ -60,7 +58,5 @@ namespace RunLab.AesirInspector
             }
 #endif
         }
-
-        #endregion
     }
 }

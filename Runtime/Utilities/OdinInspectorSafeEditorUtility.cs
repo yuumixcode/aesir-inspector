@@ -41,8 +41,6 @@ namespace RunLab.AesirInspector
     [Summary("用于兼容 Odin Inspector 的 Editor-Only Mode 的工具类。桥梁工具类，安全跨越依赖。")]
     public static class OdinInspectorSafeEditorUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 获取成员的值（支持字段和属性）。
         /// </summary>
@@ -150,7 +148,7 @@ namespace RunLab.AesirInspector
             }
             catch
             {
-                return new T[0];
+                return Array.Empty<T>();
             }
         }
 
@@ -174,7 +172,7 @@ namespace RunLab.AesirInspector
             var first = GetBaseClasses(type, includeSelf).Concat(type.GetInterfaces());
             if (includeSelf && type.IsInterface)
             {
-                first = first.Concat(new Type[1]
+                first = first.Concat(new[]
                 {
                     type
                 });
@@ -202,9 +200,9 @@ namespace RunLab.AesirInspector
         }
 
         /// <summary>
-        /// 获取泛型约束字符串。如果是 Odin 环境，则调用 Odin 的扩展方法。
+        /// 获取泛型约束字符串。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 string.Empty。
         /// </summary>
-        [Summary("获取泛型约束字符串。")]
+        [Summary("获取泛型约束字符串。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 string.Empty。")]
         public static string GetGenericConstraintsString(Type type, bool useFullTypeNames = false)
         {
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
@@ -215,9 +213,9 @@ namespace RunLab.AesirInspector
         }
 
         /// <summary>
-        /// 获取类型的友好名称。如果是 Odin 环境，则调用 Odin 的扩展方法。
+        /// 获取类型的友好名称。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 type.Name。
         /// </summary>
-        [Summary("获取类型的友好名称。")]
+        [Summary("获取类型的友好名称。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 type.Name。")]
         public static string GetNiceName(Type type)
         {
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
@@ -228,9 +226,9 @@ namespace RunLab.AesirInspector
         }
 
         /// <summary>
-        /// 获取类型的友好全名。如果是 Odin 环境，则调用 Odin 的扩展方法。
+        /// 获取类型的友好全名。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 type.FullName。
         /// </summary>
-        [Summary("获取类型的友好全名。")]
+        [Summary("获取类型的友好全名。如果是 Odin 环境，则调用 Odin 的扩展方法，否则返回 type.FullName。")]
         public static string GetNiceFullName(Type type)
         {
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
@@ -239,7 +237,5 @@ namespace RunLab.AesirInspector
             return type.FullName;
 #endif
         }
-
-        #endregion
     }
 }

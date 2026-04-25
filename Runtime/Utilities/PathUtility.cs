@@ -23,7 +23,6 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.IO;
 using System.Linq;
 
 namespace RunLab.AesirInspector
@@ -34,8 +33,6 @@ namespace RunLab.AesirInspector
     [Summary("Path 路径字符串工具类，提供路径相关的操作方法")]
     public static class PathUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 将路径中的反斜杠替换为正斜杠
         /// </summary>
@@ -99,7 +96,5 @@ namespace RunLab.AesirInspector
             b = ToUnityPath(b).TrimStart('/');
             return a + "/" + b;
         }
-
-        #endregion
     }
 }

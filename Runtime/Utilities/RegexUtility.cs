@@ -60,8 +60,6 @@ namespace RunLab.AesirInspector
         [Summary("常用的 URL 匹配正则表达式")]
         public static readonly Regex WebUrlRegex = new Regex(@"^(http|https)://[^\s/$.?#].[^\s]*$");
 
-        #region Public Methods
-
         /// <summary>
         /// 规范化命名空间
         /// </summary>
@@ -128,7 +126,5 @@ namespace RunLab.AesirInspector
         [Summary("检查字符串是否为有效的电子邮箱格式")]
         public static bool IsEmail(string input) =>
             !string.IsNullOrEmpty(input) && EmailRegex.IsMatch(input);
-
-        #endregion
     }
 }

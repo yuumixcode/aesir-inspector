@@ -33,8 +33,6 @@ namespace RunLab.AesirInspector
     [Summary("层级工具类，提供 Transform 层级路径相关的操作方法")]
     public static class HierarchyUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 获取物体在层级中的完整路径
         /// </summary>
@@ -138,7 +136,5 @@ namespace RunLab.AesirInspector
 
             return null;
         }
-
-        #endregion
     }
 }

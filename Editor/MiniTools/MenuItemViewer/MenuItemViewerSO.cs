@@ -110,7 +110,7 @@ namespace RunLab.AesirInspector.Editor
             headerWidget = new HeaderBilingualWidget("MenuItem 查看器", "MenuItem Viewer",
                 "查看项目内的 MenuItem 的信息，便于规划菜单项",
                 "View the information of MenuItems within the project to facilitate menu item planning",
-                AesirInspectorWebLinks.GitWebsite);
+                AesirInspectorWebLinks.GitUrl);
         }
 
         #endregion

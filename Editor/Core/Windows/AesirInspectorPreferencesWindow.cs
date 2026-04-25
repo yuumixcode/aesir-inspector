@@ -41,15 +41,20 @@ namespace RunLab.AesirInspector.Editor
         static readonly BilingualData InspectorLanguageSettingsMenuName =
             new BilingualData("Inspector 语言设置", "Inspector Language Settings");
 
+        static readonly BilingualData InspectorLoggerSettingsMenuName =
+            new BilingualData("Inspector 日志设置", "Inspector Logger Settings");
+
         static object _lastSelection;
 
         AesirInspectorLanguageSettings _aesirInspectorLanguageSettings;
+        AesirInspectorLoggerSettings _aesirInspectorLoggerSettings;
         OdinMenuStyle _menuStyle;
 
         protected override void OnEnable()
         {
             base.OnEnable();
             _aesirInspectorLanguageSettings = AesirInspectorLanguageSettings.Instance;
+            _aesirInspectorLoggerSettings = AesirInspectorLoggerSettings.Instance;
             MenuWidth = 220f;
             WindowPadding = new Vector4(10f, 10f, 10f, 10f);
             _menuStyle = new OdinMenuStyle
@@ -81,8 +86,6 @@ namespace RunLab.AesirInspector.Editor
             _lastSelection = null;
         }
 
-        #region Public Methods
-
         /// <summary>
         /// 打开 Aesir Inspector 偏好设置窗口
         /// </summary>
@@ -96,15 +99,12 @@ namespace RunLab.AesirInspector.Editor
             window.Show();
         }
 
-        #endregion
-
-        #region Internal
-
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree(false, _menuStyle)
             {
-                { InspectorLanguageSettingsMenuName, _aesirInspectorLanguageSettings }
+                { InspectorLanguageSettingsMenuName, _aesirInspectorLanguageSettings },
+                { InspectorLoggerSettingsMenuName, _aesirInspectorLoggerSettings }
             };
 
             tree.Config.DrawSearchToolbar = true;
@@ -118,8 +118,6 @@ namespace RunLab.AesirInspector.Editor
             ForceMenuTreeRebuild();
             TrySelectMenuItemWithObject(_lastSelection);
         }
-
-        #endregion
     }
 }
 

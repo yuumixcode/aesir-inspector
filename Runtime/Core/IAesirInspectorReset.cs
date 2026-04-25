@@ -52,7 +52,7 @@ namespace RunLab.AesirInspector
             MemberInfo member,
             List<Attribute> attributes)
         {
-            attributes.Add(new CustomContextMenuAttribute("Aesir Toolkit Reset",
+            attributes.Add(new CustomContextMenuAttribute("Aesir Inspector Reset",
                 nameof(IAesirInspectorReset.AesirInspectorReset)));
         }
     }

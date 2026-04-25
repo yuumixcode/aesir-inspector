@@ -1,0 +1,81 @@
+// ----------------------------------------------------------------------------
+// MIT License
+// 
+// Copyright (c) 2026 RunLab - Yuumix
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// ----------------------------------------------------------------------------
+
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace RunLab.AesirInspector
+{
+    /// <summary>
+    /// Aesir Inspector 日志配置，存放在 Preferences 目录下。
+    /// 控制普通日志和警告日志的显示开关，错误日志始终输出。
+    /// </summary>
+    [Summary("Aesir Inspector 日志配置")]
+    public class AesirInspectorLoggerSettings : ScriptableObject
+    {
+        static readonly string ConfigName =
+            OdinInspectorSafeEditorUtility.GetNiceFullName(typeof(AesirInspectorLoggerSettings));
+
+        [SerializeField]
+        [BilingualText("是否显示普通日志", "Enable Info Log")]
+        [LabelWidth(150)]
+        bool enableInfoLog;
+
+        [SerializeField]
+        [BilingualText("是否显示警告日志", "Enable Warning Log")]
+        [LabelWidth(150)]
+        bool enableWarningLog = true;
+
+        [SerializeField]
+        [PropertyOrder(-100)]
+        HeaderBilingualWidget headerWidget;
+
+        /// <summary>
+        /// 获取配置实例。
+        /// </summary>
+        [Summary("获取配置实例")]
+        public static AesirInspectorLoggerSettings Instance =>
+            ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<AesirInspectorLoggerSettings>(
+                ConfigName, AesirInspectorPaths.PreferencesAssetsFolderPath, "AesirInspectorLoggerSettings");
+
+        /// <summary>
+        /// 普通日志是否启用。Instance 为 null 时返回 false。
+        /// </summary>
+        [Summary("普通日志是否启用")]
+        public static bool IsInfoEnabled => Instance != null && Instance.enableInfoLog;
+
+        /// <summary>
+        /// 警告日志是否启用。Instance 为 null 时返回 true，确保编辑器初始化期间不丢失警告。
+        /// </summary>
+        [Summary("警告日志是否启用")]
+        public static bool IsWarningEnabled => Instance == null || Instance.enableWarningLog;
+
+        void OnEnable()
+        {
+            headerWidget = new HeaderBilingualWidget("日志配置", "Logger Settings", "控制普通日志和警告日志的显示开关，错误日志始终输出",
+                "Control the display toggle of info and warning logs. Error logs are always output.",
+                AesirInspectorWebLinks.GitUrl);
+        }
+    }
+}

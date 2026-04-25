@@ -38,10 +38,14 @@ namespace RunLab.AesirInspector
         /// 输出信息日志，前缀 <c>[Aesir Inspector]</c> 显示为绿色。
         /// </summary>
         [Summary("输出信息日志")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]
         public static void Info(string message)
         {
+            if (!AesirInspectorLoggerSettings.IsInfoEnabled)
+            {
+                return;
+            }
+
             Debug.Log($"<color=#00FF00>[Aesir Inspector]</color> {message}");
         }
 
@@ -49,10 +53,14 @@ namespace RunLab.AesirInspector
         /// 输出警告日志，前缀 <c>[Aesir Inspector]</c> 显示为黄色。
         /// </summary>
         [Summary("输出警告日志")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]
         public static void Warning(string message)
         {
+            if (!AesirInspectorLoggerSettings.IsWarningEnabled)
+            {
+                return;
+            }
+
             Debug.LogWarning($"<color=#FFFF00>[Aesir Inspector]</color> {message}");
         }
 
@@ -71,10 +79,14 @@ namespace RunLab.AesirInspector
         /// 输出自定义前缀的信息日志，前缀显示为绿色。
         /// </summary>
         [Summary("输出自定义前缀的信息日志")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]
         public static void Info(string prefix, string message)
         {
+            if (!AesirInspectorLoggerSettings.IsInfoEnabled)
+            {
+                return;
+            }
+
             Debug.Log($"<color=#00FF00>[{prefix}]</color> {message}");
         }
 
@@ -82,10 +94,14 @@ namespace RunLab.AesirInspector
         /// 输出自定义前缀的警告日志，前缀显示为黄色。
         /// </summary>
         [Summary("输出自定义前缀的警告日志")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]
         public static void Warning(string prefix, string message)
         {
+            if (!AesirInspectorLoggerSettings.IsWarningEnabled)
+            {
+                return;
+            }
+
             Debug.LogWarning($"<color=#FFFF00>[{prefix}]</color> {message}");
         }
 

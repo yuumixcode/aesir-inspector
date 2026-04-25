@@ -36,8 +36,6 @@ namespace RunLab.AesirInspector
     [Summary("玩家循环工具类，提供自定义 Unity PlayerLoop 的相关方法")]
     public static class PlayerLoopUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 从指定的循环系统中移除特定的系统
         /// </summary>
@@ -118,8 +116,6 @@ namespace RunLab.AesirInspector
                 loopConditionFunction = loopCondition,
                 subSystemList = subSystems
             };
-
-        #endregion
 
         #region Internal
 

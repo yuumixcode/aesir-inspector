@@ -24,10 +24,8 @@
 
 using System.Diagnostics;
 using System.Linq;
-using UnityEditor;
-
 #if UNITY_EDITOR
-// using UnityEditor;
+using UnityEditor;
 #endif
 
 namespace RunLab.AesirInspector
@@ -38,8 +36,6 @@ namespace RunLab.AesirInspector
     [Summary("关于 MonoScript 的编辑器安全工具类。仅在编辑器阶段可用，打包后调用返回默认值。")]
     public static class MonoScriptSafeEditorUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 在项目中根据脚本文件名称查找脚本文件，并在编辑器中选择。仅在编辑器阶段可用，打包后自动剔除。
         /// </summary>
@@ -58,11 +54,11 @@ namespace RunLab.AesirInspector
         [Summary("在项目中根据脚本文件名称查找脚本文件，返回找到的 MonoScript。")]
         public static MonoScript GetMonoScript(string scriptName)
         {
-            UnityEditor.MonoScript foundMonoScript = null;
+            MonoScript foundMonoScript = null;
             var scriptAssetPath = FindScriptPath(scriptName);
             if (!string.IsNullOrWhiteSpace(scriptAssetPath))
             {
-                foundMonoScript = AssetDatabase.LoadAssetAtPath<UnityEditor.MonoScript>(scriptAssetPath);
+                foundMonoScript = AssetDatabase.LoadAssetAtPath<MonoScript>(scriptAssetPath);
             }
 
             return foundMonoScript;
@@ -82,7 +78,5 @@ namespace RunLab.AesirInspector
             return string.Empty;
 #endif
         }
-
-        #endregion
     }
 }

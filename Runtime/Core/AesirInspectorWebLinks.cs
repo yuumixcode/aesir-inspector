@@ -34,7 +34,7 @@ namespace RunLab.AesirInspector
         /// Git 仓库链接
         /// </summary>
         [Summary("Git 仓库链接")]
-        public const string GitWebsite = "https://github.com/yuumixcode/aesir-inspector.git";
+        public const string GitUrl = "https://github.com/yuumixcode/aesir-inspector.git";
 
         /// <summary>
         /// GitHub 仓库页面链接
@@ -52,12 +52,13 @@ namespace RunLab.AesirInspector
         /// 更新日志链接
         /// </summary>
         [Summary("更新日志链接")]
-        public const string ChangelogUrl = "https://github.com/yuumixcode/aesir-inspector/blob/main/CHANGELOG.md";
+        public const string ChangelogUrl =
+            "https://github.com/yuumixcode/aesir-inspector/blob/main/CHANGELOG.md";
 
         /// <summary>
-        /// Odin Inspector 官方文档链接
+        /// Odin Inspector 官方教程链接
         /// </summary>
-        [Summary("Odin Inspector 官方文档链接")]
-        public const string OdinInspectorDocsUrl = "https://odininspector.com/documentation";
+        [Summary("Odin Inspector 官方教程链接")]
+        public const string OdinInspectorDocsUrl = "https://odininspector.com/tutorials";
     }
 }

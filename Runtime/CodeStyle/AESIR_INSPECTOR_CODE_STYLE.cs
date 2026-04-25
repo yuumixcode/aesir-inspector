@@ -22,10 +22,10 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 // 方法与区域规范 (Methods & Regions):
-// 1. 供外部调用的公开方法必须使用 #region Public Methods 宏定义分区域。
-// 2. 所有公开方法（构造函数除外）必须同时包含 XML /// <summary> 和 [Summary] 特性。XML 注释仅保留 summary 标签，移除 param, returns 等多余标签。
-// 3. 构造函数不需要添加 XML (/// <summary>) 和 [Summary] 特性。
-// 4. 内部/私有方法必须使用 #region Internal 宏定义分区域。
+// 1. 内部/私有方法必须使用 #region Internal 宏定义分区域，便于收缩隐藏实现细节。
+// 2. 公开方法、属性、字段均不使用 #region，保持脚本简洁，符合 C# 和 Unity 推荐标准。
+// 3. 所有公开方法（构造函数除外）必须同时包含 XML /// <summary> 和 [Summary] 特性。XML 注释仅保留 summary 标签，移除 param, returns 等多余标签。
+// 4. 构造函数不需要添加 XML (/// <summary>) 和 [Summary] 特性。
 // 5. 如果私有方法逻辑上对应某个公开方法（如同名逻辑实现），私有方法应增加 Internal_ 前缀。
 // Odin Inspector 规范 (Odin Inspector Integration):
 // 特别注意：本文的 Odin Inspector 规范只针对 Aesir Inspector 插件和其他 Aesir 系列的脚本代码，和用户其他自定义的 Odin Inspector 相关的代码无关，主要包括 OdinAttributeProcessor
@@ -35,7 +35,7 @@
 // 4. 自定义的 OdinAttributeProcessor 必须与对应的 Attribute 或受其处理的类定义在同一个脚本文件中。继承 OdinAttributeDrawer 的类，依旧独立在 Drawers 文件夹。
 // 5. Processor 需要通过 nameof 引用目标类的私有成员时，应将 Processor 定义为目标类的嵌套类（仍保持 internal 修饰符），以获得对私有成员的访问权限，此为"同一脚本文件"的合规实现形式。
 // 6. 继承自 OdinAttributeProcessor<T> 的类不需要编写 XML (/// <summary>) 和 [Summary] 特性注释。
-// 7. 只有当用户可调用的类中包含了 Odin Inspector 的内容才使用 #region Odin Inspector。对于不推荐用户调用的类中，比如继承了 OdinAttributeProcessor 的类，是不需要包裹在 Odin Inspector 区域内的。
+// 7. 不再使用 #region Odin Inspector，Processor 等内部类通过 #region Internal 收缩即可。
 // ----------------------------------------------------------------------------
 
 using System;
@@ -329,8 +329,9 @@ namespace RunLab.AesirInspector
         }
     }
 
-    #region Odin Inspector
+    #region Internal
 
+#if UNITY_EDITOR
     /// <summary>
     /// 编辑器扩展组织规范：优先选择使用 OdinAttributeProcessor 的方式去动态添加特性。
     /// 自定义的 OdinAttributeProcessor 必须与对应的 Attribute 或受其处理的类定义在同一个脚本文件中。
@@ -356,6 +357,7 @@ namespace RunLab.AesirInspector
             // if (member.Name == "someField") attributes.Add(new PropertyOrderAttribute(10));
         }
     }
+#endif
 
     #endregion
 }

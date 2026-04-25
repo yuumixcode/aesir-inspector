@@ -35,8 +35,6 @@ namespace RunLab.AesirInspector
     [Summary("反射工具类，提供程序集及命名空间的反射操作方法")]
     public static class ReflectionUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 获取名称中包含指定字符串的所有程序集
         /// </summary>
@@ -65,7 +63,5 @@ namespace RunLab.AesirInspector
             var namespaces = types.Select(type => type.Namespace).Where(ns => ns != null).Distinct().ToList();
             return namespaces;
         }
-
-        #endregion
     }
 }

@@ -33,10 +33,6 @@ namespace RunLab.AesirInspector
     [Summary("预定义程序集类型")]
     public enum PredefinedAssemblyType
     {
-        /// <summary>
-        /// 程序集 CSharp
-        /// </summary>
-        [Summary("程序集 CSharp")]
         None = 0,
 
         /// <summary>
@@ -70,8 +66,6 @@ namespace RunLab.AesirInspector
     [Summary("预定义程序集工具类，提供获取程序集类型及运行时类型的方法")]
     public static class PredefinedAssemblyUtility
     {
-        #region Public Methods
-
         /// <summary>
         /// 根据程序集名称获取对应的预定义程序集类型
         /// </summary>
@@ -104,11 +98,10 @@ namespace RunLab.AesirInspector
             return targetTypes;
         }
 
-        #endregion
-
         #region Internal
 
-        static void Internal_AddTypesFromAssembly(Type[] assemblyTypes, Type interfaceType,
+        static void Internal_AddTypesFromAssembly(Type[] assemblyTypes,
+            Type interfaceType,
             ICollection<Type> results)
         {
             if (assemblyTypes == null)

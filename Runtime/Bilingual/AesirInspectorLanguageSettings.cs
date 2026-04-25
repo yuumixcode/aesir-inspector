@@ -60,7 +60,12 @@ namespace RunLab.AesirInspector
 
         [SerializeField]
         [Summary("当前语言设置")]
+        [HideInInspector]
         InspectorLanguage currentLanguage = InspectorLanguage.Chinese;
+
+        [SerializeField]
+        [PropertyOrder(-100)]
+        HeaderBilingualWidget headerWidget;
 
         /// <summary>
         /// 获取语言设置实例。
@@ -105,9 +110,15 @@ namespace RunLab.AesirInspector
             }
         }
 
-        public static event Action LanguageChanged;
+        void OnEnable()
+        {
+            headerWidget = new HeaderBilingualWidget("检查器语言设置", "Inspector Language Settings",
+                "管理检查器的显示语言，支持中文和英文切换",
+                "Manage the display language of the inspector, support Chinese and English switching",
+                AesirInspectorWebLinks.GitUrl);
+        }
 
-        #region --- Public Methods ---
+        public static event Action LanguageChanged;
 
         /// <summary>
         /// 设置为中文。
@@ -129,12 +140,9 @@ namespace RunLab.AesirInspector
             LanguageChanged?.Invoke();
         }
 
-        #endregion
-
-#if UNITY_EDITOR
-
         #region Internal
 
+#if UNITY_EDITOR
         [InitializeOnLoadMethod]
         static void InitializeEditor()
         {
@@ -149,10 +157,9 @@ namespace RunLab.AesirInspector
                 LanguageChanged = null;
             }
         }
+#endif
 
         #endregion
-
-#endif
     }
 
 #if UNITY_EDITOR && ODIN_INSPECTOR_3_3
