@@ -4,7 +4,7 @@
 
 `Aesir Inspector` is a Unity editor extension library built on **Odin Inspector**, designed to provide more powerful Inspector customization, bilingual UI support, and safer editor tooling.
 
-> **💡 About Odin Inspector Dependency**: This project depends on Odin Inspector via assembly definition constraints (`defineConstraints`). You can import the package and browse the source code directly, but for successful compilation, you must add `ODIN_INSPECTOR` to Unity's **Player Settings → Scripting Define Symbols** (Odin Inspector adds this symbol automatically upon import). Without this symbol, Aesir Inspector assemblies will not be compiled.
+> **💡 About Odin Inspector Dependency**: Odin Inspector is a **hard dependency** of this project. All core features use Odin Inspector APIs directly — no degraded fallback is provided without Odin. After importing Odin Inspector, the `ODIN_INSPECTOR` compilation symbol is automatically added, enabling Aesir Inspector assemblies to compile. Without Odin Inspector installed, the related assemblies will not compile.
 
 ## Who Is This For
 
@@ -51,61 +51,17 @@ Aesir Inspector automatically detects the installation mode (UPM / Assets direct
 
 ## Core Features
 
-### 1. Code Style & Standards
+### 1. Attribute Overview Pro
 
-This project treats code style as equally important as functionality. Built-in strict coding standards and examples ensure consistency and maintainability in team collaboration:
+Displays all registered Odin Inspector and Aesir Inspector attribute panels in a searchable tree menu, with live preview and example code for each attribute.
 
-- **Enforced Standards**: Public methods must include XML comments and `[Summary]` attributes.
-- **Style Guide**: See `Runtime/CodeStyle/AESIR_INSPECTOR_CODE_STYLE.cs` for details.
-- **Design Philosophy**: Good code style is not optional — it is the foundation of project quality. All contributors must follow these standards.
+- **Categorized Browsing**: Browse attributes by categories such as Essentials / Buttons / Collections / Groups / Conditionals.
+- **Search & Locate**: Supports fuzzy search to quickly find target attributes.
+- **Live Preview**: Select an attribute to view its effect and parameter configuration in the right panel.
+- **Code Preview**: Select an attribute to view the corresponding example source code for quick reference.
+- Open via `Tools → Aesir → Inspector → Attribute Overview Pro` menu.
 
-### 2. Bilingual Attributes
-
-Provides a complete set of bilingual attribute decorators and Inspector Widgets, supporting simultaneous display of Chinese and English information in the Inspector panel. Primarily designed for:
-
-- **Editor Tool Development**: When developing other editor tools, you want the Inspector to support bilingual display so users of different language backgrounds can intuitively understand parameters and operations.
-- **Team Collaboration**: For cross-region, cross-language teams sharing a project, bilingual display effectively reduces communication costs and prevents misoperations caused by language differences.
-
-Available decorators and widgets:
-
-- `[BilingualTitle]`, `[BilingualTitleGroup]`
-- `[BilingualBoxGroup]`
-- `[BilingualButton]`
-- `[BilingualInfoBox]`
-- `[BilingualText]`
-- `[ShowIfChinese]`, `[ShowIfEnglish]` conditional display support
-- `[DisplayAsStringBilingualWidgetConfig]` bilingual read-only text display configuration
-- `HeaderBilingualWidget` bilingual header widget
-
-### 3. Safe Editor Utilities
-
-Bridges and wraps Odin Inspector and Unity Editor APIs, ensuring code compiles even without Odin installed, and editor-only code is automatically stripped in builds.
-
-| Utility | Description |
-|---------|-------------|
-| `OdinInspectorSafeEditorUtility` | Bridge utility for safely calling Odin APIs |
-| `ScriptableObjectSafeEditorUtility` | More reliable ScriptableObject asset creation and management |
-| `MonoScriptSafeEditorUtility` | Find and select MonoScript assets by script name |
-| `PathUtility` | Path string utilities: Unity path normalization, subpath extraction, path merging |
-| `PathSafeEditorUtility` | Safe folder creation ensuring directories exist under Assets |
-| `HierarchySafeEditorUtility` | Get a GameObject's absolute path in the Hierarchy |
-| `HierarchyUtility` | Transform hierarchy path operations: full paths, relative paths, deep child lookups |
-| `ProjectSafeEditorUtility` | Ping and select any project resource (supports folder paths) |
-| `UrlUtility` | Convenient URL opening and external link handling |
-| `ReflectionUtility` | Assembly and namespace reflection utilities |
-| `PredefinedAssemblyUtility` | Predefined assembly type identification and interface implementation lookup |
-| `PlayerLoopUtility` | Custom Unity PlayerLoop: insert, remove subsystems, print PlayerLoop structure |
-| `RegexUtility` | Regex utilities: namespace/class name normalization, email/URL validation |
-| `AesirInspectorLogger` | Unified logging with colored prefix, auto-stripped in builds, double-click to jump to caller |
-
-### 4. Custom Attributes
-
-| Attribute | Description |
-|-----------|-------------|
-| `[Summary]` | Comment attribute, equivalent to the `<summary>` portion of XML comments; summary text can be retrieved at runtime via `GetSummary()` |
-| `[ShowEnableProperty]` | Displays a property in the Inspector with GUI always enabled; combines `[ShowInInspector]` + `[EnableGUI]` |
-
-### 5. Script Doc Generator
+### 2. Script Doc Generator
 
 Generates structured API documentation by analyzing C# type information via reflection, with support for incremental generation and customization.
 
@@ -170,7 +126,7 @@ Script Doc Generator currently includes **153 unit tests** covering signature ge
 | **TypeData** | 14 | class/struct/interface/enum/delegate/record/static/sealed/generic type declarations, including attributes and generic constraints |
 | **MemberData** · Inheritance | 4 | `IsFromInheritance` markers for fields/properties/events/methods inherited from base classes |
 
-### 6. Summary Tool
+### 3. Summary Tool
 
 Provides right-click menu shortcuts for bidirectional synchronization between XML `<summary>` comments and `[Summary]` attributes in C# scripts.
 
@@ -222,9 +178,9 @@ public void Reset() { }
 
 Finally, the output stage checks whether the Header already contains `using RunLab.AesirInspector;` and automatically adds it if missing.
 
-### 7. Mini Tools
+### 4. Mini Tools
 
-Integrates common editor utilities, accessible through the `Aesir Inspector → Mini Tools` menu.
+Integrates common editor utilities, accessible through the `Tools → Aesir → Inspector → Mini Tools` menu.
 
 | Tool | Description |
 |------|-------------|
@@ -232,22 +188,68 @@ Integrates common editor utilities, accessible through the `Aesir Inspector → 
 | **Syntax Highlighter** | Visual panel based on Odin's built-in syntax highlighter; input source code to test highlighting effects and output rich text markup |
 | **Quick Create SO** | Right-click a MonoScript in the Project window to quickly generate a ScriptableObject asset file; supports multi-select batch creation |
 
-### 8. Attribute Overview Pro
-
-Displays all registered Odin Inspector and Aesir Inspector attribute panels in a searchable tree menu, with live preview and example code for each attribute.
-
-- **Categorized Browsing**: Browse attributes by categories such as Essentials / Buttons / Collections / Groups / Conditionals.
-- **Search & Locate**: Supports fuzzy search to quickly find target attributes.
-- **Live Preview**: Select an attribute to view its effect and parameter configuration in the right panel.
-- Open via `Aesir Inspector → Attribute Overview Pro` menu.
-
-### 9. Extension Package Manager
+### 5. Extension Package Manager
 
 Quickly install recommended Aesir series and other popular open-source Unity Packages via Git URL.
 
 - **One-Click Install/Remove**: Card-style UI displays installation status of recommended packages; click to install or remove.
 - **Auto Detection**: Automatically checks installed package status when the window opens; real-time refresh after install/remove.
-- Open via `Aesir Inspector → Extension Package Manager` menu.
+- Open via `Tools → Aesir → Inspector → Extension Package Manager` menu.
+
+## Infrastructure
+
+### 6. Bilingual Attributes
+
+Provides a complete set of bilingual attribute decorators and Inspector Widgets, supporting simultaneous display of Chinese and English information in the Inspector panel. Primarily designed for:
+
+- **Editor Tool Development**: When developing other editor tools, you want the Inspector to support bilingual display so users of different language backgrounds can intuitively understand parameters and operations.
+- **Team Collaboration**: For cross-region, cross-language teams sharing a project, bilingual display effectively reduces communication costs and prevents misoperations caused by language differences.
+
+Available decorators and widgets:
+
+- `[BilingualTitle]`, `[BilingualTitleGroup]`
+- `[BilingualBoxGroup]`
+- `[BilingualButton]`
+- `[BilingualInfoBox]`
+- `[BilingualText]`
+- `[ShowIfChinese]`, `[ShowIfEnglish]` conditional display support
+- `[DisplayAsStringBilingualConfig]` bilingual read-only text display configuration
+- `HeaderBilingualWidget` bilingual header widget
+
+### 7. Safe Editor Utilities
+
+Bridges and wraps Odin Inspector and Unity Editor APIs, ensuring code compiles even without Odin installed, and editor-only code is automatically stripped in builds.
+
+| Utility | Description |
+|---------|-------------|
+| `OdinInspectorSafeEditorUtility` | Bridge utility for safely calling Odin APIs |
+| `ScriptableObjectSafeEditorUtility` | More reliable ScriptableObject asset creation and management |
+| `MonoScriptSafeEditorUtility` | Find and select MonoScript assets by script name |
+| `PathUtility` | Path string utilities: Unity path normalization, subpath extraction, path merging |
+| `PathSafeEditorUtility` | Safe folder creation ensuring directories exist under Assets |
+| `HierarchySafeEditorUtility` | Get a GameObject's absolute path in the Hierarchy |
+| `HierarchyUtility` | Transform hierarchy path operations: full paths, relative paths, deep child lookups |
+| `ProjectSafeEditorUtility` | Ping and select any project resource (supports folder paths) |
+| `UrlUtility` | Convenient URL opening and external link handling |
+| `ReflectionUtility` | Assembly and namespace reflection utilities |
+| `PredefinedAssemblyUtility` | Predefined assembly type identification and interface implementation lookup |
+| `PlayerLoopUtility` | Custom Unity PlayerLoop: insert, remove subsystems, print PlayerLoop structure |
+| `RegexUtility` | Regex utilities: namespace/class name normalization, email/URL validation |
+| `AesirInspectorLogger` | Unified logging with colored prefix, auto-stripped in builds, double-click to jump to caller; log levels configurable via `AesirInspectorLoggerSettings` |
+
+### 8. Custom Attributes
+
+| Attribute | Description |
+|-----------|-------------|
+| `[Summary]` | Comment attribute, equivalent to the `<summary>` portion of XML comments; summary text can be retrieved at runtime via `GetSummary()` |
+| `[ShowEnableProperty]` | Displays a property in the Inspector with GUI always enabled; combines `[ShowInInspector]` + `[EnableGUI]` |
+
+### 9. Code Style & Standards
+
+This project treats code style as equally important as functionality. Built-in strict coding standards and examples ensure consistency and maintainability in team collaboration:
+
+- **Style Guide**: See `Runtime/CodeStyle/AESIR_INSPECTOR_CODE_STYLE.cs` for details.
+- **Design Philosophy**: Good code style is not optional — it is the foundation of project quality. All contributors must follow these standards.
 
 ## Usage Example
 

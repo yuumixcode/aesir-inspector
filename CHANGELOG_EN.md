@@ -7,6 +7,93 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.1] - 2026-04-27
+
+### Core
+
+#### Added
+- Added `AesirInspectorLoggerSettings` ScriptableObject for log level configuration with `enableInfoLog` (default false) and `enableWarningLog` (default true) [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Changed
+- Moved `AesirInspectorLogger` from Utilities to Core directory, integrated LoggerSettings switch check in Info/Warning methods, removed `MethodImpl` attribute [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- Renamed `AesirInspectorWebLinks.GitWebsite` to `GitUrl`, changed `OdinInspectorDocsUrl` link from documentation to tutorials [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- Changed `IAesirInspectorReset` context menu label from "Aesir Toolkit Reset" to "Aesir Inspector Reset" [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- Restructured `AesirInspectorMenuItems` menu paths: split `ToolsMenuRoot` into `ToolsAesirRoot` (Tools/Aesir) and `ToolsAesirInspectorRoot` (Tools/Aesir/Inspector), added priority constants for all menu items [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Removed `#if UNITY_EDITOR && ODIN_INSPECTOR_3_3` guard from `AesirCodeHighlighter`, moved using statements outside namespace [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- Removed `#if ODIN_INSPECTOR_3_3` preprocessor guards across the entire project, making Odin Inspector a hard dependency [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Bilingual
+
+#### Changed
+- Renamed `AesirInspectorLanguageSettings` to `AesirInspectorLanguageSettingsSO` following ScriptableObject naming convention [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Renamed `DisplayAsStringBilingualWidgetConfigAttribute` to `DisplayAsStringBilingualConfigAttribute`, removed Widget infix [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Moved `BilingualData` from `Runtime/Bilingual/Attributes/` to `Runtime/Bilingual/` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Marked `_chineseIntroduction` and `_englishIntroduction` fields as readonly in `HeaderBilingualWidget`, changed conditional compilation from `#if ODIN_INSPECTOR_3_3` to `#if UNITY_EDITOR` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Removed `#region Internal` from `BilingualBoxGroupAttribute` and `BilingualButtonAttribute` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Moved `TitleAlignment` property out of `#if ODIN_INSPECTOR_3_3` guard in `BilingualTitleGroupAttribute` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- Removed `#if ODIN_INSPECTOR_3_3` guards from all Bilingual attributes and drawers [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### AttributeOverviewPro
+
+#### Changed
+- Renamed entire `Editor/AttributeOverview/` directory to `Editor/AttributeOverviewPro/` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Moved `AttributeExamplePreviewItem`, `ParameterValue`, `ResolvedStringParameterValue` from `Data/` to `Core/` subdirectory [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Renamed `AssetListExampleForCustomFilterMethodSO` to `AssetListExampleWithCustomFilterMethodSO` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Utilities
+
+#### Changed
+- Replaced `new T[0]` with `Array.Empty<T>()` and `new Type[1]` with `new[]` in `OdinInspectorSafeEditorUtility` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- Added `[Conditional("UNITY_EDITOR")]` to `PathSafeEditorUtility.EnsureDirectoryExists` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Removed
+- Removed `#region Public Methods` and `#region` patterns from all utility classes [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+### MiniTools
+
+#### Changed
+- Renamed `AssemblyFilterExample` to `FilterOutAesirInspectorAssembly` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- Removed `#if ODIN_INSPECTOR_3_3` guards from MiniTools module [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### ScriptDocGenerator
+
+#### Changed
+- Moved Odin attributes before XML comments in all AnalysisData classes [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- Removed `#if ODIN_INSPECTOR_3_3` guards from ScriptDocGenerator module [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Code Style
+
+#### Changed
+- Marked `_darkLineHeight`, `_lightLineHeight`, `_spaceAfter`, `_spaceBefore` as readonly and `DarkLineColor`, `LightLineColor` as static in `HorizontalSeparateWidget` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- Removed `#region Internal` pattern, updated code style guide and example code [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Samples
+
+#### Changed
+- Renamed PluginConfig sample directory [`58fdbce`](https://github.com/yuumixcode/aesir-inspector/commit/58fdbce495c6d25e601f8eb0a6ae6bd17d403f75)
+
+### Docs
+
+#### Added
+- Added `ATTRIBUTE_OVERVIEW_PRO_GUIDE.md` coding guide for AttributeOverviewPro module covering Data-Panel-Example trio, singleton SO pattern, OdinAttributeProcessor injection, GUITable caching, bilingual system, naming conventions [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Added `SCRIPT_DOC_GENERATOR_GUIDE.md` coding standards for ScriptDocGenerator module covering architecture layering, singleton, reset, event communication, file output [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- Added `UTILITIES_GUIDE.md` coding guide for Utilities module [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Changed
+- Simplified `AESIR_INSPECTOR_CODE_STYLE_GUIDE.md` by removing #region Internal rules and simplifying Odin Inspector integration guidelines [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+---
+
 ## [0.3.0] - 2026-04-25
 
 ### Core

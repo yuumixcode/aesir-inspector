@@ -1,7 +1,7 @@
 {
   "name": "cn.runlab.aesir-inspector",
   "displayName": "Aesir Inspector",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "unity": "2022.3",
   "description": "依赖 Odin Inspector，提供基于 Odin Inspector 的扩展功能。",
   "keywords": [
@@ -17,7 +17,9 @@
     "url": "https://github.com/yuumixcode"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "com.unity.test-framework": "1.1.33"
+  },
   "samples": [
     {
       "displayName": "Codely Skills Library",

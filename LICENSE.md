@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-特此向获得本软件及相关文档文件（合称 "本软件"）副本的任何人免费授予不受限制地利用本软件的许可，包括但不限于使用、复制、修改、合并、发布、分发、分许可和 / 或销售本软件副本的权利，并允许向其提供本软件的人享有同等权利，但须遵守以下条件：
-
-上述版权声明及本许可声明应包含在本软件的所有副本或主要部分中。
-
-本软件按 "现状" 提供，不附带任何明示或暗示的保证，包括但不限于对适销性、特定用途适用性及非侵权性的保证。在任何情况下，作者或版权持有人均不对因本软件或本软件的使用或其他交易相关而产生、源于或与之有关的任何索赔、损害或其他责任承担责任，无论是合同诉讼、侵权行为还是其他形式。

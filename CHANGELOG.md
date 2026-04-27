@@ -13,6 +13,93 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.1] - 2026-04-27
+
+### Core
+
+#### Added
+- 新增 `AesirInspectorLoggerSettings` ScriptableObject，支持通过 `enableInfoLog`（默认 false）和 `enableWarningLog`（默认 true）控制日志输出 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Changed
+- `AesirInspectorLogger` 从 Utilities 迁移至 Core 目录，Info/Warning 方法集成 `AesirInspectorLoggerSettings` 开关检查，移除 `MethodImpl` 特性 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- `AesirInspectorWebLinks` 重命名 `GitWebsite` 为 `GitUrl`，`OdinInspectorDocsUrl` 链接由 documentation 改为 tutorials [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- `IAesirInspectorReset` 右键菜单标签由 "Aesir Toolkit Reset" 改为 "Aesir Inspector Reset" [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- `AesirInspectorMenuItems` 菜单路径重构：`ToolsMenuRoot` 拆分为 `ToolsAesirRoot`（Tools/Aesir）与 `ToolsAesirInspectorRoot`（Tools/Aesir/Inspector），新增各菜单项优先级常量 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `AesirCodeHighlighter` 移除 `#if UNITY_EDITOR && ODIN_INSPECTOR_3_3` 宏包裹，using 语句移至命名空间外部 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- 移除全项目 `#if ODIN_INSPECTOR_3_3` 预处理指令，Odin Inspector 作为硬依赖 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Bilingual
+
+#### Changed
+- `AesirInspectorLanguageSettings` 重命名为 `AesirInspectorLanguageSettingsSO`，符合 ScriptableObject 命名规范 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `DisplayAsStringBilingualWidgetConfigAttribute` 重命名为 `DisplayAsStringBilingualConfigAttribute`，移除 Widget 中间词 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `BilingualData` 从 `Runtime/Bilingual/Attributes/` 移动至 `Runtime/Bilingual/` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `HeaderBilingualWidget` 的 `_chineseIntroduction`、`_englishIntroduction` 字段标记为 readonly，条件编译由 `#if ODIN_INSPECTOR_3_3` 改为 `#if UNITY_EDITOR` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `BilingualBoxGroupAttribute`、`BilingualButtonAttribute` 移除 `#region Internal` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `BilingualTitleGroupAttribute` 的 `TitleAlignment` 属性移出 `#if ODIN_INSPECTOR_3_3` 宏包裹 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- 移除所有 Bilingual 属性与 Drawer 中的 `#if ODIN_INSPECTOR_3_3` 宏 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### AttributeOverviewPro
+
+#### Changed
+- `Editor/AttributeOverview/` 整个目录重命名为 `Editor/AttributeOverviewPro/` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- 内部 `Data/` 目录下 `AttributeExamplePreviewItem`、`ParameterValue`、`ResolvedStringParameterValue` 移动至 `Core/` 子目录 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- `AssetListExampleForCustomFilterMethodSO` 重命名为 `AssetListExampleWithCustomFilterMethodSO` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Utilities
+
+#### Changed
+- `OdinInspectorSafeEditorUtility` 中 `new T[0]` 替换为 `Array.Empty<T>()`，`new Type[1]` 替换为 `new[]` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+- `PathSafeEditorUtility.EnsureDirectoryExists` 添加 `[Conditional("UNITY_EDITOR")]` [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Removed
+- 移除所有 Utilities 类中的 `#region Public Methods` 和 `#region` 模式 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+### MiniTools
+
+#### Changed
+- `AssemblyFilterExample` 重命名为 `FilterOutAesirInspectorAssembly` [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- 移除 MiniTools 模块中的 `#if ODIN_INSPECTOR_3_3` 宏 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### ScriptDocGenerator
+
+#### Changed
+- 所有 AnalysisData 类中 Odin 特性移至 XML 注释之前 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- 移除 ScriptDocGenerator 模块中的 `#if ODIN_INSPECTOR_3_3` 宏 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Code Style
+
+#### Changed
+- `HorizontalSeparateWidget` 的 `_darkLineHeight`、`_lightLineHeight`、`_spaceAfter`、`_spaceBefore` 字段标记为 readonly，`DarkLineColor`、`LightLineColor` 属性标记为 static [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+#### Removed
+- 移除 `#region Internal` 模式，更新代码风格指南与示例代码 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+### Samples
+
+#### Changed
+- PluginConfig 示例目录重命名 [`58fdbce`](https://github.com/yuumixcode/aesir-inspector/commit/58fdbce495c6d25e601f8eb0a6ae6bd17d403f75)
+
+### Docs
+
+#### Added
+- 新增 `ATTRIBUTE_OVERVIEW_PRO_GUIDE.md` AttributeOverviewPro 模块编码指南，涵盖 Data-Panel-Example 三件套、单例 SO 模式、OdinAttributeProcessor 注入、GUITable 缓存、双语系统、命名速查等 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- 新增 `SCRIPT_DOC_GENERATOR_GUIDE.md` ScriptDocGenerator 模块编码规范，涵盖架构分层、单例、重置、事件通信、文件输出等 [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+- 新增 `UTILITIES_GUIDE.md` Utilities 编码指南文档 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2)
+
+#### Changed
+- `AESIR_INSPECTOR_CODE_STYLE_GUIDE.md` 移除 #region Internal 规则，简化 Odin Inspector 集成规范 [`45a4837`](https://github.com/yuumixcode/aesir-inspector/commit/45a4837c99913708e8d16218cf4b9acf5459fbb2) [`cf6126c`](https://github.com/yuumixcode/aesir-inspector/commit/cf6126cc4f1388647bb7febf376459cc4fc5abd7)
+
+---
+
 ## [0.3.0] - 2026-04-25
 
 ### Core
