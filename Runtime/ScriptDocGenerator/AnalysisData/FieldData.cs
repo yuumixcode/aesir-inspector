@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -129,19 +127,19 @@ namespace RunLab.AesirInspector
         [Summary("访问修饰符名称")]
         public string AccessModifierName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 字段签名
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("字段签名", nameof(Signature))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 字段签名
-        /// </summary>
         [Summary("字段签名")]
         public string Signature { get; private set; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 完整字段声明，包含特性和签名，默认剔除 Summary 特性
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("完整字段声明 - 包含特性和签名 - 默认剔除 [Summary] 特性",
@@ -149,10 +147,6 @@ namespace RunLab.AesirInspector
             " - Include Attributes and Signature - Default Exclude [Summary]")]
         [HideLabel]
         [MultiLineProperty]
-#endif
-        /// <summary>
-        /// 完整字段声明，包含特性和签名，默认剔除 Summary 特性
-        /// </summary>
         [Summary("完整字段声明，包含特性和签名，默认剔除 Summary 特性")]
         public string FullDeclarationWithAttributes { get; }
 
@@ -196,15 +190,13 @@ namespace RunLab.AesirInspector
         [Summary("字段类型的名称")]
         public string FieldTypeName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 字段类型的完整名称
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("字段类型完整名称", nameof(FieldTypeName))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 字段类型的完整名称
-        /// </summary>
         [Summary("字段类型的完整名称")]
         public string FieldTypeFullName { get; }
 

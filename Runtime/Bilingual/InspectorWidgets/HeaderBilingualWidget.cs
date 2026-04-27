@@ -27,8 +27,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
 #endif
 
@@ -41,16 +41,16 @@ namespace RunLab.AesirInspector
     [Summary("双语顶部说明控件，用于模块的简单介绍")]
     public class HeaderBilingualWidget
     {
-        [DisplayAsStringBilingualWidgetConfig(false, TextAlignment.Left, 30)]
+        [DisplayAsStringBilingualConfig(false, TextAlignment.Left, 30)]
         [SerializeField]
         DisplayAsStringBilingualWidget headerName;
 
-        [DisplayAsStringBilingualWidgetConfig(false, TextAlignment.Left, 14, true)]
+        [DisplayAsStringBilingualConfig(false, TextAlignment.Left, 14, true)]
         [SerializeField]
         DisplayAsStringBilingualWidget headerIntroduction;
 
-        string _chineseIntroduction;
-        string _englishIntroduction;
+        readonly string _chineseIntroduction;
+        readonly string _englishIntroduction;
         string _targetUrl;
 
         public HeaderBilingualWidget(string chineseName,
@@ -116,19 +116,19 @@ namespace RunLab.AesirInspector
         [BilingualButton("中文", "English", buttonHeight: 24, icon: SdfIconType.Translate)]
         void SwitchLanguage()
         {
-            if (AesirInspectorLanguageSettings.IsChinese)
+            if (AesirInspectorLanguageSettingsSO.IsChinese)
             {
-                AesirInspectorLanguageSettings.SetEnglish();
+                AesirInspectorLanguageSettingsSO.SetEnglish();
             }
             else
             {
-                AesirInspectorLanguageSettings.SetChinese();
+                AesirInspectorLanguageSettingsSO.SetChinese();
             }
         }
 
         void PlaceholderMethod2() { }
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+#if UNITY_EDITOR
 
         internal sealed class BilingualHeaderProcessor : OdinAttributeProcessor<HeaderBilingualWidget>
         {

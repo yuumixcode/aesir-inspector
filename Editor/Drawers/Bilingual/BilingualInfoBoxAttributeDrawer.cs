@@ -22,7 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.ValueResolvers;
@@ -30,7 +29,6 @@ using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
-using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor
 {
@@ -71,8 +69,8 @@ namespace RunLab.AesirInspector.Editor
                     break;
             }
 
-            AesirInspectorLanguageSettings.LanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettings.LanguageChanged += ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
         }
 
         void ReloadResolver()
@@ -143,4 +141,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-#endif

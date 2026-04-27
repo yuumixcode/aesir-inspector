@@ -22,22 +22,20 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
     /// 中文 API 文档生成设置
     /// </summary>
     [Summary("中文 API 文档生成设置")]
     public class CnScriptingAPISettingsSO : DocGeneratorSettingsSO
     {
-        const string GeneratorSettingsPath =
-            AesirInspectorPaths.EditorDefaultResourcesPath + "/ScriptDocGenerator/GeneratorSettings";
+        const string GeneratorSettingsPath = AesirInspectorPaths.EditorDefaultResourcesPath +
+                                             "/ScriptDocGenerator/GeneratorSettings";
 
         static readonly string ConfigName =
             OdinInspectorSafeEditorUtility.GetNiceFullName(typeof(CnScriptingAPISettingsSO));
@@ -606,5 +604,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-
-#endif

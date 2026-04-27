@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -36,32 +34,22 @@ namespace RunLab.AesirInspector
     [Summary("双语盒状分组特性")]
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [Conditional("UNITY_EDITOR")]
-#if ODIN_INSPECTOR_3_3
     public class BilingualBoxGroupAttribute : PropertyGroupAttribute
-#else
-    public class BilingualBoxGroupAttribute : Attribute
-#endif
     {
         public BilingualBoxGroupAttribute(string groupId,
             string chinese,
             string english,
             bool showLabel,
             bool centerLabel = false,
-            float order = 0.0f)
-#if ODIN_INSPECTOR_3_3
-            : base(groupId, order)
-#endif
+            float order = 0.0f) : base(groupId, order)
         {
             LanguageData = new BilingualData(chinese, english);
             ShowLabel = showLabel;
             CenterLabel = centerLabel;
         }
 
-        public BilingualBoxGroupAttribute(string groupId, string chinese, string english = null)
-#if ODIN_INSPECTOR_3_3
-            : base(groupId)
-#endif
-            => LanguageData = new BilingualData(chinese, english);
+        public BilingualBoxGroupAttribute(string groupId, string chinese, string english = null) :
+            base(groupId) => LanguageData = new BilingualData(chinese, english);
 
         public BilingualBoxGroupAttribute() : this("_DefaultMultiLanguageBoxGroup", "Null", "Null", false) { }
 
@@ -89,10 +77,6 @@ namespace RunLab.AesirInspector
         [Summary("是否包含合并值")]
         public bool HasCombineValues { get; set; }
 
-#if ODIN_INSPECTOR_3_3
-
-        #region Internal
-
         /// <summary>
         /// 统一 Group 的设置，自定义合并规则。
         /// </summary>
@@ -112,9 +96,5 @@ namespace RunLab.AesirInspector
             CenterLabel |= multiLanguageBoxGroupAttribute.CenterLabel;
             HasCombineValues = true;
         }
-
-        #endregion
-
-#endif
     }
 }

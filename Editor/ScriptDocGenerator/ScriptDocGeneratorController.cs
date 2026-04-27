@@ -22,38 +22,34 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
+using UnityEditor;
+using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using UnityEditor;
-    using UnityEngine;
-
     /// <summary>
     /// 脚本文档生成器逻辑控制类，负责处理文档生成的核心逻辑
     /// </summary>
     public static class ScriptDocGeneratorController
     {
-        const string IdentifierCn = "## 额外说明";
+        const string IdentifierCn = "## Additional Notes";
         const string NoneAssembly = "None Assembly";
         const string GithubRepository = "https://github.com/yuumixcode/AesirInspector";
 
         static readonly StringBuilder UserIdentifierDescriptionParagraph = new StringBuilder()
             .AppendLine(IdentifierCn).AppendLine().AppendLine("> 首个 `" + IdentifierCn +
                                                               "` 是增量生成文档标识符，请勿修改标题级别和内容！" +
-                                                              "本文档由 [`Aesir Inspector`](" +
-                                                              GithubRepository +
+                                                              "本文档由 [`Aesir Inspector`](" + GithubRepository +
                                                               ") 辅助生成。");
 
-        static readonly IAnalysisDataFactory AnalysisDataFactory =
-            new DefaultAnalysisDataFactory();
+        static readonly IAnalysisDataFactory AnalysisDataFactory = new DefaultAnalysisDataFactory();
 
         public static ITypeData AnalyzeSingleType(Type targetType)
         {
@@ -334,5 +330,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-
-#endif

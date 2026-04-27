@@ -22,14 +22,12 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.ValueResolvers;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
-using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor
 {
@@ -50,8 +48,8 @@ namespace RunLab.AesirInspector.Editor
             _iconColorResolver =
                 ValueResolver.Get(Property, Attribute.IconColor, EditorStyles.label.normal.textColor);
             _tempLabel = new GUIContent();
-            AesirInspectorLanguageSettings.LanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettings.LanguageChanged += ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -109,4 +107,3 @@ namespace RunLab.AesirInspector.Editor
         string GetAttributeText() => Attribute.BilingualData.GetCurrentOrFallback();
     }
 }
-#endif

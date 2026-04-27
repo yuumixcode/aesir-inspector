@@ -8,8 +8,7 @@
 ## 类声明
 
 - **必须**为 `public static class`。
-- Utility 类以公共方法为主，变量通常较少，**不需要** `#region Public Methods`。
-- 私有方法仍使用 `#region Internal`，方法名加 `Internal_` 前缀。
+- 私有方法加 `Internal_` 前缀。
 
 ```csharp
 public static class PathUtility
@@ -19,14 +18,10 @@ public static class PathUtility
         // ...
     }
 
-    #region Internal
-
     private static string Internal_NormalizeSeparators(string path)
     {
         // ...
     }
-
-    #endregion
 }
 ```
 
@@ -67,18 +62,15 @@ public static class ProjectSafeEditorUtility
 #endif
     }
 
-    #region Internal
-
     private static void Internal_PingAndSelect(Object target)
     {
         // ...
     }
-
-    #endregion
 }
 ```
 
 ## 注释
 
-- 公共成员**必须同时**具备 `/// <summary>` 和 `[Summary("...")]`（与全局规范一致）。
+- 公共类型**必须同时**具备 `/// <summary>` 和 `[Summary("...")]`。
+- 公共方法、属性：注释可选，仅在用途不直观时添加。
 

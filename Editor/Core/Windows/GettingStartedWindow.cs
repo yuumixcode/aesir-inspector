@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -56,21 +54,22 @@ namespace RunLab.AesirInspector.Editor
         [TableList(HideToolbar = true, AlwaysExpanded = true, IsReadOnly = true)]
         public SummaryDetailGroup[] features;
 
-        GUIStyle _sloganStyle;
         GUIStyle _sectionTitleStyle;
+
+        GUIStyle _sloganStyle;
 
         protected override void OnEnable()
         {
             base.OnEnable();
             WindowPadding = new Vector4(10f, 10f, 10f, 10f);
-            AesirInspectorLanguageSettings.LanguageChanged -= Repaint;
-            AesirInspectorLanguageSettings.LanguageChanged += Repaint;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= Repaint;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += Repaint;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettings.LanguageChanged -= Repaint;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= Repaint;
         }
 
         [OnInspectorInit]
@@ -113,15 +112,13 @@ namespace RunLab.AesirInspector.Editor
             };
         }
 
-        #region --- Odin Inspector ---
-
         [PropertyOrder(-1000)]
         [OnInspectorGUI]
         void DrawVersionButton()
         {
             var rect = GUILayoutUtility.GetRect(1f, EditorGUIUtility.singleLineHeight + 6f,
                 GUILayout.ExpandWidth(true));
-            var label = AesirInspectorLanguageSettings.IsEnglish
+            var label = AesirInspectorLanguageSettingsSO.IsEnglish
                 ? "Version - v" + AesirInspectorVersion.Version
                 : "当前版本 - v" + AesirInspectorVersion.Version;
             var style = new GUIStyle(SirenixGUIStyles.Button)
@@ -153,7 +150,8 @@ namespace RunLab.AesirInspector.Editor
         [PropertyOrder(-80)]
         [HorizontalGroup("Docs")]
         [Button("Odin Inspector 官方文档", ButtonSizes.Medium)]
-        public void OpenOdinInspectorDocs() => Application.OpenURL(AesirInspectorWebLinks.OdinInspectorDocsUrl);
+        public void OpenOdinInspectorDocs() =>
+            Application.OpenURL(AesirInspectorWebLinks.OdinInspectorDocsUrl);
 
         [PropertySpace(10, 10)]
         [PropertyOrder(-50)]
@@ -175,10 +173,6 @@ namespace RunLab.AesirInspector.Editor
             GUILayout.Space(10f);
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// 打开 Getting Started 窗口
         /// </summary>
@@ -191,10 +185,6 @@ namespace RunLab.AesirInspector.Editor
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 800);
             window.Show();
         }
-
-        #endregion
-
-        #region Internal
 
         void EnsureStyles()
         {
@@ -217,8 +207,6 @@ namespace RunLab.AesirInspector.Editor
             };
         }
 
-        #endregion
-
         /// <summary>
         /// 功能摘要-详情组，用于在 Getting Started 窗口中展示功能列表
         /// </summary>
@@ -234,5 +222,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-
-#endif

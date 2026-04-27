@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -129,19 +127,19 @@ namespace RunLab.AesirInspector
         [Summary("访问修饰符名称")]
         public string AccessModifierName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 属性签名
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("属性签名", nameof(Signature))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 属性签名
-        /// </summary>
         [Summary("属性签名")]
         public string Signature { get; private set; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 完整属性声明 - 包含特性和签名 - 默认剔除 [Summary] 特性
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("完整属性声明 - 包含特性和签名 - 默认剔除 [Summary] 特性",
@@ -149,10 +147,6 @@ namespace RunLab.AesirInspector
             " - Include Attributes and Signature - Default Exclude [Summary]")]
         [HideLabel]
         [MultiLineProperty]
-#endif
-        /// <summary>
-        /// 完整属性声明 - 包含特性和签名 - 默认剔除 [Summary] 特性
-        /// </summary>
         [Summary("完整属性声明 - 包含特性和签名 - 默认剔除 [Summary] 特性")]
         public string FullDeclarationWithAttributes { get; }
 
@@ -178,15 +172,13 @@ namespace RunLab.AesirInspector
         [Summary("属性类型名称")]
         public string PropertyTypeName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 属性类型的完整名称
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("属性类型的完整名称", nameof(PropertyTypeFullName))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 属性类型的完整名称
-        /// </summary>
         [Summary("属性类型的完整名称")]
         public string PropertyTypeFullName { get; }
 

@@ -22,11 +22,8 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using System.Threading.Tasks;
-using RunLab.AesirInspector;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
@@ -35,66 +32,40 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor.ExtensionManager
 {
-    /// <summary>
-    /// 扩展包卡片，描述一个可安装的 UPM 包信息，并在 Inspector 中渲染为可视化卡片。
-    /// </summary>
     [Serializable]
     [Summary("扩展包卡片")]
     public class ExtensionPackageCard
     {
-        /// <summary>
-        /// 包安装状态枚举。
-        /// </summary>
         [Summary("包安装状态枚举")]
         public enum PackageState
         {
-            /// <summary>
-            /// 未知状态。
-            /// </summary>
             [Summary("未知状态")]
             None = 0,
 
-            /// <summary>
-            /// 已安装。
-            /// </summary>
             [Summary("已安装")]
             Installed = 1,
 
-            /// <summary>
-            /// 未安装。
-            /// </summary>
             [Summary("未安装")]
             NotInstalled = 2
         }
 
-        /// <summary>
-        /// Aesir Toolkit Core 的卡片。
-        /// </summary>
         [Summary("Aesir Toolkit Core 的卡片")]
         public static ExtensionPackageCard AesirToolkitCore = new ExtensionPackageCard(
             "com.runlab.aesir-toolkit", "Aesir Toolkit 核心，基于 Odin Inspector 的编辑器扩展基础设施，提供双语 Inspector、工具基类等。",
             "https://github.com/yuumixcode/AesirToolkit", "RunLab Yuumix",
             "https://github.com/yuumixcode/AesirToolkit.git?path=/Assets/RunLab/AesirToolkit/Core#main");
 
-        /// <summary>
-        /// Aesir Toolkit Modules 的卡片。
-        /// </summary>
         [Summary("Aesir Toolkit Modules 的卡片")]
         public static ExtensionPackageCard AesirToolkitModules = new ExtensionPackageCard(
             "com.runlab.aesir-toolkit-modules", "Aesir Toolkit 模块，包括多种功能模块，低侵入性模块。",
             "https://github.com/yuumixcode/AesirToolkit", "RunLab Yuumix",
             "https://github.com/yuumixcode/AesirToolkit.git?path=/Assets/RunLab/AesirToolkit/Modules#main");
 
-        /// <summary>
-        /// Unity-Improved-Timers 的卡片。
-        /// </summary>
         [Summary("Unity-Improved-Timers 的卡片")]
         public static ExtensionPackageCard GitAmendImprovedTimers = new ExtensionPackageCard(
             "com.gitamend.improvedtimers", "Unity-Improved-Timers",
             "https://github.com/adammyhre/Unity-Improved-Timers", "Git-Amend",
             "https://github.com/adammyhre/Unity-Improved-Timers.git");
-
-        // --- 3. 序列化字段 ---
 
         [BoxGroup("A", ShowLabel = false)]
         [PropertyOrder(-900)]
@@ -125,8 +96,6 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         [HideLabel]
         string repositoryUrl;
 
-        // --- 6. 构造函数 ---
-
         public ExtensionPackageCard(string packageName,
             string description,
             string repositoryUrl,
@@ -140,48 +109,26 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             this.gitUrl = gitUrl;
         }
 
-        // --- 7. 属性 ---
-
-        /// <summary>
-        /// 当前包安装状态。
-        /// </summary>
         [Summary("当前包安装状态")]
         public PackageState State { get; set; } = PackageState.NotInstalled;
 
-        /// <summary>
-        /// 包名。
-        /// </summary>
         [Summary("包名")]
         public string PackageName => packageName;
 
-        /// <summary>
-        /// 包描述。
-        /// </summary>
         [Summary("包描述")]
         public string Description => description;
 
-        /// <summary>
-        /// 仓库链接。
-        /// </summary>
         [Summary("仓库链接")]
         public string RepositoryUrl => repositoryUrl;
 
-        /// <summary>
-        /// 作者。
-        /// </summary>
         [Summary("作者")]
         public string Author { get; }
 
-        /// <summary>
-        /// Git 安装 URL。
-        /// </summary>
         [Summary("Git 安装 URL")]
         public string GitUrl => gitUrl;
 
         bool PackageManagerIsBusy => PackageManagerEditorUtility.IsBusy;
         bool IsInstalled => State == PackageState.Installed;
-
-        // --- 8. Odin Inspector GUI ---
 
         [BoxGroup("A", ShowLabel = false)]
         [HorizontalGroup("A/C", 50)]
@@ -205,8 +152,6 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             EditorGUI.LabelField(rect, "By: " + Author, SirenixGUIStyles.LabelCentered);
         }
 
-        // --- 9. 业务逻辑方法 ---
-
         [PropertySpace]
         [BoxGroup("A", ShowLabel = false)]
         [HorizontalGroup("A/B")]
@@ -224,12 +169,12 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             await PackageManagerEditorUtility.ListPackagesAsyncOffline();
             if (PackageManagerEditorUtility.IsPackageInstalled(packageName))
             {
-                Debug.Log("[Aesir Inspector] Package 已安装");
+                AesirInspectorLogger.Info("Package 已安装");
                 State = PackageState.Installed;
             }
             else
             {
-                Debug.Log("[Aesir Inspector] Package 未安装");
+                AesirInspectorLogger.Info("Package 未安装");
                 State = PackageState.NotInstalled;
             }
         }
@@ -242,7 +187,7 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         [DisableIf(nameof(PackageManagerIsBusy))]
         void Install()
         {
-            Debug.Log($"[Aesir Inspector] 尝试安装 {packageName}");
+            AesirInspectorLogger.Info($"尝试安装 {packageName}");
             PackageManagerEditorUtility.InstallPackageAsyncFromCard(this);
         }
 
@@ -261,9 +206,6 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             }
         }
 
-        /// <summary>
-        /// 校验 Git URL 是否有效（最小校验：包含 .git 且非空）。
-        /// </summary>
         [Summary("校验 Git URL 是否有效（最小校验：包含 .git 且非空）")]
         public bool HasValidGitUrl() => !string.IsNullOrEmpty(gitUrl) && gitUrl.Contains(".git");
 
@@ -282,5 +224,3 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         #endregion
     }
 }
-
-#endif

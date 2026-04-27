@@ -22,7 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.ValueResolvers;
@@ -47,7 +46,7 @@ namespace RunLab.AesirInspector.Editor
             _chineseGetter = ValueResolver.GetForString(Property, Attribute.ChineseName);
             _englishGetter = ValueResolver.GetForString(Property, Attribute.EnglishName);
             _buttonAttribute.Name =
-                $"@{nameof(AesirInspectorLanguageSettings)}.IsChinese ? \"{_chineseGetter.GetValue()}\" : \"{_englishGetter.GetValue()}\"";
+                $"@{nameof(AesirInspectorLanguageSettingsSO)}.IsChinese ? \"{_chineseGetter.GetValue()}\" : \"{_englishGetter.GetValue()}\"";
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -56,4 +55,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-#endif

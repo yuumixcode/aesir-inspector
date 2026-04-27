@@ -26,15 +26,15 @@ namespace RunLab.AesirInspector.Editor
 {
     /// <summary>
     /// Aesir Inspector 所有 MenuItem 菜单路径和优先级的统一管理。
+    /// Unity 中 MenuItem 的顺序由 priority 参数（一个整数）决定，核心规则是：数字越小，位置越靠上。若不设置，默认值为 1000。
+    /// 父菜单的 priority 由首次被编译的子菜单项决定。
     /// </summary>
     public static class AesirInspectorMenuItems
     {
         #region Menu Roots
 
-        /// <summary>
-        /// Tools 菜单根路径。
-        /// </summary>
-        public const string ToolsMenuRoot = "Tools/Aesir Inspector";
+        public const string ToolsAesirRoot = "Tools/Aesir";
+        public const string ToolsAesirInspectorRoot = "Tools/Aesir/Inspector";
 
         /// <summary>
         /// Assets 上下文菜单中 Script Doc Generator 的根路径。
@@ -48,57 +48,17 @@ namespace RunLab.AesirInspector.Editor
 
         #endregion
 
-        #region Tools Menu Paths
+        #region Tools Menu
 
         /// <summary>
         /// 打开 Getting Started 窗口的菜单路径。
         /// </summary>
-        public const string GettingStarted = ToolsMenuRoot + "/Getting Started";
+        public const string GettingStarted = ToolsAesirRoot + "/Getting Started";
 
         /// <summary>
-        /// 打开 Preferences 窗口的菜单路径。
+        /// Getting Started 菜单项优先级。
         /// </summary>
-        public const string Preferences = ToolsMenuRoot + "/Preferences";
-
-        /// <summary>
-        /// 打开 Attribute Overview Pro 窗口的菜单路径。
-        /// </summary>
-        public const string AttributeOverviewPro = ToolsMenuRoot + "/Attribute Overview Pro";
-
-        /// <summary>
-        /// 打开 Script Doc Generator 窗口的菜单路径。
-        /// </summary>
-        public const string ScriptDocGenerator = ToolsMenuRoot + "/Script Doc Generator";
-
-        /// <summary>
-        /// 打开 Mini Tools 窗口的菜单路径。
-        /// </summary>
-        public const string MiniTools = ToolsMenuRoot + "/Mini Tools";
-
-        /// <summary>
-        /// 打开 Extension Package Manager 窗口的菜单路径。
-        /// </summary>
-        public const string ExtensionPackageManager = ToolsMenuRoot + "/Extension Package Manager";
-
-        /// <summary>
-        /// 打开 Plugin Config Solutions 示例窗口的菜单路径。
-        /// </summary>
-        public const string SamplePluginConfigSolutions = ToolsMenuRoot + "/Samples/Plugin Config Solutions";
-
-        /// <summary>
-        /// 打开 RuntimeInitializeLoadType 示例窗口的菜单路径。
-        /// </summary>
-        public const string SampleRuntimeInitializeOnLoad = ToolsMenuRoot + "/Samples/RuntimeInitializeLoadType";
-
-        /// <summary>
-        /// Plugin Config Solutions 示例窗口标题。
-        /// </summary>
-        public const string SamplePluginConfigSolutionsWindowName = "Plugin Config Solutions";
-
-        /// <summary>
-        /// RuntimeInitializeLoadType 示例窗口标题。
-        /// </summary>
-        public const string SampleRuntimeInitializeOnLoadWindowName = "RuntimeInitializeLoadType";
+        public const int GettingStartedOrder = -980;
 
         /// <summary>
         /// Getting Started 窗口标题。
@@ -106,19 +66,105 @@ namespace RunLab.AesirInspector.Editor
         public const string GettingStartedWindowName = "Getting Started";
 
         /// <summary>
+        /// 打开 Preferences 窗口的菜单路径。
+        /// </summary>
+        public const string Preferences = ToolsAesirInspectorRoot + "/Preferences";
+
+        /// <summary>
+        /// Preferences 菜单项优先级。
+        /// </summary>
+        public const int PreferencesOrder = -880;
+
+        /// <summary>
         /// Preferences 窗口标题。
         /// </summary>
         public const string PreferencesWindowName = "Preferences";
 
+        /// <summary>
+        /// 打开 Attribute Overview Pro 窗口的菜单路径。
+        /// </summary>
+        public const string AttributeOverviewPro = ToolsAesirInspectorRoot + "/Attribute Overview Pro";
+
+        /// <summary>
+        /// Attribute Overview Pro 菜单项优先级。
+        /// </summary>
+        public const int AttributeOverviewProOrder = -900;
+
+        /// <summary>
+        /// 打开 Script Doc Generator 窗口的菜单路径。
+        /// </summary>
+        public const string ScriptDocGenerator = ToolsAesirInspectorRoot + "/Script Doc Generator";
+
+        /// <summary>
+        /// Script Doc Generator 菜单项优先级。
+        /// </summary>
+        public const int ScriptDocGeneratorOrder = -895;
+
+        /// <summary>
+        /// 打开 Mini Tools 窗口的菜单路径。
+        /// </summary>
+        public const string MiniTools = ToolsAesirInspectorRoot + "/Mini Tools";
+
+        /// <summary>
+        /// Mini Tools 菜单项优先级。
+        /// </summary>
+        public const int MiniToolsOrder = -885;
+
+        /// <summary>
+        /// 打开 Extension Package Manager 窗口的菜单路径。
+        /// </summary>
+        public const string ExtensionPackageManager = ToolsAesirInspectorRoot + "/Extension Package Manager";
+
+        /// <summary>
+        /// Extension Package Manager 菜单项优先级。
+        /// </summary>
+        public const int ExtensionPackageManagerOrder = -890;
+
+        /// <summary>
+        /// 打开 Plugin Config Solutions 示例窗口的菜单路径。
+        /// </summary>
+        public const string SamplePluginConfigSolutions =
+            ToolsAesirInspectorRoot + "/Samples/Plugin Config Solutions";
+
+        /// <summary>
+        /// Plugin Config Solutions 示例菜单项优先级。
+        /// </summary>
+        public const int SamplePluginConfigSolutionsOrder = -800;
+
+        /// <summary>
+        /// Plugin Config Solutions 示例窗口标题。
+        /// </summary>
+        public const string SamplePluginConfigSolutionsWindowName = "Plugin Config Solutions";
+
+        /// <summary>
+        /// 打开 RuntimeInitializeLoadType 示例窗口的菜单路径。
+        /// </summary>
+        public const string SampleRuntimeInitializeOnLoad =
+            ToolsAesirInspectorRoot + "/Samples/RuntimeInitializeLoadType";
+
+        /// <summary>
+        /// RuntimeInitializeLoadType 示例菜单项优先级。
+        /// </summary>
+        public const int SampleRuntimeInitializeOnLoadOrder = -795;
+
+        /// <summary>
+        /// RuntimeInitializeLoadType 示例窗口标题。
+        /// </summary>
+        public const string SampleRuntimeInitializeOnLoadWindowName = "RuntimeInitializeLoadType";
+
         #endregion
 
-        #region Assets Context Menu Paths
+        #region Assets Context Menu
 
         /// <summary>
         /// 将选中脚本添加到 Target Type 的菜单路径。
         /// </summary>
-        public const string AddScriptToTargetType =
-            AssetsScriptDocGeneratorRoot + "/Add To Target Type";
+        public const string AddScriptToTargetType = AssetsScriptDocGeneratorRoot + "/Add To Target Type";
+
+        /// <summary>
+        /// Add To Target Type 菜单项优先级。
+        /// </summary>
+        public const int AddScriptToTargetTypeOrder = -50;
 
         /// <summary>
         /// 将选中脚本添加到 Target Type 并打开窗口的菜单路径。
@@ -127,10 +173,20 @@ namespace RunLab.AesirInspector.Editor
             AssetsScriptDocGeneratorRoot + "/Add To Target Type And Open Window";
 
         /// <summary>
+        /// Add To Target Type And Open Window 菜单项优先级。
+        /// </summary>
+        public const int AddScriptToTargetTypeAndOpenWindowOrder = -48;
+
+        /// <summary>
         /// 将选中脚本添加到 Temporary Types 的菜单路径。
         /// </summary>
         public const string AddScriptsToTemporaryTypes =
             AssetsScriptDocGeneratorRoot + "/Add To Temporary Types";
+
+        /// <summary>
+        /// Add To Temporary Types 菜单项优先级。
+        /// </summary>
+        public const int AddScriptsToTemporaryTypesOrder = -43;
 
         /// <summary>
         /// 将选中脚本添加到 Temporary Types 并打开窗口的菜单路径。
@@ -139,9 +195,20 @@ namespace RunLab.AesirInspector.Editor
             AssetsScriptDocGeneratorRoot + "/Add To Temporary Types And Open Window";
 
         /// <summary>
+        /// Add To Temporary Types And Open Window 菜单项优先级。
+        /// </summary>
+        public const int AddScriptsToTemporaryTypesAndOpenWindowOrder = -40;
+
+        /// <summary>
         /// 同步 XML Summary 注释到 SummaryAttribute 的菜单路径。
         /// </summary>
         public const string ProcessSummarySync = AssetsProcessSummaryRoot + "/Sync";
+
+        /// <summary>
+        /// Process Summary Sync 菜单项优先级。
+        /// Script Doc Generator 末尾 124，+11 产生分割线。
+        /// </summary>
+        public const int ProcessSummarySyncOrder = -28;
 
         /// <summary>
         /// 用 SummaryAttribute 替换 XML Summary 注释的菜单路径。
@@ -149,103 +216,19 @@ namespace RunLab.AesirInspector.Editor
         public const string ProcessSummaryReplace = AssetsProcessSummaryRoot + "/Replace";
 
         /// <summary>
+        /// Process Summary Replace 菜单项优先级。
+        /// </summary>
+        public const int ProcessSummaryReplaceOrder = -25;
+
+        /// <summary>
         /// 移除所有 SummaryAttribute 的菜单路径。
         /// </summary>
         public const string ProcessSummaryRemove = AssetsProcessSummaryRoot + "/Remove";
 
-        #endregion
-
-        #region Tools Menu Orders
-
-        // 基线策略：紧跟 Odin Inspector (末尾约 10005) 下方，间隔 11 产生分割线。
-        // 子菜单内各项目间隔 5，对标 Odin 紧凑排列，组内无分割线。
-
-        /// <summary>
-        /// Getting Started 菜单项优先级。
-        /// Odin Inspector 末尾项约 10005，+11 产生分割线前的首个项目。
-        /// </summary>
-        public const int GettingStartedOrder = 10000;
-
-        /// <summary>
-        /// Preferences 菜单项优先级。
-        /// </summary>
-        public const int PreferencesOrder = 10005;
-
-        /// <summary>
-        /// Attribute Overview Pro 菜单项优先级。
-        /// Getting Started 和 Preferences 后，+11 产生分割线。
-        /// </summary>
-        public const int AttributeOverviewProOrder = 10016;
-
-        /// <summary>
-        /// Script Doc Generator 菜单项优先级。
-        /// </summary>
-        public const int ScriptDocGeneratorOrder = 10021;
-
-        /// <summary>
-        /// Mini Tools 菜单项优先级。
-        /// </summary>
-        public const int MiniToolsOrder = 10026;
-
-        /// <summary>
-        /// Extension Package Manager 菜单项优先级。
-        /// </summary>
-        public const int ExtensionPackageManagerOrder = 10031;
-
-        /// <summary>
-        /// Plugin Config Solutions 示例菜单项优先级。
-        /// Extension PackageManager 为 10031，+11 产生分割线。
-        /// </summary>
-        public const int SamplePluginConfigSolutionsOrder = 10042;
-
-        /// <summary>
-        /// RuntimeInitializeLoadType 示例菜单项优先级。
-        /// </summary>
-        public const int SampleRuntimeInitializeOnLoadOrder = 10047;
-
-        #endregion
-
-        #region Assets Context Menu Orders
-
-        // 基线策略：紧跟 Codely (110) 下方，间隔 11 产生分割线。
-        // Script Doc Generator 各项紧密排列 (121-124)。
-
-        /// <summary>
-        /// Add To Target Type 菜单项优先级。
-        /// Codely 为 110，+11 产生分割线。
-        /// </summary>
-        public const int AddScriptToTargetTypeOrder = 121;
-
-        /// <summary>
-        /// Add To Target Type And Open Window 菜单项优先级。
-        /// </summary>
-        public const int AddScriptToTargetTypeAndOpenWindowOrder = 122;
-
-        /// <summary>
-        /// Add To Temporary Types 菜单项优先级。
-        /// </summary>
-        public const int AddScriptsToTemporaryTypesOrder = 123;
-
-        /// <summary>
-        /// Add To Temporary Types And Open Window 菜单项优先级。
-        /// </summary>
-        public const int AddScriptsToTemporaryTypesAndOpenWindowOrder = 124;
-
-        /// <summary>
-        /// Process Summary Sync 菜单项优先级。
-        /// Script Doc Generator 末尾 124，+11 产生分割线。
-        /// </summary>
-        public const int ProcessSummarySyncOrder = 135;
-
-        /// <summary>
-        /// Process Summary Replace 菜单项优先级。
-        /// </summary>
-        public const int ProcessSummaryReplaceOrder = 136;
-
         /// <summary>
         /// Process Summary Remove 菜单项优先级。
         /// </summary>
-        public const int ProcessSummaryRemoveOrder = 137;
+        public const int ProcessSummaryRemoveOrder = -23;
 
         #endregion
     }

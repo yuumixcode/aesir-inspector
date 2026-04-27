@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -34,14 +32,11 @@ namespace RunLab.AesirInspector
     /// 双语标题特性。
     /// </summary>
     [Summary("双语标题特性")]
-#if ODIN_INSPECTOR_3_3
     [DontApplyToListElements]
-#endif
     [AttributeUsage(AttributeTargets.All)]
     [Conditional("UNITY_EDITOR")]
     public class BilingualTitleAttribute : Attribute
     {
-#if ODIN_INSPECTOR_3_3
         public BilingualTitleAttribute(string chineseTitle,
             string englishTitle = null,
             string chineseSubTitle = null,
@@ -58,23 +53,6 @@ namespace RunLab.AesirInspector
             Bold = bold;
             BeforeSpace = beforeSpace;
         }
-#else
-        public BilingualTitleAttribute(string chineseTitle,
-            string englishTitle = null,
-            string chineseSubTitle = null,
-            string englishSubTitle = null,
-            int titleAlignment = 0,
-            bool horizontalLine = true,
-            bool bold = true,
-            bool beforeSpace = true)
-        {
-            TitleData = new BilingualData(chineseTitle, englishTitle);
-            SubtitleData = new BilingualData(chineseSubTitle, englishSubTitle);
-            HorizontalLine = horizontalLine;
-            Bold = bold;
-            BeforeSpace = beforeSpace;
-        }
-#endif
 
         /// <summary>
         /// 是否在标题前添加空格
@@ -100,13 +78,11 @@ namespace RunLab.AesirInspector
         [Summary("副标题数据")]
         public BilingualData SubtitleData { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 标题对齐方式
         /// </summary>
         [Summary("标题对齐方式")]
         public TitleAlignments TitleAlignment { get; set; }
-#endif
 
         /// <summary>
         /// 标题数据

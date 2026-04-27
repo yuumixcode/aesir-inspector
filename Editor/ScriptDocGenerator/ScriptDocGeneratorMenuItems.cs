@@ -22,20 +22,19 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using System.Linq;
-    using UnityEditor;
-    using UnityEngine;
-
     public static class ScriptDocGeneratorMenuItems
     {
         static MonoScript[] SelectionMonoScripts => Selection
             .GetFiltered(typeof(MonoScript), SelectionMode.Assets).Cast<MonoScript>().ToArray();
 
-        [MenuItem(AesirInspectorMenuItems.AddScriptToTargetType, false, AesirInspectorMenuItems.AddScriptToTargetTypeOrder)]
+        [MenuItem(AesirInspectorMenuItems.AddScriptToTargetType, false,
+            AesirInspectorMenuItems.AddScriptToTargetTypeOrder)]
         public static void AddScriptToTargetType()
         {
             var monoScript = SelectionMonoScripts.First();
@@ -45,14 +44,16 @@ namespace RunLab.AesirInspector.Editor
             Debug.Log("设置 Script Doc Generator 的 Target Type 为：" + targetType.FullName);
         }
 
-        [MenuItem(AesirInspectorMenuItems.AddScriptToTargetTypeAndOpenWindow, false, AesirInspectorMenuItems.AddScriptToTargetTypeAndOpenWindowOrder)]
+        [MenuItem(AesirInspectorMenuItems.AddScriptToTargetTypeAndOpenWindow, false,
+            AesirInspectorMenuItems.AddScriptToTargetTypeAndOpenWindowOrder)]
         public static void AddScriptToTargetTypeAndOpenWindow()
         {
             AddScriptToTargetType();
             ScriptDocGeneratorWindow.OpenWindow();
         }
 
-        [MenuItem(AesirInspectorMenuItems.AddScriptsToTemporaryTypes, false, AesirInspectorMenuItems.AddScriptsToTemporaryTypesOrder)]
+        [MenuItem(AesirInspectorMenuItems.AddScriptsToTemporaryTypes, false,
+            AesirInspectorMenuItems.AddScriptsToTemporaryTypesOrder)]
         public static void AddScriptsToTargetTypes()
         {
             var monoScripts = SelectionMonoScripts.ToList();
@@ -61,15 +62,15 @@ namespace RunLab.AesirInspector.Editor
             temporaryTypes.AddRange(types);
             var distinctTypes = temporaryTypes.Distinct().ToList();
             ScriptDocGeneratorSO.Instance.TemporaryTypes = distinctTypes;
-            ScriptDocGeneratorSO.Instance.TypeSourceProperty =
-                ScriptDocGeneratorSO.TypeSource.MultipleTypes;
+            ScriptDocGeneratorSO.Instance.TypeSourceProperty = ScriptDocGeneratorSO.TypeSource.MultipleTypes;
             foreach (var type in types)
             {
                 Debug.Log("添加到 Script Doc Generator 的 Temporary Types：" + type.FullName);
             }
         }
 
-        [MenuItem(AesirInspectorMenuItems.AddScriptsToTemporaryTypesAndOpenWindow, false, AesirInspectorMenuItems.AddScriptsToTemporaryTypesAndOpenWindowOrder)]
+        [MenuItem(AesirInspectorMenuItems.AddScriptsToTemporaryTypesAndOpenWindow, false,
+            AesirInspectorMenuItems.AddScriptsToTemporaryTypesAndOpenWindowOrder)]
         public static void AddScriptsToTemporaryTypesAndOpenWindow()
         {
             AddScriptsToTargetTypes();
@@ -120,5 +121,3 @@ namespace RunLab.AesirInspector.Editor
             AddScriptsToTargetTypesValidate();
     }
 }
-
-#endif

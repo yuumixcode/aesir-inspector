@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -36,48 +34,32 @@ namespace RunLab.AesirInspector.Editor
     [Summary("MenuItemViewer 可视化面板")]
     public class MenuItemViewerSO : ScriptableObject, IAesirInspectorReset
     {
-        // --- 2. 静态字段/常量 ---
-
-        /// <summary>
-        /// EditorBuildSettings 存储引用的 Key
-        /// </summary>
         [Summary("EditorBuildSettings 存储引用的 Key")]
         static readonly string ConfigName =
             OdinInspectorSafeEditorUtility.GetNiceFullName(typeof(MenuItemViewerSO));
 
-        /// <summary>
-        /// 菜单项检查器的菜单路径
-        /// </summary>
         [Summary("菜单单项检查器的菜单路径")]
         public static BilingualData ToolMenuPath = new BilingualData("菜单项检查器", "MenuItemViewer");
 
-        /// <summary>
-        /// 获取 MenuItemViewerSO 单例
-        /// </summary>
         [Summary("获取 MenuItemViewerSO 单例")]
         public static MenuItemViewerSO Instance =>
-            ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<MenuItemViewerSO>(
-                ConfigName,
-                AesirInspectorPaths.MiniToolsAssetsFolderPath,
-                "MenuItemViewer");
+            ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<MenuItemViewerSO>(ConfigName,
+                AesirInspectorPaths.MiniToolsAssetsFolderPath, "MenuItemViewer");
 
-        // --- 3. 序列化字段 ---
+        #region Event Functions
 
-        [PropertySpace(8, 8)]
-        [BilingualButton("搜集项目所有菜单项，排除筛选项", "Collect MenuItems Exclude Filter",
-            ButtonSizes.Large)]
-        public void CollectMenuItems()
+        void OnEnable()
         {
-            menuItemInfos = MenuItemViewerController.GetAllMenuItems(assemblyFilter);
+            headerWidget = new HeaderBilingualWidget("MenuItem 查看器", "MenuItem Viewer",
+                "查看项目内的 MenuItem 的信息，便于规划菜单项",
+                "View the information of MenuItems within the project to facilitate menu item planning",
+                AesirInspectorWebLinks.GitUrl);
         }
 
-        // --- 7. 业务逻辑方法 ---
+        #endregion
 
         #region IAesirInspectorReset Members
 
-        /// <summary>
-        /// 将所有字段重置为默认值
-        /// </summary>
         [Summary("将所有字段重置为默认值")]
         public void AesirInspectorReset()
         {
@@ -86,6 +68,13 @@ namespace RunLab.AesirInspector.Editor
         }
 
         #endregion
+
+        [PropertySpace(8, 8)]
+        [BilingualButton("搜集项目所有菜单项，排除筛选项", "Collect MenuItems Exclude Filter", ButtonSizes.Large)]
+        public void CollectMenuItems()
+        {
+            menuItemInfos = MenuItemViewerController.GetAllMenuItems(assemblyFilter);
+        }
 
         #region Serialized Fields
 
@@ -102,19 +91,5 @@ namespace RunLab.AesirInspector.Editor
         public List<MenuItemInfo> menuItemInfos;
 
         #endregion
-
-        #region Event Functions
-
-        void OnEnable()
-        {
-            headerWidget = new HeaderBilingualWidget("MenuItem 查看器", "MenuItem Viewer",
-                "查看项目内的 MenuItem 的信息，便于规划菜单项",
-                "View the information of MenuItems within the project to facilitate menu item planning",
-                AesirInspectorWebLinks.GitUrl);
-        }
-
-        #endregion
     }
 }
-
-#endif

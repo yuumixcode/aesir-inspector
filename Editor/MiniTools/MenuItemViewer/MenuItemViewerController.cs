@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,11 +36,6 @@ namespace RunLab.AesirInspector.Editor
     [Summary("MenuItemViewer 逻辑控制类，使用反射获取所有程序集中的 UnityEditor.MenuItem 特性")]
     public static class MenuItemViewerController
     {
-        #region --- Public Methods ---
-
-        /// <summary>
-        /// 获取经过筛选的程序集中的所有 MenuItem 特性信息
-        /// </summary>
         [Summary("获取经过筛选的程序集中的所有 MenuItem 特性信息")]
         public static List<MenuItemInfo> GetAllMenuItems(IAssemblyFilter assemblyFilter = null)
         {
@@ -65,10 +58,6 @@ namespace RunLab.AesirInspector.Editor
             return menuItems;
         }
 
-        #endregion
-
-        #region Internal
-
         static void Internal_ProcessAssembly(Assembly assembly, List<MenuItemInfo> menuItems)
         {
             var types = assembly.GetTypes();
@@ -89,9 +78,5 @@ namespace RunLab.AesirInspector.Editor
                 }
             }
         }
-
-        #endregion
     }
 }
-
-#endif

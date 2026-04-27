@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
@@ -38,43 +36,16 @@ namespace RunLab.AesirInspector.Editor
     [Summary("Aesir Inspector Mini Tools 窗口，整合常用编辑器小工具入口")]
     public class AesirInspectorMiniToolsWindow : OdinMenuEditorWindow
     {
-        // --- 2. 静态字段/常量 ---
-
         static readonly BilingualData SyntaxHighlighterMenuName =
             new BilingualData("语法高亮处理器", "Syntax Highlighter");
 
-        static readonly BilingualData MenuItemViewerMenuName =
-            new BilingualData("菜单项查看器", "MenuItem Viewer");
+        static readonly BilingualData MenuItemViewerMenuName = new BilingualData("菜单项查看器", "MenuItem Viewer");
 
         static object _lastSelection;
-
-        // --- 4. 非序列化字段 ---
 
         OdinSyntaxHighlighterSO _highlighter;
         MenuItemViewerSO _menuItemViewer;
         OdinMenuStyle _menuStyle;
-
-        // 7. 业务逻辑方法
-
-        #region --- Public Methods ---
-
-        /// <summary>
-        /// 打开 Aesir Inspector Mini Tools 窗口
-        /// </summary>
-        [Summary("打开 Aesir Inspector Mini Tools 窗口")]
-        [MenuItem(AesirInspectorMenuItems.MiniTools, false,
-            AesirInspectorMenuItems.MiniToolsOrder)]
-        public static void Open()
-        {
-            var window = GetWindow<AesirInspectorMiniToolsWindow>();
-            window.titleContent = new GUIContent("Aesir Inspector Mini Tools");
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 600);
-            window.Show();
-        }
-
-        #endregion
-
-        #region Event Functions
 
         protected override void OnEnable()
         {
@@ -101,18 +72,29 @@ namespace RunLab.AesirInspector.Editor
                 SelectedColorDarkSkin = new Color(0.243f, 0.373f, 0.588f, 1.000f),
                 SelectedColorLightSkin = new Color(0.243f, 0.490f, 0.900f, 1.000f)
             };
-            AesirInspectorLanguageSettings.LanguageChanged -= CustomRebuild;
-            AesirInspectorLanguageSettings.LanguageChanged += CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += CustomRebuild;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettings.LanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
             _lastSelection = null;
         }
 
-        #endregion
+        /// <summary>
+        /// 打开 Aesir Inspector Mini Tools 窗口
+        /// </summary>
+        [Summary("打开 Aesir Inspector Mini Tools 窗口")]
+        [MenuItem(AesirInspectorMenuItems.MiniTools, false, AesirInspectorMenuItems.MiniToolsOrder)]
+        public static void Open()
+        {
+            var window = GetWindow<AesirInspectorMiniToolsWindow>();
+            window.titleContent = new GUIContent("Aesir Inspector Mini Tools");
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(900, 800);
+            window.Show();
+        }
 
         protected override OdinMenuTree BuildMenuTree()
         {
@@ -126,17 +108,11 @@ namespace RunLab.AesirInspector.Editor
             return tree;
         }
 
-        #region Internal
-
         void CustomRebuild()
         {
             _lastSelection = MenuTree.Selection.SelectedValue;
             ForceMenuTreeRebuild();
             TrySelectMenuItemWithObject(_lastSelection);
         }
-
-        #endregion
     }
 }
-
-#endif

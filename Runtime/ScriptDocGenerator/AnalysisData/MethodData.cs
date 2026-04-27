@@ -1,9 +1,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -202,15 +200,13 @@ namespace RunLab.AesirInspector
         [Summary("方法的返回类型名称字符串")]
         public string ReturnTypeName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 方法的返回值完整类型名称字符串
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("返回值完整类型名称", nameof(ReturnTypeFullName))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 方法的返回值完整类型名称字符串
-        /// </summary>
         [Summary("方法的返回值完整类型名称字符串")]
         public string ReturnTypeFullName { get; }
 
@@ -244,14 +240,12 @@ namespace RunLab.AesirInspector
         [Summary("是否为运算符方法（operator）")]
         public bool IsOperator { get; }
 
-#if ODIN_INSPECTOR_3_3
-        [PropertyOrder(50)]
-        [ShowEnableProperty]
-        [BilingualText("是否为重写方法", nameof(IsOverride))]
-#endif
         /// <summary>
         /// 是否有重写方法（override）的特性，方法签名中不一定带有 override 关键字
         /// </summary>
+        [PropertyOrder(50)]
+        [ShowEnableProperty]
+        [BilingualText("是否为重写方法", nameof(IsOverride))]
         [Summary("是否有重写方法（override）的特性，方法签名中不一定带有 override 关键字")]
         public bool IsOverride { get; }
 
@@ -319,19 +313,19 @@ namespace RunLab.AesirInspector
         [Summary("方法的访问修饰符名称字符串")]
         public string AccessModifierName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 方法的签名字符串
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("方法签名", nameof(Signature))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 方法的签名字符串
-        /// </summary>
         [Summary("方法的签名字符串")]
         public string Signature { get; private set; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 包含特性的完整方法声明字符串，包含特性声明和方法签名
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("完整方法声明 - 包含特性和签名 - 默认剔除 [Summary] 特性",
@@ -339,10 +333,6 @@ namespace RunLab.AesirInspector
             " - Include Attributes and Signature - Default Exclude [Summary]")]
         [HideLabel]
         [MultiLineProperty]
-#endif
-        /// <summary>
-        /// 包含特性的完整方法声明字符串，包含特性声明和方法签名
-        /// </summary>
         [Summary("包含特性的完整方法声明字符串，包含特性声明和方法签名")]
         public string FullDeclarationWithAttributes { get; }
 

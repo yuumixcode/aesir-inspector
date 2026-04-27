@@ -22,88 +22,73 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
-using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor.ExtensionManager
 {
-    /// <summary>
-    /// 包管理器编辑器工具，提供 UPM 包的安装、移除、列表查询等异步操作。
-    /// </summary>
     [Summary("包管理器编辑器工具")]
     public static class PackageManagerEditorUtility
     {
-        // --- 2. 静态字段/常量 ---
-
         static AddRequest _addRequest;
         static ListRequest _listRequest;
         static RemoveRequest _removeRequest;
         static PackageCollection _currentPackageCollection;
 
-        /// <summary>
-        /// 是否正在处理包管理请求。
-        /// </summary>
         [Summary("是否正在处理包管理请求")]
         public static bool IsBusy => _listRequest != null || _addRequest != null || _removeRequest != null;
 
-        /// <summary>
-        /// 包安装或移除完成时触发的事件，用于通知外部刷新 UI 状态。
-        /// </summary>
         [Summary("包安装或移除完成时触发的事件，用于通知外部刷新 UI 状态")]
         public static event Action OnPackagesChanged;
 
-        // --- 7. 业务逻辑方法 ---
-
-        #region --- Public Methods ---
-
-        /// <summary>
-        /// 列出所有本地包。
-        /// </summary>
         [Summary("列出所有本地包")]
         public static async Task ListAllLocalPackages()
         {
             await ListPackagesAsyncOffline();
-            if (_currentPackageCollection == null) return;
+            if (_currentPackageCollection == null)
+            {
+                return;
+            }
+
             foreach (var package in _currentPackageCollection)
             {
-                Debug.Log($"[Aesir Inspector] 找到 Package: {package.name} @ {package.version}");
+                AesirInspectorLogger.Info($"找到 Package: {package.name} @ {package.version}");
             }
         }
 
-        /// <summary>
-        /// 从卡片异步安装包。
-        /// </summary>
         [Summary("从卡片异步安装包")]
         public static void InstallPackageAsyncFromCard(ExtensionPackageCard card)
         {
-            if (card == null) return;
+            if (card == null)
+            {
+                return;
+            }
+
             InstallPackageFromGitUrl(card.GitUrl);
         }
 
-        /// <summary>
-        /// 从卡片异步移除包。
-        /// </summary>
         [Summary("从卡片异步移除包")]
         public static void RemovePackageAsyncFromCard(ExtensionPackageCard card)
         {
-            if (card == null) return;
+            if (card == null)
+            {
+                return;
+            }
+
             _ = RemovePackage(card.PackageName);
         }
 
-        /// <summary>
-        /// 根据包名移除包（异步）。
-        /// </summary>
         [Summary("根据包名移除包（异步）")]
         public static async Task RemovePackage(string packageName)
         {
-            if (!IsPackageInstalled(packageName)) return;
+            if (!IsPackageInstalled(packageName))
+            {
+                return;
+            }
 
             _removeRequest = Client.Remove(packageName);
             while (!_removeRequest.IsCompleted)
@@ -114,10 +99,10 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             switch (_removeRequest.Status)
             {
                 case StatusCode.Success:
-                    Debug.Log($"[Aesir Inspector] 成功移除包：{packageName}");
+                    AesirInspectorLogger.Info($"成功移除包：{packageName}");
                     break;
                 case StatusCode.Failure:
-                    Debug.LogError($"[Aesir Inspector] 移除包失败：{_removeRequest.Error.message}");
+                    AesirInspectorLogger.Error($"移除包失败：{_removeRequest.Error.message}");
                     OnPackagesChanged?.Invoke();
                     break;
             }
@@ -125,9 +110,6 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             _removeRequest = null;
         }
 
-        /// <summary>
-        /// 从 Git URL 安装包。
-        /// </summary>
         [Summary("从 Git URL 安装包")]
         public static void InstallPackageFromGitUrl(string gitUrl)
         {
@@ -138,13 +120,10 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             }
             else
             {
-                Debug.LogError("[Aesir Inspector] 无效的 Git URL，安装已取消");
+                AesirInspectorLogger.Error("无效的 Git URL，安装已取消");
             }
         }
 
-        /// <summary>
-        /// 检查包是否已安装。
-        /// </summary>
         [Summary("检查包是否已安装")]
         public static bool IsPackageInstalled(string packageName)
         {
@@ -152,9 +131,6 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
                    _currentPackageCollection.Any(p => p.name == packageName);
         }
 
-        /// <summary>
-        /// 异步离线列出包。
-        /// </summary>
         [Summary("异步离线列出包")]
         public static async Task ListPackagesAsyncOffline()
         {
@@ -167,32 +143,33 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
 
             if (_listRequest.Status == StatusCode.Success)
             {
-                Debug.Log("[Aesir Inspector] 成功获取当前项目的包列表！");
+                AesirInspectorLogger.Info("成功获取当前项目的包列表！");
                 _currentPackageCollection = _listRequest.Result;
             }
             else
             {
-                Debug.LogError($"[Aesir Inspector] 获取包列表失败！{_listRequest.Error.message}");
+                AesirInspectorLogger.Error($"获取包列表失败！{_listRequest.Error.message}");
             }
 
             _listRequest = null;
         }
 
-        #endregion
-
         #region Internal
 
         static void InstallProgressUpdate()
         {
-            if (_addRequest == null || !_addRequest.IsCompleted) return;
+            if (_addRequest == null || !_addRequest.IsCompleted)
+            {
+                return;
+            }
 
             switch (_addRequest.Status)
             {
                 case StatusCode.Success:
-                    Debug.Log($"[Aesir Inspector] 成功安装包：{_addRequest.Result.displayName}");
+                    AesirInspectorLogger.Info($"成功安装包：{_addRequest.Result.displayName}");
                     break;
                 case StatusCode.Failure:
-                    Debug.LogError($"[Aesir Inspector] 安装包失败：{_addRequest.Error.message}");
+                    AesirInspectorLogger.Error($"安装包失败：{_addRequest.Error.message}");
                     OnPackagesChanged?.Invoke();
                     break;
             }
@@ -204,5 +181,3 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         #endregion
     }
 }
-
-#endif

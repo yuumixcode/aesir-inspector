@@ -22,7 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.ValueResolvers;
 using Sirenix.Utilities.Editor;
@@ -41,8 +40,8 @@ namespace RunLab.AesirInspector.Editor
         protected override void Initialize()
         {
             _labelGetter = ValueResolver.GetForString(Property, Attribute.LanguageData);
-            AesirInspectorLanguageSettings.LanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettings.LanguageChanged += ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -74,4 +73,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-#endif

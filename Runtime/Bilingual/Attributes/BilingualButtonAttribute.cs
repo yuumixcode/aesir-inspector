@@ -26,29 +26,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
 #endif
 
 namespace RunLab.AesirInspector
 {
     /// <summary>
-    /// 双语按钮特性，必须直接编写在代码中，不能使用 AttributeProcessor 添加使用。
+    /// 双语按钮特性。必须硬编码使用特性，不能使用 OdinAttributeProcessor 动态添加使用。
     /// </summary>
-    [Summary("双语按钮特性，必须直接编写在代码中，不能使用 AttributeProcessor 添加使用。")]
+    [Summary("双语按钮特性。必须硬编码使用特性，不能使用 OdinAttributeProcessor 动态添加使用。")]
     [AttributeUsage(AttributeTargets.All, Inherited = false)]
     [Conditional("UNITY_EDITOR")]
-#if ODIN_INSPECTOR_3_3
     public class BilingualButtonAttribute : ShowInInspectorAttribute
-#else
-    public class BilingualButtonAttribute : Attribute
-#endif
     {
-#if ODIN_INSPECTOR_3_3
         public BilingualButtonAttribute(string chineseName,
             string englishName = null,
             ButtonSizes buttonSize = ButtonSizes.Medium,
@@ -77,32 +70,6 @@ namespace RunLab.AesirInspector
             DisplayParameters = displayParameters;
             DirtyOnClick = dirtyOnClick;
         }
-#else
-        public BilingualButtonAttribute(string chineseName,
-            string englishName = null,
-            int buttonSize = 0,
-            int style = 0,
-            int icon = 0,
-            int buttonIconAlignment = 0,
-            int buttonHeight = -1,
-            bool stretch = true,
-            bool drawResult = true,
-            bool expanded = false,
-            float buttonAlignment = 0.5f,
-            bool displayParameters = true,
-            bool dirtyOnClick = true)
-        {
-            ChineseName = chineseName;
-            EnglishName = englishName ?? chineseName;
-            ButtonHeight = buttonHeight;
-            Stretch = stretch;
-            DrawResult = drawResult;
-            Expanded = expanded;
-            ButtonAlignment = buttonAlignment;
-            DisplayParameters = displayParameters;
-            DirtyOnClick = dirtyOnClick;
-        }
-#endif
 
         /// <summary>
         /// 按钮对齐方式 (0-1)
@@ -116,7 +83,6 @@ namespace RunLab.AesirInspector
         [Summary("按钮高度")]
         public int ButtonHeight { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 图标对齐方式
         /// </summary>
@@ -128,7 +94,6 @@ namespace RunLab.AesirInspector
         /// </summary>
         [Summary("按钮大小")]
         public ButtonSizes ButtonSize { get; set; }
-#endif
 
         /// <summary>
         /// 中文名称
@@ -166,13 +131,11 @@ namespace RunLab.AesirInspector
         [Summary("是否展开")]
         public bool Expanded { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// SDF 图标类型
         /// </summary>
         [Summary("SDF 图标类型")]
         public SdfIconType Icon { get; set; }
-#endif
 
         /// <summary>
         /// 是否拉伸
@@ -180,15 +143,12 @@ namespace RunLab.AesirInspector
         [Summary("是否拉伸")]
         public bool Stretch { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 按钮样式
         /// </summary>
         [Summary("按钮样式")]
         public ButtonStyle Style { get; set; }
-#endif
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 创建 Odin 的 Button 特性。
         /// </summary>
@@ -215,11 +175,9 @@ namespace RunLab.AesirInspector
 
             return button;
         }
-#endif
     }
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
+#if UNITY_EDITOR
     internal sealed class BilingualAttributeProcessor<T> : OdinAttributeProcessor<T> where T : class
     {
         public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,

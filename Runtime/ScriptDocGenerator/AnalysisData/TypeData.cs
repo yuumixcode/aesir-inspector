@@ -5,9 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -274,11 +272,9 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// Type 种类
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(-5)]
         [ShowEnableProperty]
         [BilingualText("Type 种类", nameof(TypeCategory))]
-#endif
         [Summary("Type 种类")]
         public TypeCategory TypeCategory { get; }
 
@@ -291,22 +287,18 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 程序集名称
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(-5)]
         [ShowEnableProperty]
         [BilingualText("程序集名称", nameof(AssemblyName))]
-#endif
         [Summary("程序集名称")]
         public string AssemblyName { get; }
 
         /// <summary>
         /// 命名空间名称
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(-5)]
         [ShowEnableProperty]
         [BilingualText("命名空间名称", nameof(NamespaceName))]
-#endif
         [Summary("命名空间名称")]
         public string NamespaceName { get; }
 
@@ -331,36 +323,30 @@ namespace RunLab.AesirInspector
         /// <summary>
         /// 引用链接数组
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(150)]
         [ShowEnableProperty]
         [BilingualText("引用链接", nameof(ReferenceWebLinkArray))]
         [HideDuplicateReferenceBox]
-#endif
         [Summary("引用链接数组")]
         public string[] ReferenceWebLinkArray { get; }
 
         /// <summary>
         /// 继承链数组
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(150)]
         [ShowEnableProperty]
         [BilingualText("继承链", nameof(InheritanceChain))]
         [HideDuplicateReferenceBox]
-#endif
         [Summary("继承链数组")]
         public string[] InheritanceChain { get; }
 
         /// <summary>
         /// 接口列表数组
         /// </summary>
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(150)]
         [ShowEnableProperty]
         [BilingualText("接口列表", nameof(InterfaceArray))]
         [HideDuplicateReferenceBox]
-#endif
         [Summary("接口列表数组")]
         public string[] InterfaceArray { get; }
 
@@ -374,55 +360,45 @@ namespace RunLab.AesirInspector
         /// 声明的构造方法解析数据数组，只包含公共构造函数，GetConstructors() 方法
         /// </summary>
         [Summary("声明的构造方法解析数据数组，只包含公共构造函数，GetConstructors() 方法")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(200)]
         [ShowEnableProperty]
         [BilingualText("声明的构造方法解析数据", nameof(RuntimeReflectedConstructorsData))]
-#endif
         public IConstructorData[] RuntimeReflectedConstructorsData { get; }
 
         /// <summary>
         /// 声明的方法解析数据数组，GetRuntimeMethods() 方法
         /// </summary>
         [Summary("声明的方法解析数据数组，GetRuntimeMethods() 方法")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(200)]
         [ShowEnableProperty]
         [BilingualText("声明的方法解析数据", nameof(RuntimeReflectedMethodsData))]
-#endif
         public IMethodData[] RuntimeReflectedMethodsData { get; }
 
         /// <summary>
         /// 声明的事件解析数据数组，GetRuntimeEvents() 方法
         /// </summary>
         [Summary("声明的事件解析数据数组，GetRuntimeEvents() 方法")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(200)]
         [ShowEnableProperty]
         [BilingualText("声明的事件解析数据", nameof(RuntimeReflectedEventsData))]
-#endif
         public IEventData[] RuntimeReflectedEventsData { get; }
 
         /// <summary>
         /// 声明的属性解析数据数组，GetRuntimeProperties() 方法
         /// </summary>
         [Summary("声明的属性解析数据数组，GetRuntimeProperties() 方法")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(200)]
         [ShowEnableProperty]
         [BilingualText("声明的属性解析数据", nameof(RuntimeReflectedPropertiesData))]
-#endif
         public IPropertyData[] RuntimeReflectedPropertiesData { get; }
 
         /// <summary>
         /// 类型的字段解析数据数组，GetUserDefinedFields() 方法
         /// </summary>
         [Summary("类型的字段解析数据数组，GetUserDefinedFields() 方法")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(200)]
         [ShowEnableProperty]
         [BilingualText("声明的字段解析数据", nameof(RuntimeReflectedFieldsData))]
-#endif
         public IFieldData[] RuntimeReflectedFieldsData { get; }
 
         #endregion
@@ -469,7 +445,6 @@ namespace RunLab.AesirInspector
         /// 完整类型声明 - 包含特性和签名 - 默认剔除 [Summary] 特性
         /// </summary>
         [Summary("完整类型声明 - 包含特性和签名 - 默认剔除 [Summary] 特性")]
-#if ODIN_INSPECTOR_3_3
         [PropertyOrder(90)]
         [ShowEnableProperty]
         [BilingualTitle("完整类型声明 - 包含特性和签名 - 默认剔除 [Summary] 特性",
@@ -477,7 +452,6 @@ namespace RunLab.AesirInspector
             " - Include Attributes and Signature - Default Exclude [Summary]")]
         [HideLabel]
         [MultiLineProperty]
-#endif
         public string FullDeclarationWithAttributes { get; }
 
         #endregion

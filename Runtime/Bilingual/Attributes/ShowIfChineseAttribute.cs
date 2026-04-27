@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -34,12 +32,10 @@ namespace RunLab.AesirInspector
     /// 仅在中文模式下显示特性。
     /// </summary>
     [Summary("仅在中文模式下显示特性")]
-#if ODIN_INSPECTOR_3_3
     [IncludeMyAttributes]
     [ShowIf(
-        "@" + nameof(AesirInspectorLanguageSettings) + "." + nameof(AesirInspectorLanguageSettings.IsChinese),
+        "@" + nameof(AesirInspectorLanguageSettingsSO) + "." + nameof(AesirInspectorLanguageSettingsSO.IsChinese),
         false)]
-#endif
     [AttributeUsage(AttributeTargets.All)]
     [Conditional("UNITY_EDITOR")]
     public class ShowIfChineseAttribute : Attribute { }

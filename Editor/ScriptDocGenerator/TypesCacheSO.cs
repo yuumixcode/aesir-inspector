@@ -22,14 +22,12 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using System;
-    using System.Collections.Generic;
-    using Sirenix.OdinInspector;
-
     /// <summary>
     /// 存储 Type 的资源文件，提供给脚本文档生成工具复用，用户无需每次重新选择 Type
     /// </summary>
@@ -43,5 +41,3 @@ namespace RunLab.AesirInspector.Editor
         public List<Type> Types;
     }
 }
-
-#endif

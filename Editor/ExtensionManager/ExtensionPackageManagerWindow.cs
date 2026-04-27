@@ -22,12 +22,9 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RunLab.AesirInspector;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -38,19 +35,10 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor.ExtensionManager
 {
-    /// <summary>
-    /// 扩展包管理器窗口，快捷安装推荐的 Aesir 系列和其他常用开源 Unity Packages。
-    /// </summary>
     [Summary("扩展包管理器窗口")]
     public class ExtensionPackageManagerWindow : OdinEditorWindow
     {
-        // --- 2. 静态字段/常量 ---
-
         static readonly BilingualData WindowName = new BilingualData("扩展包管理器", "Extension Package Manager");
-
-        Texture2D _refreshIcon;
-
-        // --- 3. 序列化字段 ---
 
         [PropertyOrder(-1000)]
         public HeaderBilingualWidget headerWidget;
@@ -61,13 +49,8 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         [BilingualText("卡片列表", "Card List")]
         public List<ExtensionPackageCard> cardList;
 
-        // --- 7. 业务逻辑方法 ---
+        Texture2D _refreshIcon;
 
-        #region --- Public Methods ---
-
-        /// <summary>
-        /// 打开扩展包管理器窗口。
-        /// </summary>
         [Summary("打开扩展包管理器窗口")]
         [MenuItem(AesirInspectorMenuItems.ExtensionPackageManager, false,
             AesirInspectorMenuItems.ExtensionPackageManagerOrder)]
@@ -78,10 +61,8 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             window.minSize = new Vector2(720f, 520f);
             window.Show();
             _ = window.UpdatePackageInstallationStates();
-            Debug.Log("[Aesir Inspector] 打开 Extension Package Manager 窗口，检测预设包的安装状态。");
+            AesirInspectorLogger.Info("打开 Extension Package Manager 窗口，检测预设包的安装状态。");
         }
-
-        #endregion
 
         #region Event Functions
 
@@ -99,12 +80,12 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             }
 
             UpdateTitle();
-            AesirInspectorLanguageSettings.LanguageChanged -= OnLanguageChanged;
-            AesirInspectorLanguageSettings.LanguageChanged += OnLanguageChanged;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= OnLanguageChanged;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += OnLanguageChanged;
             PackageManagerEditorUtility.OnPackagesChanged -= OnPackagesChanged;
             PackageManagerEditorUtility.OnPackagesChanged += OnPackagesChanged;
-            UnityEditor.PackageManager.Events.registeredPackages -= OnRegisteredPackagesEditor;
-            UnityEditor.PackageManager.Events.registeredPackages += OnRegisteredPackagesEditor;
+            Events.registeredPackages -= OnRegisteredPackagesEditor;
+            Events.registeredPackages += OnRegisteredPackagesEditor;
 
             cardList = new List<ExtensionPackageCard>
             {
@@ -117,9 +98,9 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettings.LanguageChanged -= OnLanguageChanged;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= OnLanguageChanged;
             PackageManagerEditorUtility.OnPackagesChanged -= OnPackagesChanged;
-            UnityEditor.PackageManager.Events.registeredPackages -= OnRegisteredPackagesEditor;
+            Events.registeredPackages -= OnRegisteredPackagesEditor;
         }
 
         #endregion
@@ -140,7 +121,11 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         async Task UpdatePackageInstallationStates()
         {
             await PackageManagerEditorUtility.ListPackagesAsyncOffline();
-            if (cardList == null) return;
+            if (cardList == null)
+            {
+                return;
+            }
+
             foreach (var card in cardList)
             {
                 var isInstalled = PackageManagerEditorUtility.IsPackageInstalled(card.PackageName);
@@ -177,7 +162,7 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Aesir Inspector] 处理包注册变更回调时发生异常：{e}");
+                AesirInspectorLogger.Error($"处理包注册变更回调时发生异常：{e}");
             }
         }
 
@@ -195,5 +180,3 @@ namespace RunLab.AesirInspector.Editor.ExtensionManager
         #endregion
     }
 }
-
-#endif

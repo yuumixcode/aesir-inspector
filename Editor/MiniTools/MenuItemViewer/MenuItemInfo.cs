@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using System;
 using System.Reflection;
 using Sirenix.OdinInspector;
@@ -50,79 +48,38 @@ namespace RunLab.AesirInspector.Editor
             FullMethodSignature = $"{ClassName}.{MethodName}()";
         }
 
-        // --- 2. 静态字段/常量 ---
-
-        // (none)
-
-        // --- 3. 序列化字段 ---
-
-        // (none)
-
-        // --- 4. 非序列化字段 ---
-
-        // (none)
-
-        // --- 5. 属性 ---
-
-        /// <summary>
-        /// 菜单项
-        /// </summary>
         [Summary("菜单项")]
         [ShowEnableProperty]
         [DisplayAsString]
         [BilingualText("菜单项", "Menu Path")]
         public string MenuPath { get; }
 
-        /// <summary>
-        /// 优先级
-        /// </summary>
         [Summary("优先级")]
         [ShowEnableProperty]
         [DisplayAsString]
         [BilingualText("优先级", "Priority")]
         public int Priority { get; }
 
-        /// <summary>
-        /// 是否是验证方法
-        /// </summary>
         [Summary("是否是验证方法")]
         public bool IsValidateFunction { get; set; }
 
-        /// <summary>
-        /// 所属方法
-        /// </summary>
         [Summary("所属方法")]
         public MethodInfo Method { get; set; }
 
-        /// <summary>
-        /// 所属程序集
-        /// </summary>
         [Summary("所属程序集")]
         public Assembly Assembly { get; set; }
 
-        /// <summary>
-        /// 所属类名
-        /// </summary>
         [Summary("所属类名")]
         public string ClassName { get; set; }
 
-        /// <summary>
-        /// 方法名
-        /// </summary>
         [Summary("方法名")]
         public string MethodName { get; set; }
 
-        /// <summary>
-        /// 完整的方法签名
-        /// </summary>
         [Summary("完整的方法签名")]
         public string FullMethodSignature { get; set; }
 
         #region ISearchFilterable Members
 
-        /// <summary>
-        /// ISearchFilterable 接口方法，自定义搜索匹配规则
-        /// </summary>
         [Summary("ISearchFilterable 接口方法，自定义搜索匹配规则")]
         public bool IsMatch(string searchString) =>
             MenuPath.ToLower().Contains(searchString.ToLower()) ||
@@ -131,5 +88,3 @@ namespace RunLab.AesirInspector.Editor
         #endregion
     }
 }
-
-#endif

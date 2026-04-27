@@ -34,7 +34,8 @@ namespace RunLab.AesirInspector.Editor
     [Summary("右键快捷处理 Summary 特性")]
     public static class SummaryToolMenuItems
     {
-        [MenuItem(AesirInspectorMenuItems.ProcessSummarySync, false, AesirInspectorMenuItems.ProcessSummarySyncOrder)]
+        [MenuItem(AesirInspectorMenuItems.ProcessSummarySync, false,
+            AesirInspectorMenuItems.ProcessSummarySyncOrder)]
         public static void QuickSyncSummary()
         {
             if (Selection.objects.Length == 1)
@@ -50,7 +51,8 @@ namespace RunLab.AesirInspector.Editor
             }
         }
 
-        [MenuItem(AesirInspectorMenuItems.ProcessSummaryReplace, false, AesirInspectorMenuItems.ProcessSummaryReplaceOrder)]
+        [MenuItem(AesirInspectorMenuItems.ProcessSummaryReplace, false,
+            AesirInspectorMenuItems.ProcessSummaryReplaceOrder)]
         public static void QuickReplaceSummary()
         {
             if (Selection.objects.Length == 1)
@@ -66,7 +68,8 @@ namespace RunLab.AesirInspector.Editor
             }
         }
 
-        [MenuItem(AesirInspectorMenuItems.ProcessSummaryRemove, false, AesirInspectorMenuItems.ProcessSummaryRemoveOrder)]
+        [MenuItem(AesirInspectorMenuItems.ProcessSummaryRemove, false,
+            AesirInspectorMenuItems.ProcessSummaryRemoveOrder)]
         public static void QuickRemoveSummary()
         {
             if (Selection.objects.Length == 1)

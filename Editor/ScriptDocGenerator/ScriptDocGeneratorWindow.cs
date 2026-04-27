@@ -22,17 +22,15 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
+using Sirenix.Utilities.Editor;
+using UnityEditor;
+using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using Sirenix.OdinInspector;
-    using Sirenix.OdinInspector.Editor;
-    using Sirenix.Utilities.Editor;
-    using UnityEditor;
-    using UnityEngine;
-
     public class ScriptDocGeneratorWindow : OdinEditorWindow
     {
         const string ScriptDocGenWindowName = "Script Doc Generator";
@@ -40,17 +38,6 @@ namespace RunLab.AesirInspector.Editor
         [SerializeField]
         [InlineEditor(InlineEditorObjectFieldModes.Hidden)]
         ScriptDocGeneratorSO asset;
-
-        [MenuItem(AesirInspectorMenuItems.ScriptDocGenerator, false, AesirInspectorMenuItems.ScriptDocGeneratorOrder)]
-        public static void OpenWindow()
-        {
-            var window = GetWindow<ScriptDocGeneratorWindow>();
-            window.titleContent = new GUIContent(ScriptDocGenWindowName);
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 800);
-            window.Show();
-        }
-
-        #region Event Functions
 
         protected override void OnEnable()
         {
@@ -67,8 +54,14 @@ namespace RunLab.AesirInspector.Editor
             base.OnDestroy();
         }
 
-        #endregion
+        [MenuItem(AesirInspectorMenuItems.ScriptDocGenerator, false,
+            AesirInspectorMenuItems.ScriptDocGeneratorOrder)]
+        public static void OpenWindow()
+        {
+            var window = GetWindow<ScriptDocGeneratorWindow>();
+            window.titleContent = new GUIContent(ScriptDocGenWindowName);
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 800);
+            window.Show();
+        }
     }
 }
-
-#endif

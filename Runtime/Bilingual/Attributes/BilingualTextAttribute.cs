@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -34,14 +32,11 @@ namespace RunLab.AesirInspector
     /// 双语文本特性。
     /// </summary>
     [Summary("双语文本特性")]
-#if ODIN_INSPECTOR_3_3
     [DontApplyToListElements]
-#endif
     [AttributeUsage(AttributeTargets.All)]
     [Conditional("UNITY_EDITOR")]
     public class BilingualTextAttribute : Attribute
     {
-#if ODIN_INSPECTOR_3_3
         public BilingualTextAttribute(string chinese,
             string english = null,
             bool nicifyEnglishText = true,
@@ -53,26 +48,12 @@ namespace RunLab.AesirInspector
             Icon = icon;
             IconColor = iconColor;
         }
-#else
-        public BilingualTextAttribute(string chinese,
-            string english = null,
-            bool nicifyEnglishText = true,
-            int icon = 0,
-            string iconColor = null)
-        {
-            BilingualData = new BilingualData(chinese, english);
-            NicifyEnglishText = nicifyEnglishText;
-            IconColor = iconColor;
-        }
-#endif
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// SDF 图标类型
         /// </summary>
         [Summary("SDF 图标类型")]
         public SdfIconType Icon { get; set; }
-#endif
 
         /// <summary>
         /// 图标颜色，支持 Odin Inspector 的颜色设置

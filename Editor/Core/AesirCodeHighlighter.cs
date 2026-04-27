@@ -22,14 +22,12 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System;
+using System.Reflection;
+using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    using System;
-    using System.Reflection;
-    using UnityEngine;
-
     /// <summary>
     /// 通过反射封装 Odin 内部语法高亮处理器的静态工具类。
     /// </summary>
@@ -37,11 +35,8 @@ namespace RunLab.AesirInspector
     public static class AesirCodeHighlighter
     {
         static readonly Type SyntaxHighlighterType = Type.GetType(
-            "Sirenix.OdinInspector.Editor.Examples.SyntaxHighlighter," +
-            "Sirenix.OdinInspector.Editor," +
-            "Version=1.0.0.0," +
-            "Culture=neutral," +
-            "PublicKeyToken=null");
+            "Sirenix.OdinInspector.Editor.Examples.SyntaxHighlighter," + "Sirenix.OdinInspector.Editor," +
+            "Version=1.0.0.0," + "Culture=neutral," + "PublicKeyToken=null");
 
         static readonly MethodInfo ParseMethod =
             SyntaxHighlighterType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public);
@@ -58,8 +53,6 @@ namespace RunLab.AesirInspector
         [Summary("代码文本默认颜色")]
         public static Color TextColor { get; } = new Color(0.863f, 0.863f, 0.863f, 1f);
 
-        #region --- Public Methods ---
-
         /// <summary>
         /// 对代码文本应用语法高亮，返回包含富文本标记的结果。
         /// </summary>
@@ -74,9 +67,5 @@ namespace RunLab.AesirInspector
             Debug.LogError("[AesirCodeHighlighter] 无法获取 Odin SyntaxHighlighter.Parse 方法");
             return code;
         }
-
-        #endregion
     }
 }
-
-#endif

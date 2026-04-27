@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -125,23 +123,19 @@ namespace RunLab.AesirInspector
 
         #region IMemberData Members
 
-#if ODIN_INSPECTOR_3_3
-        [BilingualText("成员名", nameof(Name))]
-        [ShowEnableProperty]
-#endif
         /// <summary>
         /// 成员名称
         /// </summary>
+        [BilingualText("成员名", nameof(Name))]
+        [ShowEnableProperty]
         [Summary("成员名称")]
         public string Name { get; }
 
-#if ODIN_INSPECTOR_3_3
-        [BilingualText("是否为过时成员", nameof(IsObsolete))]
-        [ShowEnableProperty]
-#endif
         /// <summary>
         /// 是否已过时
         /// </summary>
+        [BilingualText("是否为过时成员", nameof(IsObsolete))]
+        [ShowEnableProperty]
         [Summary("是否已过时")]
         public bool IsObsolete { get; }
 
@@ -157,12 +151,10 @@ namespace RunLab.AesirInspector
         [Summary("声明类型的名称")]
         public string DeclaringTypeName { get; }
 
-#if ODIN_INSPECTOR_3_3
-        [ShowEnableProperty]
-#endif
         /// <summary>
         /// 声明类型的完整名称，包括命名空间
         /// </summary>
+        [ShowEnableProperty]
         [Summary("声明类型的完整名称，包括命名空间")]
         public string DeclaringTypeFullName { get; }
 
@@ -190,16 +182,14 @@ namespace RunLab.AesirInspector
         [Summary("特性声明字符串")]
         public string AttributesDeclaration { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 注释
+        /// </summary>
         [PropertyOrder(100)]
         [ShowEnableProperty]
         [BilingualTitle("Summary 注释", nameof(SummaryAttributeValue))]
         [HideLabel]
         [MultiLineProperty]
-#endif
-        /// <summary>
-        /// 注释
-        /// </summary>
         [Summary("注释")]
         public string SummaryAttributeValue { get; }
 

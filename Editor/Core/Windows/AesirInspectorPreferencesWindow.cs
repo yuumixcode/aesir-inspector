@@ -22,8 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
-
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
@@ -46,14 +44,14 @@ namespace RunLab.AesirInspector.Editor
 
         static object _lastSelection;
 
-        AesirInspectorLanguageSettings _aesirInspectorLanguageSettings;
+        AesirInspectorLanguageSettingsSO _aesirInspectorLanguageSettingsSO;
         AesirInspectorLoggerSettings _aesirInspectorLoggerSettings;
         OdinMenuStyle _menuStyle;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            _aesirInspectorLanguageSettings = AesirInspectorLanguageSettings.Instance;
+            _aesirInspectorLanguageSettingsSO = AesirInspectorLanguageSettingsSO.Instance;
             _aesirInspectorLoggerSettings = AesirInspectorLoggerSettings.Instance;
             MenuWidth = 220f;
             WindowPadding = new Vector4(10f, 10f, 10f, 10f);
@@ -75,14 +73,14 @@ namespace RunLab.AesirInspector.Editor
                 SelectedColorDarkSkin = new Color(0.243f, 0.373f, 0.588f, 1.000f),
                 SelectedColorLightSkin = new Color(0.243f, 0.490f, 0.900f, 1.000f)
             };
-            AesirInspectorLanguageSettings.LanguageChanged -= CustomRebuild;
-            AesirInspectorLanguageSettings.LanguageChanged += CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged += CustomRebuild;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettings.LanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
             _lastSelection = null;
         }
 
@@ -103,7 +101,7 @@ namespace RunLab.AesirInspector.Editor
         {
             var tree = new OdinMenuTree(false, _menuStyle)
             {
-                { InspectorLanguageSettingsMenuName, _aesirInspectorLanguageSettings },
+                { InspectorLanguageSettingsMenuName, _aesirInspectorLanguageSettingsSO },
                 { InspectorLoggerSettingsMenuName, _aesirInspectorLoggerSettings }
             };
 
@@ -120,5 +118,3 @@ namespace RunLab.AesirInspector.Editor
         }
     }
 }
-
-#endif

@@ -27,24 +27,14 @@ using System;
 namespace RunLab.AesirInspector
 {
     /// <summary>
-    /// 表示用于为程序元素提供摘要说明的特性。
-    /// 该摘要提供类似于 XML 文档注释的描述性元数据。
+    /// 提供类似于 XML 文档 summary 部分的描述性元数据。
     /// </summary>
-    [Summary("注释特性，等同于 XML 注释的 Summary 部分。")]
+    [Summary("提供类似于 XML 文档 summary 部分的描述性元数据。")]
     [AttributeUsage(AttributeTargets.All)]
     public class SummaryAttribute : Attribute
     {
         readonly string _summaryText;
         public SummaryAttribute(string summaryText) => _summaryText = summaryText;
-
-        #region --- Public Methods ---
-
-        /// <summary>
-        /// 获取摘要文本
-        /// </summary>
-        [Summary("获取摘要文本")]
         public string GetSummary() => _summaryText;
-
-        #endregion
     }
 }

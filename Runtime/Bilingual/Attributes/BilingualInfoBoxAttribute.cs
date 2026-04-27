@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -34,14 +32,11 @@ namespace RunLab.AesirInspector
     /// 双语信息框特性。
     /// </summary>
     [Summary("双语信息框特性")]
-#if ODIN_INSPECTOR_3_3
     [DontApplyToListElements]
-#endif
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [Conditional("UNITY_EDITOR")]
     public class BilingualInfoBoxAttribute : Attribute
     {
-#if ODIN_INSPECTOR_3_3
         public BilingualInfoBoxAttribute(string chinese,
             string english = null,
             InfoMessageType infoMessageType = InfoMessageType.Info,
@@ -57,21 +52,6 @@ namespace RunLab.AesirInspector
             IconColor = iconColor;
             GUIAlwaysEnabled = guiAlwaysEnabled;
         }
-#else
-        public BilingualInfoBoxAttribute(string chinese,
-            string english = null,
-            int infoMessageType = 0,
-            int icon = 0,
-            string visibleIf = "",
-            string iconColor = null,
-            bool guiAlwaysEnabled = false)
-        {
-            BilingualData = new BilingualData(chinese, english);
-            VisibleIf = visibleIf;
-            IconColor = iconColor;
-            GUIAlwaysEnabled = guiAlwaysEnabled;
-        }
-#endif
 
         /// <summary>
         /// GUI 是否始终启用
@@ -79,13 +59,11 @@ namespace RunLab.AesirInspector
         [Summary("GUI 是否始终启用")]
         public bool GUIAlwaysEnabled { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// SDF 图标类型
         /// </summary>
         [Summary("SDF 图标类型")]
         public SdfIconType Icon { get; set; }
-#endif
 
         /// <summary>
         /// 图标颜色
@@ -93,13 +71,11 @@ namespace RunLab.AesirInspector
         [Summary("图标颜色")]
         public string IconColor { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 信息消息类型
         /// </summary>
         [Summary("信息消息类型")]
         public InfoMessageType InfoMessageType { get; set; }
-#endif
 
         /// <summary>
         /// 显示条件表达式
@@ -113,12 +89,10 @@ namespace RunLab.AesirInspector
         [Summary("双语数据")]
         public BilingualData BilingualData { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 是否定义了图标
         /// </summary>
         [Summary("是否定义了图标")]
         public bool HasDefinedIcon => Icon != SdfIconType.None;
-#endif
     }
 }

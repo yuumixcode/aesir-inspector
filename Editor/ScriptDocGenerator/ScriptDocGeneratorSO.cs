@@ -22,23 +22,20 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Serialization;
+using Sirenix.Utilities.Editor;
+using UnityEditor;
+using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using Sirenix.OdinInspector;
-    using Sirenix.OdinInspector.Editor;
-    using Sirenix.Serialization;
-    using Sirenix.Utilities;
-    using Sirenix.Utilities.Editor;
-    using UnityEditor;
-    using UnityEngine;
-
     /// <summary>
     /// ScriptDocGenerator 可视化操作面板类
     /// </summary>
@@ -158,8 +155,6 @@ namespace RunLab.AesirInspector.Editor
 
         bool IsNeedTypeAnalysisDataList => IsMultipleType || IsSingleAssembly;
 
-        #region Event Functions
-
         void OnEnable()
         {
             headerWidget = new HeaderBilingualWidget("脚本文档生成工具", "Script Doc Generator",
@@ -169,8 +164,6 @@ namespace RunLab.AesirInspector.Editor
                 "and a custom generator suitable for the project can also be defined.");
             AesirInspectorReset();
         }
-
-        #endregion
 
         public void AesirInspectorReset()
         {
@@ -269,8 +262,7 @@ namespace RunLab.AesirInspector.Editor
 
         void DrawTemporaryTypesTitleBarGUI()
         {
-            var image = SdfIcons.CreateTransparentIconTexture(SdfIconType.SaveFill, Color.white, 32,
-                32, 0);
+            var image = SdfIcons.CreateTransparentIconTexture(SdfIconType.SaveFill, Color.white, 32, 32, 0);
             var content = new GUIContent(" 保存为SO资源 ", image,
                 "保存为 " + nameof(TypesCacheSO) + " 资源到 " + typesCacheSOFolderPath);
             var filePathWithExtension = typesCacheSOFolderPath + "/" + nameof(TypesCacheSO) + ".asset";
@@ -284,8 +276,7 @@ namespace RunLab.AesirInspector.Editor
                 Debug.Log("请更改资源名称，避免下次生成时覆盖内容");
             }
 
-            var image2 = SdfIcons.CreateTransparentIconTexture(SdfIconType.GearFill, Color.white, 32,
-                32, 0);
+            var image2 = SdfIcons.CreateTransparentIconTexture(SdfIconType.GearFill, Color.white, 32, 32, 0);
             var content2 = new GUIContent(" 自定义资源存储位置 ", image2, "当前路径为 " + typesCacheSOFolderPath);
             if (_isCustomizingSaveConfig)
             {
@@ -382,15 +373,13 @@ namespace RunLab.AesirInspector.Editor
                     break;
                 case TypeSource.MultipleTypes:
                 case TypeSource.SingleAssembly:
-                    ScriptDocGeneratorController.GenerateMultipleTypeDocs(_typeDataList,
-                        docGeneratorSettings, docFolderPath);
+                    ScriptDocGeneratorController.GenerateMultipleTypeDocs(_typeDataList, docGeneratorSettings,
+                        docFolderPath);
                     break;
             }
 
             _hasFinishedAnalyze = false;
         }
-
-
 
         class ScriptDocGeneratorPanelAttributeProcessor : OdinAttributeProcessor<ScriptDocGeneratorSO>
         {
@@ -632,5 +621,3 @@ namespace RunLab.AesirInspector.Editor
         #endregion
     }
 }
-
-#endif

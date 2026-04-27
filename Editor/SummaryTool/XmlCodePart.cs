@@ -60,14 +60,19 @@ namespace RunLab.AesirInspector.Editor
         {
             get
             {
-                if (string.IsNullOrEmpty(code)) return string.Empty;
+                if (string.IsNullOrEmpty(code))
+                {
+                    return string.Empty;
+                }
+
                 var lines = code.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                 var count = 0;
                 while (count < lines.Length && IsPreprocessorDirective(lines[count]))
+                {
                     count++;
-                return count > 0
-                    ? string.Join("\n", lines, 0, count) + "\n"
-                    : string.Empty;
+                }
+
+                return count > 0 ? string.Join("\n", lines, 0, count) + "\n" : string.Empty;
             }
         }
 
@@ -163,8 +168,7 @@ namespace RunLab.AesirInspector.Editor
                 var targetCode = CodeAfterLeadingPreprocessor;
                 var attr = nameof(SummaryAttribute).Replace("Attribute", "");
                 var match = Regex.Match(targetCode,
-                    @"(?m)(?:^|\s)\s*\[" + attr + @"\(""(?<content>[\s\S]*?)""\)\]",
-                    RegexOptions.Multiline);
+                    @"(?m)(?:^|\s)\s*\[" + attr + @"\(""(?<content>[\s\S]*?)""\)\]", RegexOptions.Multiline);
                 if (match.Success)
                 {
                     targetCode = targetCode.Replace(match.Value, "");

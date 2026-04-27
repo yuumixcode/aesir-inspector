@@ -24,9 +24,7 @@
 
 using System;
 using System.Diagnostics;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -36,36 +34,23 @@ namespace RunLab.AesirInspector
     [Summary("双语标题分组特性")]
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [Conditional("UNITY_EDITOR")]
-#if ODIN_INSPECTOR_3_3
     public class BilingualTitleGroupAttribute : PropertyGroupAttribute
-#else
-    public class BilingualTitleGroupAttribute : Attribute
-#endif
     {
         public BilingualTitleGroupAttribute(string groupId,
             string chineseTitle,
             string englishTitle = null,
             string chineseSubtitle = null,
             string englishSubtitle = null,
-#if ODIN_INSPECTOR_3_3
             TitleAlignments titleAlignment = TitleAlignments.Left,
-#else
-            int titleAlignment = 0,
-#endif
             bool horizontalLine = true,
             bool boldTitle = true,
             bool indent = false,
-            float order = 0)
-#if ODIN_INSPECTOR_3_3
-            : base(groupId, order)
-#endif
+            float order = 0) : base(groupId, order)
         {
             TitleData = new BilingualData(chineseTitle, englishTitle);
             chineseSubtitle ??= string.Empty;
             SubtitleData = new BilingualData(chineseSubtitle, englishSubtitle);
-#if ODIN_INSPECTOR_3_3
             TitleAlignment = titleAlignment;
-#endif
             HorizontalLine = horizontalLine;
             BoldTitle = boldTitle;
             Indent = indent;
@@ -95,23 +80,17 @@ namespace RunLab.AesirInspector
         [Summary("副标题数据")]
         public BilingualData SubtitleData { get; set; }
 
-#if ODIN_INSPECTOR_3_3
         /// <summary>
         /// 标题对齐方式
         /// </summary>
         [Summary("标题对齐方式")]
         public TitleAlignments TitleAlignment { get; set; }
-#endif
 
         /// <summary>
         /// 标题数据
         /// </summary>
         [Summary("标题数据")]
         public BilingualData TitleData { get; set; }
-
-#if ODIN_INSPECTOR_3_3
-
-        #region Internal
 
         /// <summary>
         /// 合并属性组特性值。
@@ -172,9 +151,5 @@ namespace RunLab.AesirInspector
                 Indent = multiLanguageTitleGroupAttribute.Indent;
             }
         }
-
-        #endregion
-
-#endif
     }
 }

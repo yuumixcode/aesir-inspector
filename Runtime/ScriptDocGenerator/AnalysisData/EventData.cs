@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
-#if ODIN_INSPECTOR_3_3
 using Sirenix.OdinInspector;
-#endif
 
 namespace RunLab.AesirInspector
 {
@@ -102,19 +100,19 @@ namespace RunLab.AesirInspector
         [Summary("访问修饰符名称")]
         public string AccessModifierName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 事件的完整签名
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("事件签名", nameof(Signature))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 事件的完整签名
-        /// </summary>
         [Summary("事件的完整签名")]
         public string Signature { get; private set; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 包含特性和签名的完整事件声明
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("完整事件声明 - 包含特性和签名 - 默认剔除 [Summary] 特性",
@@ -122,10 +120,6 @@ namespace RunLab.AesirInspector
             " - Include Attributes and Signature - Default Exclude [Summary]")]
         [HideLabel]
         [MultiLineProperty]
-#endif
-        /// <summary>
-        /// 包含特性和签名的完整事件声明
-        /// </summary>
         [Summary("包含特性和签名的完整事件声明")]
         public string FullDeclarationWithAttributes { get; }
 
@@ -145,15 +139,13 @@ namespace RunLab.AesirInspector
         [Summary("事件类型名称")]
         public string EventTypeName { get; }
 
-#if ODIN_INSPECTOR_3_3
+        /// <summary>
+        /// 事件类型的完整名称，包括命名空间
+        /// </summary>
         [PropertyOrder(60)]
         [ShowEnableProperty]
         [BilingualTitle("事件类型完整名称", nameof(EventTypeFullName))]
         [HideLabel]
-#endif
-        /// <summary>
-        /// 事件类型的完整名称，包括命名空间
-        /// </summary>
         [Summary("事件类型的完整名称，包括命名空间")]
         public string EventTypeFullName { get; }
 

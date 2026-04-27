@@ -42,16 +42,16 @@ namespace RunLab.AesirInspector
     public class HorizontalSeparateWidget
     {
         [Summary("深色横线高度")]
-        int _darkLineHeight;
+        readonly int _darkLineHeight;
 
         [Summary("浅色横线高度，构造函数中未设置则默认为深色横线高度 - 1")]
-        int _lightLineHeight;
+        readonly int _lightLineHeight;
 
         [Summary("分割线下方高度")]
-        float _spaceAfter;
+        readonly float _spaceAfter;
 
         [Summary("分割线上方高度")]
-        float _spaceBefore;
+        readonly float _spaceBefore;
 
         public HorizontalSeparateWidget()
         {
@@ -90,7 +90,7 @@ namespace RunLab.AesirInspector
         /// 深色线条颜色
         /// </summary>
         [Summary("深色线条颜色")]
-        Color DarkLineColor => EditorGUIUtility.isProSkin
+        static Color DarkLineColor => EditorGUIUtility.isProSkin
             ? SirenixGUIStyles.BorderColor
             : new Color(0f, 0f, 0f, 0.2f);
 
@@ -98,7 +98,7 @@ namespace RunLab.AesirInspector
         /// 浅色线条颜色
         /// </summary>
         [Summary("浅色线条颜色")]
-        Color LightLineColor => EditorGUIUtility.isProSkin
+        static Color LightLineColor => EditorGUIUtility.isProSkin
             ? new Color(1f, 1f, 1f, 0.1f)
             : new Color(1f, 1f, 1f, 1f);
 

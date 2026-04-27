@@ -22,13 +22,11 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#if UNITY_EDITOR && ODIN_INSPECTOR_3_3
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    using Sirenix.OdinInspector;
-    using UnityEngine;
-
     /// <summary>
     /// 文档生成器设置抽象类
     /// </summary>
@@ -87,5 +85,3 @@ namespace RunLab.AesirInspector.Editor
         #endregion
     }
 }
-
-#endif
