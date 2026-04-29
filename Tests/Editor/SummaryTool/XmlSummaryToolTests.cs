@@ -23,7 +23,6 @@
 // ----------------------------------------------------------------------------
 
 using NUnit.Framework;
-using RunLab.AesirInspector.Editor;
 
 namespace RunLab.AesirInspector.Editor.Tests
 {
@@ -149,8 +148,7 @@ namespace RunLab.AesirInspector.Editor.Tests
 
         static void ProcessAndAssert(string source, XmlSummaryTool.ProcessMode mode, string expected)
         {
-            var result = new XmlSummaryTool(source).ParseSourceScript()
-                .GetProcessedSourceScript(mode);
+            var result = new XmlSummaryTool(source).ParseSourceScript().GetProcessedSourceScript(mode);
             Assert.AreEqual(expected, result);
         }
 
@@ -283,8 +281,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void ExistingMultiLineAttribute_SyncUpdatesFromXml()
         {
-            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.SyncSummary,
-                @"using System;
+            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.SyncSummary, @"using System;
 using UnityEngine;
 using RunLab.AesirInspector;
 
@@ -313,8 +310,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void ExistingMultiLineAttribute_ReplaceUpdatesFromXml()
         {
-            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.ReplaceSummary,
-                @"using System;
+            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.ReplaceSummary, @"using System;
 using UnityEngine;
 using RunLab.AesirInspector;
 
@@ -346,8 +342,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void RemoveAllSummaryAttributes()
         {
-            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.RemoveSummary,
-                @"using System;
+            ProcessAndAssert(MultiLineAttrCode, XmlSummaryTool.ProcessMode.RemoveSummary, @"using System;
 using UnityEngine;
 using RunLab.AesirInspector;
 
@@ -385,8 +380,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void Preprocessor_SyncAddsAttributeInsideBlock()
         {
-            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.SyncSummary,
-                @"using System;
+            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.SyncSummary, @"using System;
 using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor.Tests
@@ -412,8 +406,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void Preprocessor_ReplaceReplacesTagInsideBlock()
         {
-            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.ReplaceSummary,
-                @"using System;
+            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.ReplaceSummary, @"using System;
 using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor.Tests
@@ -433,8 +426,7 @@ namespace RunLab.AesirInspector.Editor.Tests
         [Test]
         public void Preprocessor_RemoveDeletesAttributeInsideBlock()
         {
-            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.RemoveSummary,
-                @"using System;
+            ProcessAndAssert(PreprocessorCode, XmlSummaryTool.ProcessMode.RemoveSummary, @"using System;
 using RunLab.AesirInspector;
 
 namespace RunLab.AesirInspector.Editor.Tests

@@ -13,8 +13,7 @@ namespace RunLab.AesirInspector.Editor.Tests
                 typeof(TestStaticExtension).GetRuntimeMethod(nameof(TestStaticExtension.StaticMethod),
                     new[] { typeof(TestClass) }));
             Debug.Log(methodData.Signature);
-            Assert.AreEqual(
-                "[Ext] public static int StaticMethod(this MethodDataExtensionTests.TestClass t)",
+            Assert.AreEqual("[Ext] public static int StaticMethod(this MethodDataExtensionTests.TestClass t)",
                 methodData.Signature);
         }
 

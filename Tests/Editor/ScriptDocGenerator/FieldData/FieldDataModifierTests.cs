@@ -13,58 +13,6 @@ namespace RunLab.AesirInspector.Editor.Tests
     /// </summary>
     public class FieldDataModifierTests
     {
-        #region Composite keyword fields
-
-        static readonly FieldInfo[] CompositeKeywordFields =
-            typeof(CompositeKeywordTestClass).GetRuntimeFields().ToArray();
-
-        static readonly IFieldData[] CompositeKeywordFieldData = CompositeKeywordFields
-            .Select(f => UnitTestAnalysisFactory.Default.CreateFieldData(f)).ToArray();
-
-        static readonly Dictionary<string, string> CompositeKeywordSignatureMaps =
-            new Dictionary<string, string>
-            {
-                { "CONST_FIELD", "public const bool CONST_FIELD = true;" },
-                { "StaticReadOnlyField", "public static readonly bool StaticReadOnlyField;" },
-                { "StaticField", "public static bool StaticField;" },
-                { "ReadOnlyField", "public readonly bool ReadOnlyField;" }
-            };
-
-        static IEnumerable _compositeKeywordCases()
-        {
-            foreach (var kvp in CompositeKeywordSignatureMaps)
-                yield return new TestCaseData(kvp.Key, kvp.Value);
-        }
-
-        #endregion
-
-        #region Access modifier fields
-
-        static readonly FieldInfo[] AccessModifierFields =
-            typeof(AccessModifierTestClass).GetRuntimeFields().ToArray();
-
-        static readonly IFieldData[] AccessModifierFieldData = AccessModifierFields
-            .Select(f => UnitTestAnalysisFactory.Default.CreateFieldData(f)).ToArray();
-
-        static readonly Dictionary<string, string> AccessModifierSignatureMaps =
-            new Dictionary<string, string>
-            {
-                { "_privateField", "private int _privateField;" },
-                { "InternalField", "internal int InternalField;" },
-                { "PrivateProtectedField", "private protected int PrivateProtectedField;" },
-                { "ProtectedField", "protected int ProtectedField;" },
-                { "ProtectedInternalField", "protected internal int ProtectedInternalField;" },
-                { "PublicField", "public int PublicField;" }
-            };
-
-        static IEnumerable _accessModifierCases()
-        {
-            foreach (var kvp in AccessModifierSignatureMaps)
-                yield return new TestCaseData(kvp.Key, kvp.Value);
-        }
-
-        #endregion
-
         [Test]
         [TestCaseSource(nameof(_compositeKeywordCases))]
         [TestCaseSource(nameof(_accessModifierCases))]
@@ -135,6 +83,62 @@ namespace RunLab.AesirInspector.Editor.Tests
             /// 公共字段
             /// </summary>
             public int PublicField;
+        }
+
+        #endregion
+
+        #region Composite keyword fields
+
+        static readonly FieldInfo[] CompositeKeywordFields =
+            typeof(CompositeKeywordTestClass).GetRuntimeFields().ToArray();
+
+        static readonly IFieldData[] CompositeKeywordFieldData = CompositeKeywordFields
+            .Select(f => UnitTestAnalysisFactory.Default.CreateFieldData(f)).ToArray();
+
+        static readonly Dictionary<string, string> CompositeKeywordSignatureMaps =
+            new Dictionary<string, string>
+            {
+                { "CONST_FIELD", "public const bool CONST_FIELD = true;" },
+                { "StaticReadOnlyField", "public static readonly bool StaticReadOnlyField;" },
+                { "StaticField", "public static bool StaticField;" },
+                { "ReadOnlyField", "public readonly bool ReadOnlyField;" }
+            };
+
+        static IEnumerable _compositeKeywordCases()
+        {
+            foreach (var kvp in CompositeKeywordSignatureMaps)
+            {
+                yield return new TestCaseData(kvp.Key, kvp.Value);
+            }
+        }
+
+        #endregion
+
+        #region Access modifier fields
+
+        static readonly FieldInfo[] AccessModifierFields =
+            typeof(AccessModifierTestClass).GetRuntimeFields().ToArray();
+
+        static readonly IFieldData[] AccessModifierFieldData = AccessModifierFields
+            .Select(f => UnitTestAnalysisFactory.Default.CreateFieldData(f)).ToArray();
+
+        static readonly Dictionary<string, string> AccessModifierSignatureMaps =
+            new Dictionary<string, string>
+            {
+                { "_privateField", "private int _privateField;" },
+                { "InternalField", "internal int InternalField;" },
+                { "PrivateProtectedField", "private protected int PrivateProtectedField;" },
+                { "ProtectedField", "protected int ProtectedField;" },
+                { "ProtectedInternalField", "protected internal int ProtectedInternalField;" },
+                { "PublicField", "public int PublicField;" }
+            };
+
+        static IEnumerable _accessModifierCases()
+        {
+            foreach (var kvp in AccessModifierSignatureMaps)
+            {
+                yield return new TestCaseData(kvp.Key, kvp.Value);
+            }
         }
 
         #endregion

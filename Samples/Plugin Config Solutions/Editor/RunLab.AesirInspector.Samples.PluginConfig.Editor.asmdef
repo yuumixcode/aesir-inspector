@@ -1,0 +1,23 @@
+{
+  "name": "RunLab.AesirInspector.Samples.PluginConfig.Editor",
+  "rootNamespace": "",
+  "references": [
+    "RunLab.AesirInspector",
+    "RunLab.AesirInspector.Editor",
+    "RunLab.AesirInspector.OdinWrapper",
+    "RunLab.AesirInspector.Samples.PluginConfig"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "ODIN_INSPECTOR"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

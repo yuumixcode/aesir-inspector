@@ -22,7 +22,6 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 
-using RunLab.AesirInspector;
 using UnityEngine;
 
 namespace RunLab.AesirInspector.Tests

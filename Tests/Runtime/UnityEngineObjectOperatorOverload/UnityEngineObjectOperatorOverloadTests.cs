@@ -24,7 +24,6 @@
 
 using System.Collections;
 using NUnit.Framework;
-using RunLab.AesirInspector;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;

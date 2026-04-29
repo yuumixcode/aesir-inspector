@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -28,10 +27,8 @@ namespace RunLab.AesirInspector.Editor.Tests
                 "public Transform transformField;");
             yield return new TestCaseData(nameof(TestClass.rigidbodyField),
                 "public Rigidbody rigidbodyField;");
-            yield return new TestCaseData(nameof(TestClass.vector3Field),
-                "public Vector3 vector3Field;");
-            yield return new TestCaseData(nameof(TestClass.quaternionField),
-                @"[SerializeField]
+            yield return new TestCaseData(nameof(TestClass.vector3Field), "public Vector3 vector3Field;");
+            yield return new TestCaseData(nameof(TestClass.quaternionField), @"[SerializeField]
 [UnityEngine.Tooltip(""This is a tooltip"")]
 [UnityEngine.Range(0, 100)]
 public Quaternion quaternionField;");
@@ -39,8 +36,7 @@ public Quaternion quaternionField;");
 
         static IEnumerable _fullDeclarationContainsCases()
         {
-            yield return new TestCaseData(nameof(TestClass.colorField),
-                @"[UnityEngine.ColorUsage(true, true)]
+            yield return new TestCaseData(nameof(TestClass.colorField), @"[UnityEngine.ColorUsage(true, true)]
 public Color colorField;");
             yield return new TestCaseData(nameof(TestClass.layerMaskField),
                 @"[System.Obsolete(""Use newField instead"")]

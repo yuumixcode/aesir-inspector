@@ -1,0 +1,22 @@
+{
+  "name": "RunLab.AesirInspector.OdinWrapper.Editor",
+  "rootNamespace": "RunLab.AesirInspector.OdinWrapper.Editor",
+  "references": [
+    "RunLab.AesirInspector",
+    "RunLab.AesirInspector.Editor",
+    "RunLab.AesirInspector.OdinWrapper"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "ODIN_INSPECTOR"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
