@@ -13,6 +13,108 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0-pre.1] - 2026-04-29
+
+### Architecture
+
+#### Added
+- 新增 `OdinWrapper` 独立程序集，包含 Runtime（`RunLab.AesirInspector.OdinWrapper`）与 Editor（`RunLab.AesirInspector.OdinWrapper.Editor`）两个 asmdef，均设 `defineConstraints: ODIN_INSPECTOR`，将 Odin Inspector 依赖从核心程序集完全隔离 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- Runtime 核心程序集 `RunLab.AesirInspector` 移除 `ODIN_INSPECTOR` 编译约束，不再强依赖 Odin Inspector [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 编辑器程序集 `RunLab.AesirInspector.Editor` 调整程序集引用，不再直接依赖 Odin [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### OdinBridge
+
+#### Added
+- 新增 `IOdinBridge` 接口，定义 `IsOdinPresent` 等 Odin 可用性查询能力 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 新增 `DefaultOdinBridge`，无 Odin 时自动回退的默认桥接实现 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 新增 `OdinBridgeLocator`，自动查找 Odin 桥接或回退至默认实现 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 新增 `OdinInspectorBridge`（OdinWrapper/Editor/Bridge/），Odin 可用时提供编辑器侧桥接实现 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### OdinWrapper
+
+#### Added
+- 新增 `OdinWrapper/Editor/AttributeProcessors/` 目录，包含 5 个 OdinAttributeProcessor：`AesirInspectorLanguageSettingsProcessor`、`AesirInspectorResetProcessor`、`BilingualDisplayAsStringProcessor`、`BilingualHeaderProcessor`、`HorizontalSeparateProcessor` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- `Editor/AttributeOverviewPro/` 移动至 `OdinWrapper/Editor/AttributeOverviewPro/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/Drawers/Bilingual/` 移动至 `OdinWrapper/Editor/Drawers/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/ExtensionManager/` 移动至 `OdinWrapper/Editor/ExtensionManager/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/MiniTools/` 移动至 `OdinWrapper/Editor/MiniTools/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/ScriptDocGenerator/` 移动至 `OdinWrapper/Editor/ScriptDocGenerator/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/Core/Windows/` 移动至 `OdinWrapper/Editor/Windows/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Runtime/Bilingual/Attributes/` 下 6 个 Bilingual 特性移动至 `OdinWrapper/Runtime/Attributes/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `Editor/Core/AesirCodeHighlighter.cs` 移动至 `OdinWrapper/Runtime/OdinCodeHighlighter.cs` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `OdinSyntaxHighlighterSO` 重命名为 `OdinSyntaxHighlighterPanelSO` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Bilingualism
+
+#### Changed
+- `Runtime/Bilingual/` 重命名为 `Runtime/Bilingualism/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `AesirInspectorLanguageSettingsSO` 精简，移除 Odin 依赖逻辑，由 `AesirInspectorLanguageSettingsProcessor` 接管 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- 移除 `DisplayAsStringBilingualConfigAttribute`，由 `BilingualDisplayAsStringControl` + Processor 替代 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 移除 `ShowIfChineseAttribute`、`ShowIfEnglishAttribute`，由 Processor 替代 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 移除 `DisplayAsStringBilingualWidget`、`HeaderBilingualWidget`，由对应 Control 替代 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### InspectorControls
+
+#### Added
+- 新增 `BilingualDisplayAsStringControl`，替代原 `DisplayAsStringBilingualWidget` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 新增 `BilingualHeaderControl`，替代原 `HeaderBilingualWidget` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- `Runtime/InspectorWidgets/` 重命名为 `Runtime/InspectorControls/`，Widget 统一改名为 Control [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `HorizontalSeparateWidget` 重命名为 `HorizontalSeparateControl` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Core
+
+#### Changed
+- `IAesirInspectorReset` 精简接口定义，重置逻辑移至 `AesirInspectorResetProcessor` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `AesirInspectorLogger` 从 `Runtime/Core/` 移动至 `Runtime/Logger/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `AesirInspectorLoggerSettings` 从 `Runtime/Core/` 移动至 `Runtime/Logger/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `SummaryAttribute` 从 `Runtime/Attributes/Docs/` 移动至 `Runtime/Attributes/`，扁平化目录 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- 移除 `ShowEnablePropertyAttribute` 废弃特性 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Utilities
+
+#### Changed
+- `ReflectionUtility` 大幅增强，新增反射工具方法 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- 移除 `OdinInspectorSafeEditorUtility`，由 OdinBridge 模式替代 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### ScriptDocGenerator
+
+#### Changed
+- 所有 AnalysisData 类（ConstructorData、EventData、FieldData、MemberData、MethodData、ParameterData、ParameterDirection、PropertyData、TypeData）移除 Odin 特性依赖 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Samples
+
+#### Changed
+- `Samples~/` 移动至 `Samples/`（Plugin Config Solutions、RuntimeInitializeLoadType），示例目录对用户可见 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- 移除 Codely Skills Library 示例（custom-package-creator） [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Tests
+
+#### Changed
+- `RunLab.AesirInspector.Tests` asmdef 移除 `ODIN_INSPECTOR` 编译约束 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- `RunLab.AesirInspector.Editor.Tests` asmdef 调整程序集引用 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- 多个测试文件调整代码格式与区域重排，移除未使用的 using 引用 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Code Style
+
+#### Changed
+- 更新 `AESIR_INSPECTOR_CODE_STYLE.cs` 代码风格指南，适配新的程序集架构与命名规范 [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+---
+
 ## [0.3.1] - 2026-04-27
 
 ### Core

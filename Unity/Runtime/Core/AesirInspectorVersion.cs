@@ -34,6 +34,6 @@ namespace RunLab.AesirInspector
         /// 当前版本号，与 package.json 保持同步
         /// </summary>
         [Summary("当前版本号，与 package.json 保持同步")]
-        public const string Version = "0.3.1";
+        public const string Version = "0.4.0-pre.1";
     }
 }

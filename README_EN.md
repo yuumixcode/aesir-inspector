@@ -2,15 +2,16 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
-`Aesir Inspector` is a Unity editor extension library built on **Odin Inspector**, designed to provide more powerful Inspector customization, bilingual UI support, and safer editor tooling.
+`Aesir Inspector` is a Unity editor extension library designed to provide bilingual Inspector UI, safe editor tooling, script documentation generation, and more. **Optional integration with Odin Inspector** for enhanced Inspector rendering and styling.
 
-> **💡 About Odin Inspector Dependency**: Odin Inspector is a **hard dependency** of this project. All core features use Odin Inspector APIs directly — no degraded fallback is provided without Odin. After importing Odin Inspector, the `ODIN_INSPECTOR` compilation symbol is automatically added, enabling Aesir Inspector assemblies to compile. Without Odin Inspector installed, the related assemblies will not compile.
+> **💡 About Odin Inspector Dependency**: Odin Inspector is an **optional dependency** of this project. Core features (Summary Tool, Safe Editor Utilities, Doc Generator runtime, etc.) work without Odin and compile normally in Odin-free environments. After importing Odin Inspector, the `ODIN_INSPECTOR` compilation symbol is automatically added, enabling the OdinWrapper enhancement assemblies with bilingual attribute decorators, Attribute Drawers, Processors, and other enhanced features.
 
 ## Who Is This For
 
 - **Editor Tool Developers**: Developers building custom Inspector tools who need bilingual (Chinese/English) UI display support.
 - **Cross-Region / Cross-Locale Teams**: Teams with diverse language backgrounds who need to display both Chinese and English information in the Inspector panel to reduce communication costs.
-- **Odin Inspector Users**: Developers who already use Odin Inspector and want richer attribute decorators and safer editor tooling.
+- **Unity Editor Users**: Developers who want safe editor utilities, documentation generators, Summary sync tools, etc. — no Odin Inspector required.
+- **Odin Inspector Users**: Developers who already use Odin Inspector and want richer attribute decorators and enhanced Inspector experience.
 - **Code Standards Advocates**: Developers who want their team to follow consistent code style and documentation standards, improving project maintainability.
 
 ## Installation
@@ -47,11 +48,13 @@ Aesir Inspector automatically detects the installation mode (UPM / Assets direct
 ## Requirements
 
 - **Unity**: 2022.3.2t3 (Tuanjie) or later.
-- **Odin Inspector**: 3.3.x or later (core dependency; importing it automatically adds the `ODIN_INSPECTOR` compilation symbol).
+- **Odin Inspector**: 3.3.x or later (optional dependency; importing it automatically adds the `ODIN_INSPECTOR` compilation symbol, enabling OdinWrapper enhancement assemblies).
 
 ## Core Features
 
-### 1. Attribute Overview Pro
+> **📌 Note**: Features marked with ⚡ require Odin Inspector to be installed.
+
+### 1. Attribute Overview Pro ⚡
 
 Displays all registered Odin Inspector and Aesir Inspector attribute panels in a searchable tree menu, with live preview and example code for each attribute.
 
@@ -61,7 +64,7 @@ Displays all registered Odin Inspector and Aesir Inspector attribute panels in a
 - **Code Preview**: Select an attribute to view the corresponding example source code for quick reference.
 - Open via `Tools → Aesir → Inspector → Attribute Overview Pro` menu.
 
-### 2. Script Doc Generator
+### 2. Script Doc Generator ⚡
 
 Generates structured API documentation by analyzing C# type information via reflection, with support for incremental generation and customization.
 
@@ -178,7 +181,7 @@ public void Reset() { }
 
 Finally, the output stage checks whether the Header already contains `using RunLab.AesirInspector;` and automatically adds it if missing.
 
-### 4. Mini Tools
+### 4. Mini Tools ⚡
 
 Integrates common editor utilities, accessible through the `Tools → Aesir → Inspector → Mini Tools` menu.
 
@@ -188,7 +191,7 @@ Integrates common editor utilities, accessible through the `Tools → Aesir → 
 | **Syntax Highlighter** | Visual panel based on Odin's built-in syntax highlighter; input source code to test highlighting effects and output rich text markup |
 | **Quick Create SO** | Right-click a MonoScript in the Project window to quickly generate a ScriptableObject asset file; supports multi-select batch creation |
 
-### 5. Extension Package Manager
+### 5. Extension Package Manager ⚡
 
 Quickly install recommended Aesir series and other popular open-source Unity Packages via Git URL.
 
@@ -198,31 +201,41 @@ Quickly install recommended Aesir series and other popular open-source Unity Pac
 
 ## Infrastructure
 
-### 6. Bilingual Attributes
+### 6. Bilingual Attributes ⚡
 
-Provides a complete set of bilingual attribute decorators and Inspector Widgets, supporting simultaneous display of Chinese and English information in the Inspector panel. Primarily designed for:
+Provides a complete set of bilingual attribute decorators and Inspector Controls, supporting simultaneous display of Chinese and English information in the Inspector panel. Primarily designed for:
 
 - **Editor Tool Development**: When developing other editor tools, you want the Inspector to support bilingual display so users of different language backgrounds can intuitively understand parameters and operations.
 - **Team Collaboration**: For cross-region, cross-language teams sharing a project, bilingual display effectively reduces communication costs and prevents misoperations caused by language differences.
 
-Available decorators and widgets:
+Available decorators and controls:
 
 - `[BilingualTitle]`, `[BilingualTitleGroup]`
 - `[BilingualBoxGroup]`
 - `[BilingualButton]`
 - `[BilingualInfoBox]`
 - `[BilingualText]`
-- `[ShowIfChinese]`, `[ShowIfEnglish]` conditional display support
-- `[DisplayAsStringBilingualConfig]` bilingual read-only text display configuration
-- `HeaderBilingualWidget` bilingual header widget
+- `BilingualDisplayAsStringControl` bilingual read-only text display control
+- `BilingualHeaderControl` bilingual header control
+- `HorizontalSeparateControl` horizontal separator control
 
-### 7. Safe Editor Utilities
+### 7. OdinBridge
 
-Bridges and wraps Odin Inspector and Unity Editor APIs, ensuring code compiles even without Odin installed, and editor-only code is automatically stripped in builds.
+Provides an optional integration mechanism for Odin Inspector, allowing the core assembly to work without Odin while enabling OdinWrapper assemblies to offer enhanced functionality when Odin is available:
+
+| Class | Description |
+|-------|-------------|
+| `IOdinBridge` | Interface for querying Odin availability, defines `IsOdinPresent` and other capabilities |
+| `DefaultOdinBridge` | Default bridge implementation when Odin is not present |
+| `OdinBridgeLocator` | Automatically locates Odin bridge at runtime, falls back to `DefaultOdinBridge` when Odin is absent |
+| `OdinInspectorBridge` | Editor-side enhanced bridge implementation when Odin is available |
+
+### 8. Safe Editor Utilities
+
+Provides safe wrappers for Unity Editor APIs, ensuring editor-only code is automatically stripped in builds.
 
 | Utility | Description |
 |---------|-------------|
-| `OdinInspectorSafeEditorUtility` | Bridge utility for safely calling Odin APIs |
 | `ScriptableObjectSafeEditorUtility` | More reliable ScriptableObject asset creation and management |
 | `MonoScriptSafeEditorUtility` | Find and select MonoScript assets by script name |
 | `PathUtility` | Path string utilities: Unity path normalization, subpath extraction, path merging |
@@ -237,18 +250,18 @@ Bridges and wraps Odin Inspector and Unity Editor APIs, ensuring code compiles e
 | `RegexUtility` | Regex utilities: namespace/class name normalization, email/URL validation |
 | `AesirInspectorLogger` | Unified logging with colored prefix, auto-stripped in builds, double-click to jump to caller; log levels configurable via `AesirInspectorLoggerSettings` |
 
-### 8. Custom Attributes
+### 9. Custom Attributes
 
 | Attribute | Description |
 |-----------|-------------|
 | `[Summary]` | Comment attribute, equivalent to the `<summary>` portion of XML comments; summary text can be retrieved at runtime via `GetSummary()` |
-| `[ShowEnableProperty]` | Displays a property in the Inspector with GUI always enabled; combines `[ShowInInspector]` + `[EnableGUI]` |
 
-### 9. Code Style & Standards
+### 10. Code Style & Standards
 
 This project treats code style as equally important as functionality. Built-in strict coding standards and examples ensure consistency and maintainability in team collaboration:
 
 - **Style Guide**: See `Runtime/CodeStyle/AESIR_INSPECTOR_CODE_STYLE.cs` for details.
+- **Design Philosophy**: Good code style is not optional — it is the foundation of project quality. All contributors must follow these standards.
 - **Design Philosophy**: Good code style is not optional — it is the foundation of project quality. All contributors must follow these standards.
 
 ## Usage Example

@@ -7,6 +7,108 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0-pre.1] - 2026-04-29
+
+### Architecture
+
+#### Added
+- Added `OdinWrapper` independent assembly with Runtime (`RunLab.AesirInspector.OdinWrapper`) and Editor (`RunLab.AesirInspector.OdinWrapper.Editor`) asmdef files, both with `defineConstraints: ODIN_INSPECTOR`, fully isolating Odin Inspector dependency from the core assembly [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- Removed `ODIN_INSPECTOR` define constraint from core Runtime assembly `RunLab.AesirInspector`, eliminating hard dependency on Odin Inspector [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Adjusted Editor assembly `RunLab.AesirInspector.Editor` references to remove direct Odin dependency [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### OdinBridge
+
+#### Added
+- Added `IOdinBridge` interface defining `IsOdinPresent` and other Odin availability queries [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Added `DefaultOdinBridge` as fallback implementation when Odin is not present [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Added `OdinBridgeLocator` for automatic Odin bridge discovery with default fallback [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Added `OdinInspectorBridge` (OdinWrapper/Editor/Bridge/) as editor-side bridge implementation when Odin is available [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### OdinWrapper
+
+#### Added
+- Added `OdinWrapper/Editor/AttributeProcessors/` directory with 5 OdinAttributeProcessors: `AesirInspectorLanguageSettingsProcessor`, `AesirInspectorResetProcessor`, `BilingualDisplayAsStringProcessor`, `BilingualHeaderProcessor`, `HorizontalSeparateProcessor` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- Moved `Editor/AttributeOverviewPro/` to `OdinWrapper/Editor/AttributeOverviewPro/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/Drawers/Bilingual/` to `OdinWrapper/Editor/Drawers/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/ExtensionManager/` to `OdinWrapper/Editor/ExtensionManager/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/MiniTools/` to `OdinWrapper/Editor/MiniTools/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/ScriptDocGenerator/` to `OdinWrapper/Editor/ScriptDocGenerator/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/Core/Windows/` to `OdinWrapper/Editor/Windows/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved 6 Bilingual attributes from `Runtime/Bilingual/Attributes/` to `OdinWrapper/Runtime/Attributes/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `Editor/Core/AesirCodeHighlighter.cs` to `OdinWrapper/Runtime/OdinCodeHighlighter.cs` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Renamed `OdinSyntaxHighlighterSO` to `OdinSyntaxHighlighterPanelSO` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Bilingualism
+
+#### Changed
+- Renamed `Runtime/Bilingual/` to `Runtime/Bilingualism/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Simplified `AesirInspectorLanguageSettingsSO`, removed Odin dependency logic, now handled by `AesirInspectorLanguageSettingsProcessor` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- Removed `DisplayAsStringBilingualConfigAttribute`, replaced by `BilingualDisplayAsStringControl` + Processor [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Removed `ShowIfChineseAttribute` and `ShowIfEnglishAttribute`, replaced by Processor [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Removed `DisplayAsStringBilingualWidget` and `HeaderBilingualWidget`, replaced by corresponding Controls [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### InspectorControls
+
+#### Added
+- Added `BilingualDisplayAsStringControl`, replacing `DisplayAsStringBilingualWidget` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Added `BilingualHeaderControl`, replacing `HeaderBilingualWidget` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Changed
+- Renamed `Runtime/InspectorWidgets/` to `Runtime/InspectorControls/`, unified Widget naming to Control [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Renamed `HorizontalSeparateWidget` to `HorizontalSeparateControl` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Core
+
+#### Changed
+- Simplified `IAesirInspectorReset` interface, reset logic moved to `AesirInspectorResetProcessor` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `AesirInspectorLogger` from `Runtime/Core/` to `Runtime/Logger/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `AesirInspectorLoggerSettings` from `Runtime/Core/` to `Runtime/Logger/` [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Moved `SummaryAttribute` from `Runtime/Attributes/Docs/` to `Runtime/Attributes/`, flattened directory [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- Removed `ShowEnablePropertyAttribute` deprecated attribute [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Utilities
+
+#### Changed
+- Significantly enhanced `ReflectionUtility` with additional reflection utility methods [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- Removed `OdinInspectorSafeEditorUtility`, replaced by OdinBridge pattern [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### ScriptDocGenerator
+
+#### Changed
+- Removed Odin attribute dependencies from all AnalysisData classes (ConstructorData, EventData, FieldData, MemberData, MethodData, ParameterData, ParameterDirection, PropertyData, TypeData) [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Samples
+
+#### Changed
+- Moved `Samples~/` to `Samples/` (Plugin Config Solutions, RuntimeInitializeLoadType), making samples visible to users [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+#### Removed
+- Removed Codely Skills Library sample (custom-package-creator) [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Tests
+
+#### Changed
+- Removed `ODIN_INSPECTOR` define constraint from `RunLab.AesirInspector.Tests` asmdef [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Adjusted `RunLab.AesirInspector.Editor.Tests` asmdef assembly references [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+- Reformatted multiple test files with region reordering and removed unused using directives [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+### Code Style
+
+#### Changed
+- Updated `AESIR_INSPECTOR_CODE_STYLE.cs` code style guide to align with new assembly architecture and naming conventions [`473640f`](https://github.com/yuumixcode/aesir-inspector/commit/473640f6e38b0d2cd7b4c308cebcac0cde32643d)
+
+---
+
 ## [0.3.1] - 2026-04-27
 
 ### Core

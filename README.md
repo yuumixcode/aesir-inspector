@@ -2,16 +2,16 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
-`Aesir Inspector` 是一个基于 **Odin Inspector** 的 Unity 编辑器扩展库，旨在提供更强大的 Inspector 自定义功能、多语言
-UI 支持以及更安全的编辑器工具集。
+`Aesir Inspector` 是一个 Unity 编辑器扩展库，旨在提供双语 Inspector UI、安全编辑器工具集、脚本文档生成器等功能。**可选集成 Odin Inspector** 以获得增强的 Inspector 渲染和样式优化。
 
-> **💡 关于 Odin Inspector 的依赖**：Odin Inspector 是本项目的**硬依赖**，所有核心功能均直接使用 Odin Inspector API，不提供无 Odin 环境的降级版本。导入 Odin Inspector 后会自动添加 `ODIN_INSPECTOR` 编译符号，Aesir Inspector 程序集方可编译。未安装 Odin Inspector 时，相关程序集将不会编译。
+> **💡 关于 Odin Inspector 的依赖**：Odin Inspector 是本项目的**可选依赖**。核心功能（Summary 工具、安全编辑器工具、文档生成器运行时等）不依赖 Odin，可在无 Odin 环境下正常编译和运行。安装 Odin Inspector 后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinWrapper 增强程序集，提供双语特性装饰器、Attribute Drawer、Processor 等增强功能。
 
 ## 适用人群
 
 - **编辑器工具开发者**：正在开发自定义 Inspector 工具，需要双语（中/英）UI 显示支持的开发者。
 - **跨国/跨地区协作团队**：团队成员语言背景不同，需要在 Inspector 面板中同时展示中英文信息以降低沟通成本。
-- **Odin Inspector 用户**：已有 Odin Inspector 并希望获得更丰富的属性装饰器与安全编辑器工具的开发者。
+- **Unity 编辑器用户**：希望获得安全编辑器工具、文档生成器、Summary 同步工具等实用功能的开发者，无需安装 Odin Inspector。
+- **Odin Inspector 用户**：已有 Odin Inspector 并希望获得更丰富的属性装饰器与增强 Inspector 体验的开发者。
 - **代码规范倡导者**：希望团队遵循统一的代码风格与注释标准，提升项目可维护性。
 
 ## 安装说明
@@ -48,11 +48,13 @@ Aesir Inspector 会在编辑器加载时自动检测安装方式（UPM / Assets 
 ## 环境依赖
 
 - **Unity**: 2022.3.2t3 (Tuanjie) 或更高版本。
-- **Odin Inspector**: 3.3.x 或更高版本（核心功能依赖，导入后会自动添加 `ODIN_INSPECTOR` 编译符号）。
+- **Odin Inspector**: 3.3.x 或更高版本（可选依赖；导入后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinWrapper 增强程序集）。
 
 ## 核心功能
 
-### 1. 特性总览 (Attribute Overview Pro)
+> **📌 提示**：标注 ⚡ 的功能需要安装 Odin Inspector。
+
+### 1. 特性总览 (Attribute Overview Pro) ⚡
 
 以可搜索的树形菜单展示所有已注册的 Odin Inspector 与 Aesir Inspector 特性面板，每个特性提供实时预览与示例代码。
 
@@ -62,7 +64,7 @@ Aesir Inspector 会在编辑器加载时自动检测安装方式（UPM / Assets 
 - **代码预览**：选中特性即可查看对应的示例源代码，快速了解用法。
 - 通过 `Tools → Aesir → Inspector → Attribute Overview Pro` 菜单打开。
 
-### 2. 脚本文档生成器 (Script Doc Generator)
+### 2. 脚本文档生成器 (Script Doc Generator) ⚡
 
 通过反射分析 C# 类型信息，生成结构化的 API 文档，支持增量生成与个性化扩展。
 
@@ -179,7 +181,7 @@ public void Reset() { }
 
 最后，输出阶段会自动检测 Header 中是否已包含 `using RunLab.AesirInspector;`，若未包含则自动添加。
 
-### 4. 迷你工具集 (Mini Tools)
+### 4. 迷你工具集 (Mini Tools) ⚡
 
 整合常用编辑器小工具，通过 `Tools → Aesir → Inspector → Mini Tools` 菜单打开统一窗口。
 
@@ -189,7 +191,7 @@ public void Reset() { }
 | **Syntax Highlighter** | 基于 Odin 内置语法高亮处理器的可视化面板，输入源码即可测试高亮效果并输出富文本标记 |
 | **Quick Create SO** | 在 Project 窗口右键 MonoScript 即可快速生成 ScriptableObject 资源文件，支持多选批量创建 |
 
-### 5. 扩展包管理器 (Extension Package Manager)
+### 5. 扩展包管理器 (Extension Package Manager) ⚡
 
 快捷安装推荐的 Aesir 系列和其他常用开源 Unity Packages，基于 Git URL 方式。
 
@@ -199,31 +201,41 @@ public void Reset() { }
 
 ## 基础设施
 
-### 6. 双语 UI 特性 (Bilingual Attributes)
+### 6. 双语 UI 特性 (Bilingual Attributes) ⚡
 
-提供了一套完整的双语属性装饰器与 Inspector Widget，支持在 Inspector 面板中同时显示中文和英文信息。主要面向以下场景：
+提供了一套完整的双语属性装饰器与 Inspector Control，支持在 Inspector 面板中同时显示中文和英文信息。主要面向以下场景：
 
 - **编辑器工具开发**：当你在开发其他编辑器工具时，希望 Inspector 界面支持中英双语显示，让不同语言背景的用户都能直观理解各项参数与操作。
 - **团队协作**：跨地区、跨语言的团队在共享项目时，双语显示可有效降低沟通成本，避免因语言差异导致的误操作。
 
-可用装饰器与 Widget：
+可用装饰器与 Control：
 
 - `[BilingualTitle]`, `[BilingualTitleGroup]`
 - `[BilingualBoxGroup]`
 - `[BilingualButton]`
 - `[BilingualInfoBox]`
 - `[BilingualText]`
-- `[ShowIfChinese]`, `[ShowIfEnglish]` 条件显示支持
-- `[DisplayAsStringBilingualConfig]` 双语只读文本显示配置
-- `HeaderBilingualWidget` 双语头部信息 Widget
+- `BilingualDisplayAsStringControl` 双语只读文本显示控件
+- `BilingualHeaderControl` 双语头部信息控件
+- `HorizontalSeparateControl` 水平分隔线控件
 
-### 7. 安全编辑器工具 (Safe Editor Utilities)
+### 7. OdinBridge 桥接层
 
-针对 Odin Inspector 与 Unity Editor API 进行了桥接封装，确保在未安装 Odin 的环境下代码依然可以编译通过，且编辑器专用代码在打包后自动剔除。
+提供 Odin Inspector 可选集成机制，使核心程序集不依赖 Odin，同时允许 OdinWrapper 程序集在 Odin 可用时提供增强功能：
+
+| 类 | 说明 |
+|----|------|
+| `IOdinBridge` | Odin 可用性查询接口，定义 `IsOdinPresent` 等能力 |
+| `DefaultOdinBridge` | 无 Odin 时的默认桥接实现 |
+| `OdinBridgeLocator` | 运行时自动定位 Odin 桥接，无 Odin 时回退至 `DefaultOdinBridge` |
+| `OdinInspectorBridge` | Odin 可用时提供的编辑器侧增强桥接实现 |
+
+### 8. 安全编辑器工具 (Safe Editor Utilities)
+
+针对 Unity Editor API 进行了安全封装，确保编辑器专用代码在打包后自动剔除。
 
 | 工具类 | 说明 |
 |-------|------|
-| `OdinInspectorSafeEditorUtility` | 安全调用 Odin API 的桥梁工具 |
 | `ScriptableObjectSafeEditorUtility` | 提供更可靠的 ScriptableObject 资产创建与管理 |
 | `MonoScriptSafeEditorUtility` | 根据脚本名称查找、选择 MonoScript 资源 |
 | `PathUtility` | 路径字符串工具：Unity 路径规范化、子路径提取、路径合并 |
@@ -238,14 +250,13 @@ public void Reset() { }
 | `RegexUtility` | 正则表达式工具：命名空间/类名规范化、邮箱/URL 校验 |
 | `AesirInspectorLogger` | 统一日志输出，带彩色前缀，编译后自动剔除，双击可跳转调用方；可通过 `AesirInspectorLoggerSettings` 配置日志级别 |
 
-### 8. 自定义特性 (Custom Attributes)
+### 9. 自定义特性 (Custom Attributes)
 
 | 特性 | 说明 |
 |------|------|
 | `[Summary]` | 注释特性，等同于 XML 注释的 `<summary>` 部分，可在运行时通过 `GetSummary()` 获取摘要文本 |
-| `[ShowEnableProperty]` | 在 Inspector 中显示属性并始终启用 GUI，组合了 `[ShowInInspector]` + `[EnableGUI]` |
 
-### 9. 代码风格与规范
+### 10. 代码风格与规范
 
 本项目将代码风格视为与功能同等重要的组成部分。内置严格的代码编写标准与示例，确保团队协作中的代码一致性与可维护性：
 

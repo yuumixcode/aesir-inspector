@@ -2,12 +2,11 @@
 
 ## Project Overview
 
-Aesir Inspector (`cn.runlab.aesir-inspector`) 是一个基于 **Odin Inspector** 的 Unity/Tuanjie 编辑器扩展库，提供双语
-Inspector UI、安全编辑器工具集、脚本文档生成器、XML Summary 同步工具等功能。当前版本 **0.3.1**，MIT 协议开源。
+Aesir Inspector (`cn.runlab.aesir-inspector`) 是一个 Unity/Tuanjie 编辑器扩展库，提供双语 Inspector UI、安全编辑器工具集、脚本文档生成器、XML Summary 同步工具等功能。**可选集成 Odin Inspector** 以获得增强的 Inspector 渲染和样式优化。当前版本 **0.4.0-pre.1**，MIT 协议开源。
 
 - **构建版本**: Unity 2022.3 或更高版本
-- **核心依赖**: Odin Inspector (最新版)（通过 `defineConstraints: ODIN_INSPECTOR` 编译约束实现，非硬依赖 —
-  缺少时程序集不编译但不报错）
+- **核心依赖**: 无硬依赖（核心程序集不依赖 Odin Inspector）
+- **可选依赖**: Odin Inspector（导入后自动启用 OdinWrapper 增强程序集）
 - **仓库**: https://github.com/yuumixcode/aesir-inspector
 
 ## Package Identity
@@ -16,49 +15,65 @@ Inspector UI、安全编辑器工具集、脚本文档生成器、XML Summary �
 |--------------|-----------------------------|
 | Package Name | `cn.runlab.aesir-inspector` |
 | Display Name | Aesir Inspector             |
-| Version      | 0.3.1                       |
+| Version      | 0.4.0-pre.1                 |
 | Category     | Inspector                   |
 | License      | MIT                         |
 
 ## Assembly Definitions
 
-本项目使用 4 个程序集，**全部**设有 `defineConstraints: ["ODIN_INSPECTOR"]`，即 Odin Inspector 未安装时不会参与编译：
+本项目使用 6 个程序集，采用**核心 + OdinWrapper 分离架构**：
 
-| Asmdef                               | Namespace                            | Platforms   | References       |
-|--------------------------------------|--------------------------------------|-------------|------------------|
-| `RunLab.AesirInspector`              | `RunLab.AesirInspector`              | Any         | (none)           |
-| `RunLab.AesirInspector.Editor`       | `RunLab.AesirInspector.Editor`       | Editor only | Runtime          |
-| `RunLab.AesirInspector.Tests`        | `RunLab.AesirInspector.Tests`        | Any         | Runtime          |
-| `RunLab.AesirInspector.Editor.Tests` | `RunLab.AesirInspector.Editor.Tests` | Editor only | Runtime + Editor |
+| Asmdef                                      | Namespace                                   | Platforms   | References                                  | defineConstraints        |
+|---------------------------------------------|---------------------------------------------|-------------|---------------------------------------------|--------------------------|
+| `RunLab.AesirInspector`                     | `RunLab.AesirInspector`                     | Any         | (none)                                      | (none)                   |
+| `RunLab.AesirInspector.Editor`              | `RunLab.AesirInspector.Editor`              | Editor only | Runtime                                     | (none)                   |
+| `RunLab.AesirInspector.OdinWrapper`         | `RunLab.AesirInspector.OdinWrapper`         | Any         | Runtime                                     | `ODIN_INSPECTOR`         |
+| `RunLab.AesirInspector.OdinWrapper.Editor`  | `RunLab.AesirInspector.OdinWrapper.Editor`  | Editor only | Runtime + Editor + OdinWrapper Runtime      | `ODIN_INSPECTOR`         |
+| `RunLab.AesirInspector.Tests`               | `RunLab.AesirInspector.Tests`               | Any         | Runtime                                     | `UNITY_INCLUDE_TESTS`    |
+| `RunLab.AesirInspector.Editor.Tests`        | `RunLab.AesirInspector.Editor.Tests`        | Editor only | Runtime + Editor                            | `UNITY_INCLUDE_TESTS`    |
 
-测试程序集额外约束 `UNITY_INCLUDE_TESTS`。
+**架构说明**：
+- `RunLab.AesirInspector`（核心运行时）和 `RunLab.AesirInspector.Editor`（核心编辑器）**不含** `ODIN_INSPECTOR` 编译约束，无 Odin 时正常编译
+- `RunLab.AesirInspector.OdinWrapper` / `.OdinWrapper.Editor` 设有 `ODIN_INSPECTOR` 约束，仅在安装 Odin Inspector 后参与编译
+- 测试程序集移除了 `ODIN_INSPECTOR` 约束，确保无 Odin 环境下测试可运行
 
 ## Directory Structure
 
 ```
 Aesir Inspector/
-├── Runtime/                          # 运行时代码 (RunLab.AesirInspector)
-│   ├── Attributes/                   # 自定义特性 ([Summary], [ShowEnableProperty])
-│   ├── Bilingual/                    # 双语特性与 Widget
-│   ├── CodeStyle/                    # 代码风格示例 AESIR_INSPECTOR_CODE_STYLE.cs
-│   ├── Core/                         # 核心类 (Version, Paths, WebLinks, Logger, IAesirInspectorReset)
-│   ├── InspectorWidgets/             # Inspector Widget 实现
-│   ├── ScriptDocGenerator/           # 文档生成器运行时模型 (ITypeData, MemberData 等)
-│   └── Utilities/                    # 安全编辑器工具类
-├── Editor/                           # 编辑器代码 (RunLab.AesirInspector.Editor)
-│   ├── AttributeOverviewPro/         # 特性总览窗口
-│   ├── Core/                         # 编辑器核心 (安装检测、菜单管理、高亮器、窗口)
-│   ├── Drawers/                      # Odin AttributeDrawer 实现
-│   ├── ExtensionManager/             # 扩展包管理器
-│   ├── Guidelines/                   # 编辑器指引/规范
-│   ├── MiniTools/                    # 迷你工具集 (MenuItem Viewer, Syntax Highlighter, Quick Create SO)
-│   ├── ScriptDocGenerator/           # 文档生成器编辑器逻辑 (Controller, SettingsSO)
-│   └── SummaryTool/                  # XML Summary 同步工具
+├── Unity/                            # 核心代码（无 Odin 依赖）
+│   ├── Runtime/                      # 运行时代码 (RunLab.AesirInspector)
+│   │   ├── Attributes/               # 自定义特性 ([Summary])
+│   │   ├── Bilingualism/             # 双语数据与语言设置 (AesirInspectorLanguageSettingsSO, BilingualData)
+│   │   ├── CodeStyle/                # 代码风格示例 AESIR_INSPECTOR_CODE_STYLE.cs
+│   │   ├── Core/                     # 核心类 (Version, Paths, WebLinks, IAesirInspectorReset)
+│   │   ├── InspectorControls/        # Inspector Control 实现 (BilingualDisplayAsStringControl, BilingualHeaderControl, HorizontalSeparateControl)
+│   │   ├── Logger/                   # 日志系统 (AesirInspectorLogger, AesirInspectorLoggerSettings)
+│   │   ├── OdinBridge/               # Odin 桥接层 (IOdinBridge, DefaultOdinBridge, OdinBridgeLocator)
+│   │   ├── ScriptDocGenerator/       # 文档生成器运行时模型 (ITypeData, MemberData 等)
+│   │   └── Utilities/                # 安全编辑器工具类
+│   └── Editor/                       # 编辑器代码 (RunLab.AesirInspector.Editor)
+│       ├── Core/                     # 编辑器核心 (安装检测、菜单管理、窗口)
+│       ├── Guidelines/               # 编辑器指引/规范
+│       ├── MiniTools/                # QuickCreateSO（无 Odin 依赖部分）
+│       └── SummaryTool/              # XML Summary 同步工具
+├── OdinWrapper/                      # Odin 集成代码（需要 ODIN_INSPECTOR 编译符号）
+│   ├── Runtime/                      # 运行时代码 (RunLab.AesirInspector.OdinWrapper)
+│   │   ├── Attributes/               # 双语特性 ([BilingualTitle], [BilingualBoxGroup], [BilingualButton] 等)
+│   │   └── OdinCodeHighlighter.cs    # Odin 代码语法高亮器
+│   └── Editor/                       # 编辑器代码 (RunLab.AesirInspector.OdinWrapper.Editor)
+│       ├── AttributeOverviewPro/     # 特性总览窗口
+│       ├── AttributeProcessors/       # OdinAttributeProcessor 实现
+│       ├── Bridge/                   # OdinInspectorBridge 编辑器侧桥接
+│       ├── Drawers/                  # Odin AttributeDrawer 实现
+│       ├── ExtensionManager/         # 扩展包管理器
+│       ├── MiniTools/                # 迷你工具集 (MenuItem Viewer, Syntax Highlighter)
+│       ├── ScriptDocGenerator/       # 文档生成器编辑器逻辑
+│       └── Windows/                  # Getting Started, Preferences 窗口
 ├── Tests/
-│   ├── Editor/                       # Edit-Mode 测试 (ScriptDocGenerator 153 个 + SummaryTool)
+│   ├── Editor/                       # Edit-Mode 测试 (ScriptDocGenerator + SummaryTool)
 │   └── Runtime/                      # Runtime 测试 (UnityEngine.Object 运算符重载)
-├── Samples~/                         # 包管理器示例 (隐藏目录)
-│   ├── Codely Skills Library/        # Codely CLI Skills 案例库
+├── Samples/                          # 包管理器示例（可见目录）
 │   ├── Plugin Config Solutions/      # ScriptableSingleton 配置示例
 │   └── RuntimeInitializeLoadType/    # 初始化时机示例
 ├── package.json
@@ -72,15 +87,43 @@ Aesir Inspector/
 
 | # | Module                    | Location                                                    | Description                                                                        |
 |---|---------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------|
-| 1 | Code Style & Standards | `Runtime/CodeStyle/` | 代码风格规范与示例，详见 `AESIR_INSPECTOR_CODE_STYLE.cs` |
-| 2 | Bilingual Attributes      | `Runtime/Bilingual/`, `Editor/Drawers/`                     | `[BilingualTitle]`, `[BilingualBoxGroup]`, `[BilingualButton]` 等中英双语 Inspector 装饰器 |
-| 3 | Safe Editor Utilities     | `Runtime/Utilities/`                                        | Odin API 安全桥接，确保无 Odin 时编译通过、打包自动剔除                                                |
-| 4 | Custom Attributes         | `Runtime/Attributes/`                                       | `[Summary]` (运行时可读注释), `[ShowEnableProperty]`                                      |
-| 5 | Script Doc Generator      | `Runtime/ScriptDocGenerator/`, `Editor/ScriptDocGenerator/` | 反射生成 API 文档，增量更新，AI 友好 Markdown 输出                                                 |
-| 6 | Summary Tool              | `Editor/SummaryTool/`                                       | 右键菜单 XML `<summary>` ↔ `[Summary]` 双向同步 (Sync/Replace/Remove)                      |
-| 7 | Mini Tools                | `Editor/MiniTools/`                                         | MenuItem Viewer, Syntax Highlighter, Quick Create SO                               |
-| 8 | Attribute Overview Pro    | `Editor/AttributeOverviewPro/`                              | 可搜索树形菜单展示 Odin/Aesir 特性，实时预览                                                       |
-| 9 | Extension Package Manager | `Editor/ExtensionManager/`                                  | 一键安装/移除推荐包 (Git URL)                                                               |
+| 1 | Code Style & Standards    | `Unity/Runtime/CodeStyle/`                                  | 代码风格规范与示例，详见 `AESIR_INSPECTOR_CODE_STYLE.cs`                                   |
+| 2 | Bilingualism              | `Unity/Runtime/Bilingualism/`, `OdinWrapper/Runtime/Attributes/`, `OdinWrapper/Editor/Drawers/`, `OdinWrapper/Editor/AttributeProcessors/` | 双语数据、特性、Drawer、Processor，支持中英双语 Inspector 显示                                |
+| 3 | OdinBridge                | `Unity/Runtime/OdinBridge/`, `OdinWrapper/Editor/Bridge/`  | Odin 可选集成桥接层，无 Odin 时自动回退默认实现                                                |
+| 4 | Inspector Controls        | `Unity/Runtime/InspectorControls/`                         | Inspector 控件实现 (BilingualDisplayAsStringControl, BilingualHeaderControl, HorizontalSeparateControl) |
+| 5 | Custom Attributes         | `Unity/Runtime/Attributes/`                                | `[Summary]` (运行时可读注释)                                                            |
+| 6 | Script Doc Generator      | `Unity/Runtime/ScriptDocGenerator/`, `OdinWrapper/Editor/ScriptDocGenerator/` | 反射生成 API 文档，增量更新，AI 友好 Markdown 输出                                           |
+| 7 | Summary Tool              | `Unity/Editor/SummaryTool/`                                 | 右键菜单 XML `<summary>` ↔ `[Summary]` 双向同步 (Sync/Replace/Remove)                   |
+| 8 | Mini Tools                | `Unity/Editor/MiniTools/`, `OdinWrapper/Editor/MiniTools/` | QuickCreate SO (核心), MenuItem Viewer & Syntax Highlighter (OdinWrapper)           |
+| 9 | Attribute Overview Pro    | `OdinWrapper/Editor/AttributeOverviewPro/`                  | 可搜索树形菜单展示 Odin/Aesir 特性，实时预览                                                    |
+| 10 | Extension Package Manager | `OdinWrapper/Editor/ExtensionManager/`                      | 一键安装/移除推荐包 (Git URL)                                                            |
+
+## OdinBridge Architecture
+
+OdinBridge 是 Odin Inspector 可选集成的核心机制，使核心程序集不依赖 Odin，同时允许 OdinWrapper 程序集在 Odin 可用时提供增强功能：
+
+```
+┌─────────────────────────────────────────────┐
+│ Unity/Runtime (RunLab.AesirInspector)        │
+│                                              │
+│  IOdinBridge ←── OdinBridgeLocator ──────┐  │
+│       │                                  │  │
+│  DefaultOdinBridge (无 Odin 时使用)      │  │
+└──────────────────────────────────────────┼──┘
+                                           │
+┌──────────────────────────────────────────┼──┐
+│ OdinWrapper/Editor (ODIN_INSPECTOR)      │  │
+│                                          │  │
+│  OdinInspectorBridge ────────────────────┘  │  (implements IOdinBridge)
+│  OdinAttributeProcessors                    │
+│  Odin Drawers                               │
+└─────────────────────────────────────────────┘
+```
+
+- `IOdinBridge`：定义 Odin 可用性查询接口
+- `DefaultOdinBridge`：无 Odin 时的默认实现
+- `OdinBridgeLocator`：运行时自动定位 Odin 桥接实现，无 Odin 时回退至 `DefaultOdinBridge`
+- `OdinInspectorBridge`：Odin 可用时提供的编辑器侧增强桥接
 
 ## Development Conventions
 
@@ -88,16 +131,24 @@ Aesir Inspector/
 
 - **Unity Null 检查**: 严禁对 `UnityEngine.Object` 派生类使用 `?.` 或 `??`
 - **私有方法**: 逻辑上对应公开方法的私有方法，增加 `Internal_` 前缀
-- **条件编译**: `#if UNITY_EDITOR` 包裹编辑器专用代码；`ODIN_INSPECTOR` 是核心编译约束
-- **详尽规范**: 参见 `Runtime/CodeStyle/AESIR_INSPECTOR_CODE_STYLE.cs`
+- **条件编译**: `#if UNITY_EDITOR` 包裹编辑器专用代码
+- **详尽规范**: 参见 `Unity/Runtime/CodeStyle/AESIR_INSPECTOR_CODE_STYLE.cs`
 
 ### Odin Inspector 集成规范
 
-1. 优先使用 Odin Attribute 构建 UI，而非原始 Editor 代码；优先使用 OdinAttributeProcessor 动态注入特性
-2. `OdinInspectorSafeEditorUtility` 是 Odin API 的安全桥接类，保留宏定义约束
-3. **Processor 必须与对应 Attribute/类在同一脚本文件中**；Drawer 仍在 `Editor/Drawers/` 目录
-4. Processor 需访问私有成员时，定义为目标的嵌套类（internal 修饰符）
-5. OdinAttributeProcessor 继承类**无需** XML 注释和 `[Summary]`
+1. Odin 依赖代码**必须**放在 `OdinWrapper/` 目录下，核心程序集（`Unity/`）不允许直接引用 Odin API
+2. 需要在运行时查询 Odin 可用性时，通过 `OdinBridgeLocator` 获取 `IOdinBridge` 实例
+3. OdinAttributeProcessor 放在 `OdinWrapper/Editor/AttributeProcessors/` 目录
+4. OdinAttributeDrawer 放在 `OdinWrapper/Editor/Drawers/` 目录
+5. Processor 需访问私有成员时，定义为目标的嵌套类（internal 修饰符）
+6. OdinAttributeProcessor 继承类**无需** XML 注释和 `[Summary]`
+
+### 程序集依赖规则
+
+- `RunLab.AesirInspector` → 无外部依赖
+- `RunLab.AesirInspector.Editor` → Runtime
+- `RunLab.AesirInspector.OdinWrapper` → Runtime（`ODIN_INSPECTOR` 约束）
+- `RunLab.AesirInspector.OdinWrapper.Editor` → Runtime + Editor + OdinWrapper Runtime（`ODIN_INSPECTOR` 约束）
 
 ## Menu Paths
 
@@ -121,34 +172,49 @@ Aesir Inspector/
 ## Testing
 
 - **Framework**: NUnit (Unity Test Framework)
-- **Edit-Mode Tests**: `Tests/Editor/` — ScriptDocGenerator (153 个) + SummaryTool
+- **Edit-Mode Tests**: `Tests/Editor/` — ScriptDocGenerator + SummaryTool
 - **Runtime Tests**: `Tests/Runtime/` — UnityEngine.Object 运算符重载
 - **运行方式**: Unity Test Runner → Edit Mode / Play Mode
+- 测试程序集无 `ODIN_INSPECTOR` 约束，确保无 Odin 环境下可运行
 
-## Key Utility Classes (Runtime/Utilities/)
+## Key Utility Classes
+
+### Runtime/Utilities/
 
 | Class                                             | Purpose                  |
 |---------------------------------------------------|--------------------------|
-| `OdinInspectorSafeEditorUtility`                  | Odin API 安全调用桥接          |
 | `ScriptableObjectSafeEditorUtility`               | SO 资产创建与管理               |
 | `MonoScriptSafeEditorUtility`                     | 按名称查找/选择 MonoScript      |
 | `PathUtility` / `PathSafeEditorUtility`           | 路径规范化、子路径、安全创建目录         |
-| `HierarchyUtility` / `HierarchySafeEditorUtility` | Transform/Hierarchy 路径操作 |
+| `HierarchyUtility` / `HierarchySafeEditorUtility`  | Transform/Hierarchy 路径操作 |
 | `ProjectSafeEditorUtility`                        | Ping 并选中项目资源             |
 | `UrlUtility`                                      | URL 打开与外部链接              |
 | `ReflectionUtility`                               | 程序集/命名空间反射               |
 | `PredefinedAssemblyUtility`                       | 预定义程序集识别                 |
 | `PlayerLoopUtility`                               | PlayerLoop 子系统增删         |
 | `RegexUtility`                                    | 命名空间/类名规范化、邮箱/URL 校验     |
-| `AesirInspectorLogger`                            | 统一日志（彩色前缀、编译剔除、双击跳转）     |
+
+### Runtime/Logger/
+
+| Class                          | Purpose                                              |
+|--------------------------------|------------------------------------------------------|
+| `AesirInspectorLogger`         | 统一日志（彩色前缀、编译剔除、双击跳转）                               |
+| `AesirInspectorLoggerSettings` | 日志级别配置（enableInfoLog / enableWarningLog）            |
+
+### Runtime/OdinBridge/
+
+| Class                | Purpose                                    |
+|----------------------|--------------------------------------------|
+| `IOdinBridge`        | Odin 可用性查询接口                            |
+| `DefaultOdinBridge`  | 无 Odin 时的默认桥接实现                        |
+| `OdinBridgeLocator`  | 自动定位 Odin 桥接，无 Odin 时回退 DefaultOdinBridge |
 
 ## Samples
 
-| Sample                    | Path                                  | Description                                   |
-|---------------------------|---------------------------------------|-----------------------------------------------|
-| Codely Skills Library     | `Samples~/Codely Skills Library/`     | Codely CLI Skills 案例 (custom-package-creator) |
-| Plugin Config Solutions   | `Samples~/PluginConfigSolutions/`     | ScriptableSingleton 配置持久化示例                   |
-| RuntimeInitializeLoadType | `Samples~/RuntimeInitializeLoadType/` | 5 个初始化时机的执行顺序示例                               |
+| Sample                    | Path                                          | Description                       |
+|---------------------------|-----------------------------------------------|-----------------------------------|
+| Plugin Config Solutions   | `Samples/Plugin Config Solutions/`            | ScriptableSingleton 配置持久化示例     |
+| RuntimeInitializeLoadType | `Samples/RuntimeInitializeLoadType/`          | 5 个初始化时机的执行顺序示例             |
 
 ## Version Control
 
@@ -156,6 +222,7 @@ Aesir Inspector/
 
 ## Important Notes
 
-- **ODIN_INSPECTOR 编译符号是硬性前提** — 没有它所有 4 个程序集都不会编译。Odin Inspector 导入后自动添加此符号。
+- **核心程序集不依赖 Odin Inspector** — `RunLab.AesirInspector` 和 `RunLab.AesirInspector.Editor` 可在无 Odin 环境下正常编译和运行。
+- **OdinWrapper 程序集需要 `ODIN_INSPECTOR` 编译符号** — 安装 Odin Inspector 后自动启用，提供双语特性、Drawer、Processor 等增强功能。
 - 版本号需在 `package.json` 和 `AesirInspectorVersion.cs` 两处同步维护。
 - 本项目运行在 Tuanjie 引擎（Unity 2022.3 分支），场景文件扩展名为 `.scene`。
