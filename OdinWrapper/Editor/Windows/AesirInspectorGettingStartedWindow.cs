@@ -37,7 +37,7 @@ namespace RunLab.AesirInspector.OdinWrapper.Editor
     /// Aesir Inspector Getting Started 窗口
     /// </summary>
     [Summary("Aesir Inspector Getting Started 窗口")]
-    public class GettingStartedWindow : OdinEditorWindow
+    public class AesirInspectorGettingStartedWindow : OdinEditorWindow
     {
         static readonly BilingualData SloganData = new BilingualData(
             "基于 Odin Inspector 的双语 Inspector 扩展，优化编辑器开发体验",
@@ -181,7 +181,7 @@ namespace RunLab.AesirInspector.OdinWrapper.Editor
         [MenuItem(AesirInspectorMenuItems.GettingStarted, false, AesirInspectorMenuItems.GettingStartedOrder)]
         public static void OpenWindow()
         {
-            var window = GetWindow<GettingStartedWindow>();
+            var window = GetWindow<AesirInspectorGettingStartedWindow>();
             window.titleContent = new GUIContent(AesirInspectorMenuItems.GettingStartedWindowName);
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 800);
             window.Show();
