@@ -4,7 +4,7 @@
 
 `Aesir Inspector` 是一个 Unity 编辑器扩展库，旨在提供双语 Inspector UI、安全编辑器工具集、脚本文档生成器等功能。**可选集成 Odin Inspector** 以获得增强的 Inspector 渲染和样式优化。
 
-> **💡 关于 Odin Inspector 的依赖**：Odin Inspector 是本项目的**可选依赖**。核心功能（Summary 工具、安全编辑器工具、文档生成器运行时等）不依赖 Odin，可在无 Odin 环境下正常编译和运行。安装 Odin Inspector 后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinWrapper 增强程序集，提供双语特性装饰器、Attribute Drawer、Processor 等增强功能。
+> **💡 关于 Odin Inspector 的依赖**：Odin Inspector 是本项目的**可选依赖**。核心功能（Summary 工具、安全编辑器工具、文档生成器运行时等）不依赖 Odin，可在无 Odin 环境下正常编译和运行。安装 Odin Inspector 后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinIntegration 增强程序集，提供双语特性装饰器、Attribute Drawer、Processor 等增强功能。
 
 ## 适用人群
 
@@ -48,7 +48,7 @@ Aesir Inspector 会在编辑器加载时自动检测安装方式（UPM / Assets 
 ## 环境依赖
 
 - **Unity**: 2022.3.2t3 (Tuanjie) 或更高版本。
-- **Odin Inspector**: 3.3.x 或更高版本（可选依赖；导入后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinWrapper 增强程序集）。
+- **Odin Inspector**: 3.3.x 或更高版本（可选依赖；导入后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinIntegration 增强程序集）。
 
 ## 核心功能
 
@@ -221,7 +221,7 @@ public void Reset() { }
 
 ### 7. OdinBridge 桥接层
 
-提供 Odin Inspector 可选集成机制，使核心程序集不依赖 Odin，同时允许 OdinWrapper 程序集在 Odin 可用时提供增强功能：
+提供 Odin Inspector 可选集成机制，使核心程序集不依赖 Odin，同时允许 OdinIntegration 程序集在 Odin 可用时提供增强功能：
 
 | 类 | 说明 |
 |----|------|

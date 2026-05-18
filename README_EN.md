@@ -4,7 +4,7 @@
 
 `Aesir Inspector` is a Unity editor extension library designed to provide bilingual Inspector UI, safe editor tooling, script documentation generation, and more. **Optional integration with Odin Inspector** for enhanced Inspector rendering and styling.
 
-> **💡 About Odin Inspector Dependency**: Odin Inspector is an **optional dependency** of this project. Core features (Summary Tool, Safe Editor Utilities, Doc Generator runtime, etc.) work without Odin and compile normally in Odin-free environments. After importing Odin Inspector, the `ODIN_INSPECTOR` compilation symbol is automatically added, enabling the OdinWrapper enhancement assemblies with bilingual attribute decorators, Attribute Drawers, Processors, and other enhanced features.
+> **💡 About Odin Inspector Dependency**: Odin Inspector is an **optional dependency** of this project. Core features (Summary Tool, Safe Editor Utilities, Doc Generator runtime, etc.) work without Odin and compile normally in Odin-free environments. After importing Odin Inspector, the `ODIN_INSPECTOR` compilation symbol is automatically added, enabling the Odin Integration enhancement assemblies with bilingual attribute decorators, Attribute Drawers, Processors, and other enhanced features.
 
 ## Who Is This For
 
@@ -48,7 +48,7 @@ Aesir Inspector automatically detects the installation mode (UPM / Assets direct
 ## Requirements
 
 - **Unity**: 2022.3.2t3 (Tuanjie) or later.
-- **Odin Inspector**: 3.3.x or later (optional dependency; importing it automatically adds the `ODIN_INSPECTOR` compilation symbol, enabling OdinWrapper enhancement assemblies).
+- **Odin Inspector**: 3.3.x or later (optional dependency; importing it automatically adds the `ODIN_INSPECTOR` compilation symbol, enabling Odin Integration enhancement assemblies).
 
 ## Core Features
 
@@ -221,7 +221,7 @@ Available decorators and controls:
 
 ### 7. OdinBridge
 
-Provides an optional integration mechanism for Odin Inspector, allowing the core assembly to work without Odin while enabling OdinWrapper assemblies to offer enhanced functionality when Odin is available:
+Provides an optional integration mechanism for Odin Inspector, allowing the core assembly to work without Odin while enabling Odin Integration assemblies to offer enhanced functionality when Odin is available:
 
 | Class | Description |
 |-------|-------------|

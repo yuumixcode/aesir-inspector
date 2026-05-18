@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Changed
+- Renamed `OdinWrapper` to `Odin Integration` (directories) / `OdinIntegration` (namespaces and assemblies) for more accurate semantic representation of the integration layer
+
+---
+
 ## [0.4.0-pre.1] - 2026-04-29
 
 ### Architecture
