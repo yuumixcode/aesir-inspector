@@ -39,14 +39,14 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         {
             base.OnEnable();
             WindowPadding = new Vector4(10f, 10f, 10f, 10f);
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= Repaint;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += Repaint;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= Repaint;
+            AesirInspectorLanguageSettingsSO.LanguageChanged += Repaint;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= Repaint;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= Repaint;
         }
 
         [OnInspectorInit]
@@ -59,7 +59,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 new SummaryDetailGroup
                 {
                     summary = "双语 Inspector",
-                    details = "提供 BilingualTitle、BilingualBoxGroup、BilingualText 等双语特性，Inspector 中中英文无缝切换。"
+                    details = "提供 BilingualTitle、BilingualText、BilingualButton 等双语特性，Inspector 中中英文无缝切换。"
                 },
                 new SummaryDetailGroup
                 {

@@ -36,20 +36,24 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// </summary>
     [DrawerPriority(DrawerPriorityLevel.SuperPriority)]
     [Summary("双语文本特性的 Drawer，根据当前编辑器语言生成对应的标签文本与图标显示")]
-    public class BilingualTextAttributeDrawer : OdinAttributeDrawer<BilingualTextAttribute>
+    public class BilingualTextAttributeDrawer : BilingualAttributeDrawer<BilingualTextAttribute>
     {
         ValueResolver<Color> _iconColorResolver;
         GUIContent _tempLabel;
         ValueResolver<string> _textProvider;
 
-        protected override void Initialize()
+        protected override void OnInitialize()
         {
             _textProvider = ValueResolver.GetForString(Property, GetAttributeText());
             _iconColorResolver =
                 ValueResolver.Get(Property, Attribute.IconColor, EditorStyles.label.normal.textColor);
             _tempLabel = new GUIContent();
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
+        }
+
+        protected override void OnLanguageChanged()
+        {
+            _textProvider = ValueResolver.GetForString(Property, GetAttributeText());
+            base.OnLanguageChanged();
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -91,17 +95,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     {
                         var color = _iconColorResolver.GetValue();
                         nextLabel.image = SdfIcons.CreateTransparentIconTexture(Attribute.Icon, color,
-                            16 /*0x10*/, 16 /*0x10*/, 0);
+                            24, 24, 0);
                     }
                 }
 
                 CallNextDrawer(nextLabel);
             }
-        }
-
-        void ReloadResolver()
-        {
-            _textProvider = ValueResolver.GetForString(Property, GetAttributeText());
         }
 
         string GetAttributeText() => Attribute.BilingualData.GetCurrentOrFallback();

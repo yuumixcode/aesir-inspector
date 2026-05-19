@@ -14,9 +14,9 @@
 |------|------|
 | `SummaryAttribute` | 运行时可读注释特性，与 XML `<summary>` 双向同步 |
 
-### Bilingualism
+### Localization
 
-**目录**: `Runtime/Unity/Bilingualism/`
+**目录**: `Runtime/Unity/Localization/`
 
 | 类型 | 职责 |
 |------|------|
@@ -34,9 +34,9 @@
 | `AesirInspectorWebLinks` | 外部链接常量 |
 | `IAesirInspectorReset` | 重置接口，所有 SO 面板和案例必须实现 |
 
-### InspectorControls
+### Inspector
 
-**目录**: `Runtime/Unity/InspectorControls/`
+**目录**: `Runtime/Unity/Inspector/`
 
 | 类型 | 职责 |
 |------|------|
@@ -44,9 +44,9 @@
 | `BilingualHeaderControl` | 双语标题头控件 |
 | `HorizontalSeparateControl` | 水平分隔线控件 |
 
-### Logger
+### Logging
 
-**目录**: `Runtime/Unity/Logger/`
+**目录**: `Runtime/Unity/Logging/`
 
 | 类型 | 职责 |
 |------|------|
@@ -138,9 +138,8 @@
 | 类型 | 职责 |
 |------|------|
 | `BilingualTitleAttribute` | 双语标题 |
-| `BilingualBoxGroupAttribute` | 双语分组 |
 | `BilingualButtonAttribute` | 双语按钮 |
-| （共 6 个双语特性） | — |
+| （共 4 个双语特性） | — |
 
 ### OdinCodeHighlighter
 
@@ -176,7 +175,7 @@ OdinAttributeProcessor 实现，动态注入特性到面板类。
 
 **目录**: `Editor/Odin Integration/Drawers/`
 
-双语 OdinAttributeDrawer 实现（6 个 Drawer）。
+双语 OdinAttributeDrawer 实现（4 个 Drawer）。
 
 ### ExtensionManager
 

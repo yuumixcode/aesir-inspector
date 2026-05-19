@@ -44,11 +44,11 @@ Aesir Inspector/
 ├── Runtime/                               # 标准运行时根目录
 │   ├── Unity/                             # 核心基础层 (RunLab.AesirInspector)
 │   │   ├── Attributes/                    # 自定义特性 ([Summary])
-│   │   ├── Bilingualism/                  # 双语数据与语言设置
 │   │   ├── CodeStyle/                     # 代码风格示例
 │   │   ├── Core/                          # 核心类 (Version, Paths, WebLinks, IAesirInspectorReset)
-│   │   ├── InspectorControls/             # Inspector Control 实现
-│   │   ├── Logger/                        # 日志系统
+│   │   ├── Inspector/                     # Inspector 显示模型
+│   │   ├── Localization/                  # 本地化数据与语言设置
+│   │   ├── Logging/                       # 日志系统
 │   │   ├── OdinBridge/                    # Odin 桥接层 (IOdinBridge, DefaultOdinBridge, OdinBridgeLocator)
 │   │   ├── ScriptDocGenerator/            # 文档生成器运行时模型
 │   │   └── Utilities/                     # 安全编辑器工具类
@@ -95,9 +95,9 @@ Aesir Inspector/
 | # | Module                    | Location                                                    | Description                                                                        |
 |---|---------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------|
 | 1 | Code Style & Standards    | `Runtime/Unity/CodeStyle/`                                  | 代码风格规范与示例，详见 `AESIR_INSPECTOR_CODE_STYLE.cs`                                   |
-| 2 | Bilingualism              | `Runtime/Unity/Bilingualism/`, `Runtime/Odin Integration/Attributes/`, `Editor/Odin Integration/Drawers/`, `Editor/Odin Integration/AttributeProcessors/` | 双语数据、特性、Drawer、Processor，支持中英双语 Inspector 显示                                |
+| 2 | Localization              | `Runtime/Unity/Localization/`, `Runtime/Odin Integration/Attributes/`, `Editor/Odin Integration/Drawers/`, `Editor/Odin Integration/AttributeProcessors/` | 双语数据、特性、Drawer、Processor，支持中英双语 Inspector 显示                                |
 | 3 | OdinBridge                | `Runtime/Unity/OdinBridge/`, `Editor/Odin Integration/Bridge/`   | Odin 可选集成桥接层，无 Odin 时自动回退默认实现                                                |
-| 4 | Inspector Controls        | `Runtime/Unity/InspectorControls/`                         | Inspector 控件实现 (BilingualDisplayAsStringControl, BilingualHeaderControl, HorizontalSeparateControl) |
+| 4 | Inspector                  | `Runtime/Unity/Inspector/`                         | Inspector 显示模型 (BilingualDisplayAsStringControl, BilingualHeaderControl, HorizontalSeparateControl) |
 | 5 | Custom Attributes         | `Runtime/Unity/Attributes/`                                | `[Summary]` (运行时可读注释)                                                            |
 | 6 | Script Doc Generator      | `Runtime/Unity/ScriptDocGenerator/`, `Editor/Odin Integration/ScriptDocGenerator/` | 反射生成 API 文档，增量更新，AI 友好 Markdown 输出                                           |
 | 7 | Summary Tool              | `Editor/Unity/SummaryTool/`                                 | 右键菜单 XML `<summary>` ↔ `[Summary]` 双向同步 (Sync/Replace/Remove)                   |
@@ -201,7 +201,7 @@ OdinBridge 是 Odin Inspector 可选集成的核心机制，使核心程序集�
 | `PlayerLoopUtility`                               | PlayerLoop 子系统增删         |
 | `RegexUtility`                                    | 命名空间/类名规范化、邮箱/URL 校验     |
 
-### Runtime/Unity/Logger/
+### Runtime/Unity/Logging/
 
 | Class                          | Purpose                                              |
 |--------------------------------|------------------------------------------------------|

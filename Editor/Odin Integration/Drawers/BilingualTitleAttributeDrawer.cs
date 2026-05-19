@@ -35,17 +35,22 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// </summary>
     [DrawerPriority(1)]
     [Summary("在 Odin Inspector 中绘制 BilingualTitleAttribute 标题，支持根据检查器语言动态切换标题与子标题")]
-    public class BilingualTitleAttributeDrawer : OdinAttributeDrawer<BilingualTitleAttribute>
+    public class BilingualTitleAttributeDrawer : BilingualAttributeDrawer<BilingualTitleAttribute>
     {
         ValueResolver<string> _subTitleResolver;
         ValueResolver<string> _titleResolver;
 
-        protected override void Initialize()
+        protected override void OnInitialize()
         {
             _titleResolver = ValueResolver.GetForString(Property, GetAttributeTitle());
             _subTitleResolver = ValueResolver.GetForString(Property, GetAttributeSubTitle());
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
+        }
+
+        protected override void OnLanguageChanged()
+        {
+            _titleResolver = ValueResolver.GetForString(Property, GetAttributeTitle());
+            _subTitleResolver = ValueResolver.GetForString(Property, GetAttributeSubTitle());
+            base.OnLanguageChanged();
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -78,12 +83,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
 
             CallNextDrawer(label);
-        }
-
-        void ReloadResolver()
-        {
-            _titleResolver = ValueResolver.GetForString(Property, GetAttributeTitle());
-            _subTitleResolver = ValueResolver.GetForString(Property, GetAttributeSubTitle());
         }
 
         string GetAttributeTitle() => Attribute.TitleData.GetCurrentOrFallback();

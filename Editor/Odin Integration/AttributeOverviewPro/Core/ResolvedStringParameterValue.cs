@@ -29,7 +29,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         static readonly BilingualData FallbackValueLabel = new BilingualData("回退值", "Fallback Value");
 
-        static readonly BilingualData NamedValuesLabel =
+        internal static readonly BilingualData NamedValuesLabel =
             new BilingualData("特殊命名参数值 - Named Values", "Named Values");
 
         static readonly ParameterValue[] DefaultExistedNamedValues =
@@ -132,7 +132,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         [Summary("重建命名参数值表格")]
         public void CreateNamedValueTable()
         {
-            NamedValueTable = GUITable.Create(NamedValues, NamedValuesLabel, new GUITableColumn
+            NamedValueTable = GUITable.Create(NamedValues, null, new GUITableColumn
             {
                 ColumnTitle = new BilingualData("参数类型", "Parameter Type"),
                 MinWidth = 140f,
@@ -162,9 +162,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             var maxHeight = Mathf.Max(resolverTypeHeight, resolvesToHeight, fallbackValueHeight);
             ResolverInfoTable[0, 1].Height = maxHeight + 10f;
 
-            for (var row = 2; row < NamedValueTable.RowCount; row++)
+            for (var row = 1; row < NamedValueTable.RowCount; row++)
             {
-                var namedValue = NamedValues[row - 2];
+                var namedValue = NamedValues[row - 1];
                 var nameHeight = CalculateHeight(namedValue.ParameterName, NamedValueTable, 0, row);
                 var typeHeight = CalculateHeight(namedValue.ReturnType, NamedValueTable, 1, row);
                 var descriptionHeight = CalculateHeight(namedValue.GetDescription(), NamedValueTable, 2, row);

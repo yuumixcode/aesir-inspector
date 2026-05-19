@@ -69,8 +69,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     break;
             }
 
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= ReloadResolver;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += ReloadResolver;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= ReloadResolver;
+            AesirInspectorLanguageSettingsSO.LanguageChanged += ReloadResolver;
         }
 
         void ReloadResolver()

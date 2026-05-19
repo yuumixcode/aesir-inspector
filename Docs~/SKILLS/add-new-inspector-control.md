@@ -6,7 +6,7 @@
 
 ### 1. 创建控件文件
 
-**文件**: `Runtime/Unity/InspectorControls/{Name}Control.cs`
+**文件**: `Runtime/Unity/Inspector/{Name}Control.cs`
 
 ```csharp
 namespace RunLab.AesirInspector
@@ -25,7 +25,7 @@ namespace RunLab.AesirInspector
 ### 2. 规范
 
 - 命名：`{Purpose}Control`，如 `BilingualHeaderControl`
-- 放置于 `Runtime/Unity/InspectorControls/` 目录
+- 放置于 `Runtime/Unity/Inspector/` 目录
 - 公共类型必须有 `/// <summary>` + `[Summary]`
 - 如有 Editor 功能需求，通过 `SafeEditorUtility` 模式桥接
 

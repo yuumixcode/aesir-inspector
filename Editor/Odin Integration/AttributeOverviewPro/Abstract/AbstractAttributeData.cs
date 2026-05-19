@@ -50,13 +50,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 return null;
             }
 
-#if ODIN_INSPECTOR_3_3
-            return ExamplePreviewItems.Any(x => x.ExampleType == AttributeExampleType.OdinSerialized)
-                ? ExamplePreviewItems[0].OdinSerializedExample
-                : ExamplePreviewItems[0].UnitySerializedExample;
-#else
-            return ExamplePreviewItems[0].UnitySerializedExample;
-#endif
+            var firstItem = ExamplePreviewItems[0];
+            return firstItem.ExampleType == AttributeExampleType.OdinSerialized
+                ? (ScriptableObject)firstItem.OdinSerializedExample
+                : firstItem.UnitySerializedExample;
         }
     }
 }

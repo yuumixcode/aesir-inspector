@@ -210,8 +210,7 @@ public void Reset() { }
 
 可用装饰器与 Control：
 
-- `[BilingualTitle]`, `[BilingualTitleGroup]`
-- `[BilingualBoxGroup]`
+- `[BilingualTitle]`
 - `[BilingualButton]`
 - `[BilingualInfoBox]`
 - `[BilingualText]`

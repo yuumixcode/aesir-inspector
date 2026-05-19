@@ -210,8 +210,7 @@ Provides a complete set of bilingual attribute decorators and Inspector Controls
 
 Available decorators and controls:
 
-- `[BilingualTitle]`, `[BilingualTitleGroup]`
-- `[BilingualBoxGroup]`
+- `[BilingualTitle]`
 - `[BilingualButton]`
 - `[BilingualInfoBox]`
 - `[BilingualText]`

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Renamed `OdinWrapper` to `Odin Integration` (directories) / `OdinIntegration` (namespaces and assemblies) for more accurate semantic representation of the integration layer
+- Renamed `Runtime/Unity/Bilingualism/` to `Runtime/Unity/Localization/`, aligning with Unity's official Localization package naming
+- Renamed `Runtime/Unity/InspectorControls/` to `Runtime/Unity/Inspector/`, adopting Unity's singular noun convention
+- Renamed `Runtime/Unity/Logger/` to `Runtime/Unity/Logging/`, aligning with Unity source `Runtime/Export/Logging/` naming
 
 ---
 

@@ -55,9 +55,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } =
         {
-            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Asset List",
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Basic Parameters",
                 AssetListExampleSO.Instance),
-            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Custom Filter Method",
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("CustomFilterMethod",
                 AssetListExampleWithCustomFilterMethodSO.Instance)
         };
     }

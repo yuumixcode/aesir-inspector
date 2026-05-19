@@ -4,26 +4,20 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// CustomValueDrawer 特性使用案例，展示自定义 Slider 和 Color 绘制器。
-    /// </summary>
-    [Summary("CustomValueDrawer 特性使用案例，展示自定义 Slider 和 Color 绘制器")]
     [AesirExample]
     public class CustomValueDrawerExampleSO : AttributeExampleSO<CustomValueDrawerExampleSO>
     {
-        [CustomValueDrawer("DrawSlider")]
-        public float customSlider = 5f;
-
-        [CustomValueDrawer("DrawColorBox")]
-        public Color customColor = Color.red;
-
+        [Title("Parameter: Action (float value, GUIContent label)")]
         public float min;
         public float max = 10f;
 
-        /// <summary>
-        /// 重置所有字段到默认值。
-        /// </summary>
-        [Summary("重置所有字段到默认值")]
+        [CustomValueDrawer("DrawSlider")]
+        public float customSlider = 5f;
+
+        [Title("Parameter: Action (Color value, GUIContent label)")]
+        [CustomValueDrawer("DrawColorBox")]
+        public Color customColor = Color.red;
+
         public override void AesirInspectorReset()
         {
             customSlider = 5f;

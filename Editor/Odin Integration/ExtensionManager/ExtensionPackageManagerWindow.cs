@@ -53,12 +53,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (_refreshIcon == null)
             {
                 _refreshIcon =
-                    SdfIcons.CreateTransparentIconTexture(SdfIconType.ArrowClockwise, Color.white, 32, 32, 0);
+                    SdfIcons.CreateTransparentIconTexture(SdfIconType.ArrowClockwise, Color.white, 24, 24, 0);
             }
 
             UpdateTitle();
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= OnLanguageChanged;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += OnLanguageChanged;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= LanguageChanged;
+            AesirInspectorLanguageSettingsSO.LanguageChanged += LanguageChanged;
             PackageManagerEditorUtility.OnPackagesChanged -= OnPackagesChanged;
             PackageManagerEditorUtility.OnPackagesChanged += OnPackagesChanged;
             Events.registeredPackages -= OnRegisteredPackagesEditor;
@@ -75,7 +75,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= OnLanguageChanged;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= LanguageChanged;
             PackageManagerEditorUtility.OnPackagesChanged -= OnPackagesChanged;
             Events.registeredPackages -= OnRegisteredPackagesEditor;
         }
@@ -143,7 +143,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        void OnLanguageChanged()
+        void LanguageChanged()
         {
             UpdateTitle();
             Repaint();

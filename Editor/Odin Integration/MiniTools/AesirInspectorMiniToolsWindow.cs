@@ -73,14 +73,14 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 SelectedColorDarkSkin = new Color(0.243f, 0.373f, 0.588f, 1.000f),
                 SelectedColorLightSkin = new Color(0.243f, 0.490f, 0.900f, 1.000f)
             };
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged += CustomRebuild;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.LanguageChanged += CustomRebuild;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            AesirInspectorLanguageSettingsSO.OnLanguageChanged -= CustomRebuild;
+            AesirInspectorLanguageSettingsSO.LanguageChanged -= CustomRebuild;
             _lastSelection = null;
         }
 

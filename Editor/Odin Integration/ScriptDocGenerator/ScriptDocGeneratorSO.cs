@@ -238,7 +238,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         void DrawTemporaryTypesTitleBarGUI()
         {
-            var image = SdfIcons.CreateTransparentIconTexture(SdfIconType.SaveFill, Color.white, 32, 32, 0);
+            var image = SdfIcons.CreateTransparentIconTexture(SdfIconType.SaveFill, Color.white, 24, 24, 0);
             var content = new GUIContent(" 保存为SO资源 ", image,
                 "保存为 " + nameof(TypesCacheSO) + " 资源到 " + typesCacheSOFolderPath);
             var filePathWithExtension = typesCacheSOFolderPath + "/" + nameof(TypesCacheSO) + ".asset";
@@ -252,7 +252,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 Debug.Log("请更改资源名称，避免下次生成时覆盖内容");
             }
 
-            var image2 = SdfIcons.CreateTransparentIconTexture(SdfIconType.GearFill, Color.white, 32, 32, 0);
+            var image2 = SdfIcons.CreateTransparentIconTexture(SdfIconType.GearFill, Color.white, 24, 24, 0);
             var content2 = new GUIContent(" 自定义资源存储位置 ", image2, "当前路径为 " + typesCacheSOFolderPath);
             if (_isCustomizingSaveConfig)
             {

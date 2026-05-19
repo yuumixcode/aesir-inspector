@@ -69,11 +69,11 @@ graph LR
 | 组件 | 目录 | 职责 |
 |------|------|------|
 | Attributes | `Attributes/` | 自定义特性 (`[Summary]`) |
-| Bilingualism | `Bilingualism/` | 双语数据与语言设置 |
 | CodeStyle | `CodeStyle/` | 代码风格示例文件 |
 | Core | `Core/` | 版本、路径、Web 链接、重置接口 |
-| InspectorControls | `InspectorControls/` | Inspector 控件实现 |
-| Logger | `Logger/` | 统一日志系统 |
+| Inspector | `Inspector/` | Inspector 显示模型 |
+| Localization | `Localization/` | 本地化数据与语言设置 |
+| Logging | `Logging/` | 统一日志系统 |
 | OdinBridge | `OdinBridge/` | Odin 可用性查询桥接 |
 | ScriptDocGenerator | `ScriptDocGenerator/` | 文档生成器数据模型 |
 | Utilities | `Utilities/` | 安全编辑器工具集 |

@@ -29,7 +29,7 @@ Aesir Inspector 是一个 Unity/Tuanjie 编辑器扩展库，提供双语 Inspec
 
 ### 双语 Inspector
 
-支持中英双语 Inspector 显示，通过 `AesirInspectorLanguageSettingsSO` 切换语言。提供双语 Odin 特性（如 `[BilingualTitle]`、`[BilingualBoxGroup]`、`[BilingualButton]`）。
+支持中英双语 Inspector 显示，通过 `AesirInspectorLanguageSettingsSO` 切换语言。提供双语 Odin 特性（如 `[BilingualTitle]`、`[BilingualButton]`、`[BilingualText]`）。
 
 ### 安全编辑器工具
 

@@ -41,7 +41,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } =
         {
-            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Custom Value Drawer",
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Basic Parameters",
                 CustomValueDrawerExampleSO.Instance)
         };
     }
