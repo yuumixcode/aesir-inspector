@@ -73,17 +73,17 @@ namespace RunLab.AesirInspector.Editor
         {
             if (Selection.objects.Length == 1)
             {
-                Internal_SingleSelectCreateSO();
+                SingleSelectCreateSO();
             }
             else
             {
-                Internal_MultiSelectCreateSO();
+                MultiSelectCreateSO();
             }
         }
 
         #region Internal
 
-        static void Internal_SingleSelectCreateSO()
+        static void SingleSelectCreateSO()
         {
             if (Selection.activeObject is not MonoScript script)
             {
@@ -102,7 +102,7 @@ namespace RunLab.AesirInspector.Editor
             Selection.activeObject = instance;
         }
 
-        static void Internal_MultiSelectCreateSO()
+        static void MultiSelectCreateSO()
         {
             foreach (var guid in Selection.assetGUIDs)
             {

@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
@@ -10,8 +7,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    using Object = UnityEngine.Object;
-
     /// <summary>
     /// 特性面板 SO 泛型单例基类，继承自 SerializedScriptableObject。
     /// </summary>
@@ -78,7 +73,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 if (currentSelectedExample != value)
                 {
                     currentSelectedExample = value;
-                    Internal_UpdateExampleCode();
+                    UpdateExampleCode();
                 }
             }
         }
@@ -114,7 +109,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (_data != null)
             {
                 currentSelectedExample = _data.GetInitialExample();
-                Internal_UpdateExampleCode();
+                UpdateExampleCode();
             }
 
             if (_examplePreviewItems is { Length: > 0 })
@@ -128,7 +123,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #region Performance Cache
 
-        internal static float Internal_GetCachedTextHeight(string text,
+        internal static float GetCachedTextHeight(string text,
             float width,
             Dictionary<string, float> cache)
         {
@@ -153,11 +148,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #region Internal
 
-        void Internal_UpdateExampleCode()
+        void UpdateExampleCode()
         {
             _currentExampleSourceCode =
                 AttributeOverviewEditorUtility.GetExampleSourceCodeWithoutNamespace(
-                    Internal_MarkExampleAttribute);
+                    MarkExampleAttribute);
             _codePreviewRenderer?.SetData(_currentExampleSourceCode);
             _codePreviewRenderer?.Reset();
         }
@@ -183,7 +178,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (_examplePreviewItems != null)
             {
                 currentSelectedExample = _data.GetInitialExample();
-                Internal_UpdateExampleCode();
+                UpdateExampleCode();
             }
 
             AesirInspectorLanguageSettingsSO.LanguageChanged -= OnLanguageChanged;
@@ -285,7 +280,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _examplePreviewRenderer?.EndDraw();
         }
 
-        AesirExampleAttribute Internal_MarkExampleAttribute => !currentSelectedExample
+        AesirExampleAttribute MarkExampleAttribute => !currentSelectedExample
             ? null
             : AttributeOverviewEditorUtility.GetAttributeInExampleType(currentSelectedExample.GetType());
 
@@ -306,7 +301,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #region Draw Container Helpers
 
-        internal static Rect Internal_BeginDrawContainerWithTitle(string title, out Rect headerToolBarRect)
+        internal static Rect BeginDrawContainerWithTitle(string title, out Rect headerToolBarRect)
         {
             var titleStyle = AttributeOverviewEditorUtility.ContainerTitleStyle;
             var titleWidth = titleStyle.CalcSize(GUIHelper.TempContent(title)).x;
@@ -320,19 +315,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             return EditorGUILayout.BeginVertical(AttributeOverviewEditorUtility.ContainerContentStyle);
         }
 
-        internal static void Internal_EndDrawContainerWithTitle(Rect contentRect)
+        internal static void EndDrawContainerWithTitle(Rect contentRect)
         {
             EditorGUILayout.EndVertical();
             SirenixEditorGUI.DrawBorders(contentRect, 1);
-        }
-
-        static void Internal_DrawContainerWithTitle(string title,
-            Action drawContent,
-            out Rect headerToolBarRect)
-        {
-            var contentRect = Internal_BeginDrawContainerWithTitle(title, out headerToolBarRect);
-            drawContent();
-            Internal_EndDrawContainerWithTitle(contentRect);
         }
 
         #endregion

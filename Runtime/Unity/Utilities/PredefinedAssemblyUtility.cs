@@ -89,18 +89,18 @@ namespace RunLab.AesirInspector
         public static List<Type> GetRuntimeTypesWithInterface(Type interfaceType)
         {
             var targetTypes = new List<Type>();
-            var assemblyTypes = Internal_GetRuntimeTypesMap();
+            var assemblyTypes = GetRuntimeTypesMap();
             assemblyTypes.TryGetValue(PredefinedAssemblyType.AssemblyCSharp, out var assemblyCSharpTypes);
-            Internal_AddTypesFromAssembly(assemblyCSharpTypes, interfaceType, targetTypes);
+            AddTypesFromAssembly(assemblyCSharpTypes, interfaceType, targetTypes);
             assemblyTypes.TryGetValue(PredefinedAssemblyType.AssemblyCSharpFirstPass,
                 out var assemblyCSharpFirstPassTypes);
-            Internal_AddTypesFromAssembly(assemblyCSharpFirstPassTypes, interfaceType, targetTypes);
+            AddTypesFromAssembly(assemblyCSharpFirstPassTypes, interfaceType, targetTypes);
             return targetTypes;
         }
 
         #region Internal
 
-        static void Internal_AddTypesFromAssembly(Type[] assemblyTypes,
+        static void AddTypesFromAssembly(Type[] assemblyTypes,
             Type interfaceType,
             ICollection<Type> results)
         {
@@ -119,7 +119,7 @@ namespace RunLab.AesirInspector
             }
         }
 
-        static Dictionary<PredefinedAssemblyType, Type[]> Internal_GetRuntimeTypesMap()
+        static Dictionary<PredefinedAssemblyType, Type[]> GetRuntimeTypesMap()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var assemblyTypes = new Dictionary<PredefinedAssemblyType, Type[]>();

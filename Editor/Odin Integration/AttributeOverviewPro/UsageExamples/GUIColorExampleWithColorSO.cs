@@ -8,26 +8,27 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     [AesirExample]
     public class GUIColorExampleWithColorSO : AttributeExampleSO<GUIColorExampleWithColorSO>
     {
-        [Title("Parameter: Color (Resolved Parameters)")]
+        [Title("Expression (@)")]
         public bool useRed;
 
         [GUIColor("@useRed ? UnityEngine.Color.red : UnityEngine.Color.green")]
         public string attributeExpressionExample;
 
+        [Title("Member Reference ($)")]
         public Color color = Color.green;
 
         [GUIColor("$color")]
         public string fieldNameExample;
 
-        [Title("Method: Color GetColor()")]
+        [Title("Parameter: Color (Method)")]
         [GUIColor("$GetColor")]
         public string methodNameExample;
 
-        [Title("Property: Color ColorProperty")]
+        [Title("Parameter: Color (Property)")]
         [GUIColor("$ColorProperty")]
         public string propertyNameExample;
 
-        [Title("Method: Color GetDynamicColor()")]
+        [Title("Usage Example: Dynamic Color")]
         [GUIColor("$GetDynamicColor")]
         public int dynamicColorExample;
 

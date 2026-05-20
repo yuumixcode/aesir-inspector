@@ -25,7 +25,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
 
             var contentRect =
-                AbstractAttributePanelSO.Internal_BeginDrawContainerWithTitle(_resolvedStringParameterLabel,
+                AbstractAttributePanelSO.BeginDrawContainerWithTitle(_resolvedStringParameterLabel,
                     out _);
 
             SirenixEditorGUI.BeginVerticalList();
@@ -56,7 +56,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
             SirenixEditorGUI.EndVerticalList();
 
-            AbstractAttributePanelSO.Internal_EndDrawContainerWithTitle(contentRect);
+            AbstractAttributePanelSO.EndDrawContainerWithTitle(contentRect);
         }
 
         public void OnLanguageChanged() { }

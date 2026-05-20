@@ -13,6 +13,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     [Summary("示例预览渲染器，负责绘制特性的使用示例及其控制按钮")]
     public class ExamplePreviewRenderer : IAttributeComponentRenderer
     {
+        const int ExampleNumberOneRow = 3;
         static readonly BilingualData _usageExampleLabel = new BilingualData("使用案例预览", "Usage Examples");
 
         static readonly BilingualData _pingMonoScriptButtonLabel =
@@ -24,7 +25,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         AttributeExamplePreviewItem[] _examplePreviewItems;
         Rect _usageExampleContentRect;
         Rect _usageHeaderToolbarRect;
-        const int ExampleNumberOneRow = 3;
 
         public ExamplePreviewRenderer(AbstractAttributePanelSO panel) => _panel = panel;
 
@@ -37,6 +37,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             EndDraw();
         }
 
+        public void OnLanguageChanged() { }
+
+        public void Reset() { }
+
         /// <summary>
         /// 开始绘制示例预览容器。
         /// </summary>
@@ -48,10 +52,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
 
             _usageExampleContentRect =
-                AbstractAttributePanelSO.Internal_BeginDrawContainerWithTitle(_usageExampleLabel,
+                AbstractAttributePanelSO.BeginDrawContainerWithTitle(_usageExampleLabel,
                     out _usageHeaderToolbarRect);
 
-            Internal_DrawExamplePreviewItems();
+            DrawExamplePreviewItems();
         }
 
         /// <summary>
@@ -64,16 +68,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 return;
             }
 
-            AbstractAttributePanelSO.Internal_EndDrawContainerWithTitle(_usageExampleContentRect);
-            Internal_DrawUsageExampleTitleButton();
-        }
-
-        public void OnLanguageChanged()
-        {
-        }
-
-        public void Reset()
-        {
+            AbstractAttributePanelSO.EndDrawContainerWithTitle(_usageExampleContentRect);
+            DrawUsageExampleTitleButton();
         }
 
         public void SetData(AttributeExamplePreviewItem[] items)
@@ -81,7 +77,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _examplePreviewItems = items;
         }
 
-        void Internal_DrawExamplePreviewItems()
+        void DrawExamplePreviewItems()
         {
             if (_examplePreviewItems is not { Length: > 1 })
             {
@@ -94,7 +90,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 EditorGUILayout.BeginHorizontal();
                 for (var j = 0; j < ExampleNumberOneRow && i + j < _examplePreviewItems.Length; j++)
                 {
-                    Internal_DrawExampleTabButton(_examplePreviewItems[i + j]);
+                    DrawExampleTabButton(_examplePreviewItems[i + j]);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -104,13 +100,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             GUILayout.Space(10f);
         }
 
-        void Internal_DrawExampleTabButton(AttributeExamplePreviewItem item)
+        void DrawExampleTabButton(AttributeExamplePreviewItem item)
         {
             var content = GUIHelper.TempContent(" " + item.ItemName,
                 GUIHelper.GetAssetThumbnail(null, typeof(MonoBehaviour), false));
 
             var selectExample = item.ExampleType == AttributeExampleType.OdinSerialized
-                ? (ScriptableObject)item.OdinSerializedExample
+                ? item.OdinSerializedExample
                 : item.UnitySerializedExample;
 
             var currentSelected = _panel.CurrentSelectedExample;
@@ -149,43 +145,41 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             EditorGUIUtility.SetIconSize(iconSizeBackup);
         }
 
-        void Internal_DrawUsageExampleTitleButton()
+        void DrawUsageExampleTitleButton()
         {
             var headerButtonRect = _usageHeaderToolbarRect.AlignCenterY(_usageHeaderToolbarRect.height)
                 .AlignRight(240);
             var leftButtonRect = headerButtonRect.Split(0, 2);
             var pingTexture =
-                SdfIcons.CreateTransparentIconTexture(SdfIconType.HandIndexFill, Color.white, 24, 24, 0);
+                SdfIcons.CreateTransparentIconTexture(SdfIconType.HandIndexFill, Color.white, 20, 20, 0);
             if (GUI.Button(leftButtonRect,
-                    GUIHelper.TempContent(" " + _pingMonoScriptButtonLabel.ToString(), pingTexture),
+                    GUIHelper.TempContent(" " + _pingMonoScriptButtonLabel, pingTexture),
                     SirenixGUIStyles.ToolbarButton))
             {
-                EditorGUIUtility.PingObject(Internal_GetCurrentExampleMonoScript());
+                EditorGUIUtility.PingObject(GetCurrentExampleMonoScript());
             }
 
             var rightButtonRect = headerButtonRect.Split(1, 2);
             var resetTexture =
-                SdfIcons.CreateTransparentIconTexture(SdfIconType.ArrowClockwise, Color.white, 24, 24, 0);
+                SdfIcons.CreateTransparentIconTexture(SdfIconType.ArrowClockwise, Color.white, 20, 20, 0);
             if (GUI.Button(rightButtonRect,
-                    GUIHelper.TempContent(" " + _resetExampleButtonLabel.ToString(), resetTexture),
+                    GUIHelper.TempContent(" " + _resetExampleButtonLabel, resetTexture),
                     SirenixGUIStyles.ToolbarButton))
             {
                 var currentSelected = _panel.CurrentSelectedExample;
                 if (currentSelected is IAesirInspectorReset canReset)
                 {
                     canReset.AesirInspectorReset();
-                    AttributeOverviewEditorUtility.LogEditorResetSuccess(
-                        currentSelected.GetType().Name);
+                    AttributeOverviewEditorUtility.LogEditorResetSuccess(currentSelected.GetType().Name);
                 }
                 else if (currentSelected != null)
                 {
-                    AttributeOverviewEditorUtility.LogEditorResetWarning(
-                        currentSelected.GetType().Name);
+                    AttributeOverviewEditorUtility.LogEditorResetWarning(currentSelected.GetType().Name);
                 }
             }
         }
 
-        Object Internal_GetCurrentExampleMonoScript()
+        Object GetCurrentExampleMonoScript()
         {
             var currentSelected = _panel.CurrentSelectedExample;
             if (!currentSelected)
@@ -193,12 +187,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 return null;
             }
 
-            var markAttribute = AttributeOverviewEditorUtility.GetAttributeInExampleType(currentSelected.GetType());
+            var markAttribute =
+                AttributeOverviewEditorUtility.GetAttributeInExampleType(currentSelected.GetType());
             if (markAttribute == null)
             {
                 return null;
             }
-            
+
             var monoScriptAbsolutePath = markAttribute.FilePath;
             var assetRelativePath =
                 "Assets/" + PathUtilities.MakeRelative(Application.dataPath, monoScriptAbsolutePath);

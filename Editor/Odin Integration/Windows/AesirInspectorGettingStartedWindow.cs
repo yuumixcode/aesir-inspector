@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RunLab.AesirInspector.Editor;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -13,8 +14,23 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// Aesir Inspector Getting Started 窗口
     /// </summary>
     [Summary("Aesir Inspector Getting Started 窗口")]
+    [InitializeOnLoad]
     public class AesirInspectorGettingStartedWindow : OdinEditorWindow
     {
+        static AesirInspectorGettingStartedWindow()
+        {
+            EditorApplication.delayCall += () =>
+            {
+                if (!AesirInspectorProjectSettingsSO.Instance.IsInitialized)
+                {
+                    if (!SessionState.GetBool("AesirInspectorGettingStartedShown", false))
+                    {
+                        OpenWindow();
+                        SessionState.SetBool("AesirInspectorGettingStartedShown", true);
+                    }
+                }
+            };
+        }
         static readonly BilingualData SloganData = new BilingualData(
             "基于 Odin Inspector 的双语 Inspector 扩展，优化编辑器开发体验",
             "Bilingual Inspector extension based on Odin Inspector, optimizing editor development workflow.");
@@ -23,6 +39,54 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         [PropertyOrder(-90)]
         public HorizontalSeparateControl separate1;
+
+        [PropertyOrder(-60)]
+        [OnInspectorGUI]
+        void DrawInitButton()
+        {
+            if (AesirInspectorProjectSettingsSO.Instance.IsInitialized)
+            {
+                EditorGUILayout.HelpBox(AesirInspectorLanguageSettingsSO.CurrentIsEnglish
+                    ? "Aesir Inspector has been initialized."
+                    : "Aesir Inspector 已完成初始化。", MessageType.Info);
+                return;
+            }
+
+            if (GUILayout.Button(AesirInspectorLanguageSettingsSO.CurrentIsEnglish
+                    ? "Initialize Aesir Inspector"
+                    : "初始化 Aesir Inspector (生成 100+ 案例资产)", GUILayout.Height(40)))
+            {
+                InitAesirInspector();
+            }
+        }
+
+        public static void InitAesirInspector()
+        {
+            try
+            {
+                // 初始化 Database (内部已包含 Panels 和 Examples 的生成及进度条)
+                var database = AttributeOverviewDatabaseSO.Instance;
+                if (database == null)
+                {
+                    Debug.LogError("Failed to get AttributeOverviewDatabaseSO instance.");
+                    return;
+                }
+
+                database.Initialize();
+
+                AesirInspectorProjectSettingsSO.Instance.IsInitialized = true;
+                Debug.Log("Aesir Inspector initialized successfully!");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+            finally
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+        }
 
         [PropertyOrder(-30)]
         public HorizontalSeparateControl separate2;

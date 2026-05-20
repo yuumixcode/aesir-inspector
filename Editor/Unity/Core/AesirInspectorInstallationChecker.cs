@@ -71,7 +71,7 @@ namespace RunLab.AesirInspector.Editor
         {
             try
             {
-                Internal_Detect();
+                PerformDetection();
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace RunLab.AesirInspector.Editor
             }
         }
 
-        static void Internal_Detect()
+        static void PerformDetection()
         {
             // PackageInfo.FindForAssembly returns non-null only when the assembly belongs to a package registered with UPM (files under Packages/).
             // A null result means the assembly lives in Assets/ — Asset Store or submodule.

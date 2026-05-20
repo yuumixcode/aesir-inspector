@@ -22,7 +22,7 @@
 // SOFTWARE.
 // ----------------------------------------------------------------------------
 // 方法与区域规范 (Methods & Regions):
-// 1. 如果私有方法逻辑上对应某个公开方法（如同名逻辑实现），私有方法应增加 Internal_ 前缀。
+// 1. Internal_ 前缀的方法名，必须是一个私有或者受保护或者内部的方法和一个公开方法重名，才能使用 Internal_ 前缀。
 // Odin Inspector 规范 (Odin Inspector Integration):
 // 特别注意：本文的 Odin Inspector 规范只针对 Aesir Inspector 插件。
 // 1. 优先使用 Odin Attribute 来构建 UI，而非编写原始的 Editor 代码。优先选择使用 OdinAttributeProcessor 的方式去动态添加特性。
@@ -118,7 +118,7 @@ namespace RunLab.AesirInspector
             _maxHealth -= (int)damageTaken;
         }
 
-        // 私有方法逻辑上对应公开方法时，增加 Internal_ 前缀
+        // Internal_ 前缀的方法名，必须是一个私有或者受保护或者内部的方法和一个公开方法重名，才能使用 Internal_ 前缀
         [Summary("设置最大生命值")]
         public void SetMaxHealth(int newMaxValue) => Internal_SetMaxHealth(newMaxValue);
 

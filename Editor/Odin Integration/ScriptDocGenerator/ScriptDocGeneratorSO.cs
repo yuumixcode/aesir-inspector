@@ -166,7 +166,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             ButtonStyle.Box, SdfIconType.FileEarmarkPlus)]
         public void AnalyzeType()
         {
-            Internal_AnalyzeType();
+            PerformAnalyzeType();
         }
 
         [PropertyOrder(70)]
@@ -177,7 +177,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             ButtonStyle.Box, SdfIconType.FileEarmarkPlus)]
         public void GenerateDoc()
         {
-            Internal_GenerateDoc();
+            PerformGenerateDoc();
         }
 
         string GetDocGeneratorTitle()
@@ -287,7 +287,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             return _currentDomainAssemblies;
         }
 
-        void Internal_AnalyzeType()
+        void PerformAnalyzeType()
         {
             switch (typeSource)
             {
@@ -329,7 +329,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 "分析中，等待生成按钮显示。请勿连续点击！", Color.yellow, 4f);
         }
 
-        void Internal_GenerateDoc()
+        void PerformGenerateDoc()
         {
             if (!Directory.Exists(docFolderPath))
             {

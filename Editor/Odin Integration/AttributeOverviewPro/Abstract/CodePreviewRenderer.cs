@@ -13,6 +13,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     [Summary("代码预览渲染器，负责绘制特性的示例代码及控制逻辑")]
     public class CodePreviewRenderer : IAttributeComponentRenderer
     {
+        const int CodeAreaWidth = 750;
         static readonly BilingualData _codePreviewLabel = new BilingualData("代码预览", "Code Preview");
 
         static readonly BilingualData _viewFullCodeButtonLabel =
@@ -23,12 +24,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         static readonly BilingualData _copyCodeButtonLabel = new BilingualData("拷贝代码", "Copy Code");
 
-        const int CodeAreaWidth = 750;
-
         readonly AbstractAttributePanelSO _panel;
+        string _currentExampleSourceCode;
         bool _isShowShortenCodePreview = true;
         Vector2 _scrollPosition;
-        string _currentExampleSourceCode;
 
         public CodePreviewRenderer(AbstractAttributePanelSO panel) => _panel = panel;
 
@@ -42,18 +41,16 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
 
             var contentRect =
-                AbstractAttributePanelSO.Internal_BeginDrawContainerWithTitle(_codePreviewLabel,
+                AbstractAttributePanelSO.BeginDrawContainerWithTitle(_codePreviewLabel,
                     out var headerToolBarRect);
             SirenixEditorGUI.DrawBorders(headerToolBarRect, 1, Color.clear);
-            Internal_DrawCodePreviewHeader(headerToolBarRect);
-            Internal_DrawCodePreviewContent();
+            DrawCodePreviewHeader(headerToolBarRect);
+            DrawCodePreviewContent();
 
-            AbstractAttributePanelSO.Internal_EndDrawContainerWithTitle(contentRect);
+            AbstractAttributePanelSO.EndDrawContainerWithTitle(contentRect);
         }
 
-        public void OnLanguageChanged()
-        {
-        }
+        public void OnLanguageChanged() { }
 
         public void Reset()
         {
@@ -65,13 +62,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _currentExampleSourceCode = sourceCode;
         }
 
-        void Internal_DrawCodePreviewHeader(Rect headerToolBarRect)
+        void DrawCodePreviewHeader(Rect headerToolBarRect)
         {
             var showSwitchButtonRect = headerToolBarRect.AlignLeft(140f).AddXMin(1f);
             var viewFullCodeTexture =
-                SdfIcons.CreateTransparentIconTexture(SdfIconType.Fullscreen, Color.white, 24, 24, 0);
+                SdfIcons.CreateTransparentIconTexture(SdfIconType.Fullscreen, Color.white,20,20, 0);
             var viewShortenCodeTexture =
-                SdfIcons.CreateTransparentIconTexture(SdfIconType.FullscreenExit, Color.white, 24, 24, 0);
+                SdfIcons.CreateTransparentIconTexture(SdfIconType.FullscreenExit, Color.white, 20, 20, 0);
 
             if (_isShowShortenCodePreview)
             {
@@ -94,7 +91,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
             var copyButtonRect = headerToolBarRect.AlignRight(100f);
             var copyCodeTexture =
-                SdfIcons.CreateTransparentIconTexture(SdfIconType.Stack, Color.white, 24, 24, 0);
+                SdfIcons.CreateTransparentIconTexture(SdfIconType.Stack, Color.white, 20, 20, 0);
             if (GUI.Button(copyButtonRect, GUIHelper.TempContent(" " + _copyCodeButtonLabel, copyCodeTexture),
                     SirenixGUIStyles.ToolbarButton))
             {
@@ -105,7 +102,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        void Internal_DrawCodePreviewContent()
+        void DrawCodePreviewContent()
         {
             EditorGUILayout.BeginVertical();
             var highlighterCode = OdinCodeHighlighter.ApplyHighlighting(_currentExampleSourceCode);

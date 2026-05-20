@@ -7,10 +7,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     [AesirExample]
     public class CustomValueDrawerExampleSO : AttributeExampleSO<CustomValueDrawerExampleSO>
     {
-        [Title("Parameter: Action (float value, GUIContent label)")]
+        [Title("Controls")]
         public float min;
+
         public float max = 10f;
 
+        [Title("Parameter: Action (float value, GUIContent label)")]
         [CustomValueDrawer("DrawSlider")]
         public float customSlider = 5f;
 

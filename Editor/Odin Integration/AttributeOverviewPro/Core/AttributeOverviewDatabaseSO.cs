@@ -7,24 +7,10 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Attribute Overview 数据库单例 SO，负责发现并管理所有 AbstractAttributePanelSO 资源。
-    /// </summary>
-    [Summary("Attribute Overview 数据库单例 SO，负责发现并管理所有 AbstractAttributePanelSO 资源")]
     public class AttributeOverviewDatabaseSO : SerializedScriptableObject, IAesirInspectorReset
     {
         static AttributeOverviewDatabaseSO _instance;
-
-        /// <summary>
-        /// 按分类分组的面板数组映射。
-        /// </summary>
-        [Summary("按分类分组的面板数组映射")]
         public Dictionary<string, AbstractAttributePanelSO[]> AttributePanelArrayMap;
-
-        /// <summary>
-        /// 用于 OdinMenuTree 的扁平面板映射，键为 "分类/中文名"。
-        /// </summary>
-        [Summary("用于 OdinMenuTree 的扁平面板映射，键为 \"分类/中文名\"")]
         public Dictionary<string, AbstractAttributePanelSO> AttributePanelMap =
             new Dictionary<string, AbstractAttributePanelSO>();
 
@@ -55,10 +41,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 重置数据库（重新初始化）。
-        /// </summary>
-        [Summary("重置数据库（重新初始化）")]
         public void AesirInspectorReset() => Initialize();
 
         /// <summary>
@@ -66,95 +48,120 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         /// </summary>
         [Button("初始化数据库", ButtonSizes.Large)]
         [Summary("初始化数据库：发现所有面板类型，创建缺失的 SO 资源，构建菜单映射")]
-        public AttributeOverviewDatabaseSO Initialize()
+        public void Initialize()
         {
-            var allPanels = Internal_GetAllAttributePanels();
-            if (allPanels == null || allPanels.Length == 0)
+            var startTime = (float)EditorApplication.timeSinceStartup;
+            const float timeout = 30f;
+
+            try
             {
-                AttributePanelArrayMap = new Dictionary<string, AbstractAttributePanelSO[]>();
+                var allPanels = GetAllAttributePanels();
+                if (allPanels == null || allPanels.Length == 0)
+                {
+                    AttributePanelArrayMap = new Dictionary<string, AbstractAttributePanelSO[]>();
+                    AttributePanelMap = new Dictionary<string, AbstractAttributePanelSO>();
+                }
+
+                AttributePanelArrayMap = new Dictionary<string, AbstractAttributePanelSO[]>
+                {
+                    {
+                        nameof(AesirAttributeCategory.Essentials),
+                        FilterPanels(allPanels, AesirAttributeCategory.Essentials)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Buttons),
+                        FilterPanels(allPanels, AesirAttributeCategory.Buttons)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Collections),
+                        FilterPanels(allPanels, AesirAttributeCategory.Collections)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Groups),
+                        FilterPanels(allPanels, AesirAttributeCategory.Groups)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Conditionals),
+                        FilterPanels(allPanels, AesirAttributeCategory.Conditionals)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Numbers),
+                        FilterPanels(allPanels, AesirAttributeCategory.Numbers)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.TypeSpecifics),
+                        FilterPanels(allPanels, AesirAttributeCategory.TypeSpecifics)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Validation),
+                        FilterPanels(allPanels, AesirAttributeCategory.Validation)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Misc),
+                        FilterPanels(allPanels, AesirAttributeCategory.Misc)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Meta),
+                        FilterPanels(allPanels, AesirAttributeCategory.Meta)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Unity),
+                        FilterPanels(allPanels, AesirAttributeCategory.Unity)
+                    },
+                    {
+                        nameof(AesirAttributeCategory.Debug),
+                        FilterPanels(allPanels, AesirAttributeCategory.Debug)
+                    }
+                };
+
                 AttributePanelMap = new Dictionary<string, AbstractAttributePanelSO>();
-                return this;
-            }
+                int totalPanels = allPanels.Length;
+                int processedCount = 0;
 
-            AttributePanelArrayMap = new Dictionary<string, AbstractAttributePanelSO[]>
-            {
+                foreach (var (category, panelArray) in AttributePanelArrayMap)
                 {
-                    nameof(AesirAttributeCategory.Essentials),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Essentials)
-                },
-                {
-                    nameof(AesirAttributeCategory.Buttons),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Buttons)
-                },
-                {
-                    nameof(AesirAttributeCategory.Collections),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Collections)
-                },
-                {
-                    nameof(AesirAttributeCategory.Groups),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Groups)
-                },
-                {
-                    nameof(AesirAttributeCategory.Conditionals),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Conditionals)
-                },
-                {
-                    nameof(AesirAttributeCategory.Numbers),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Numbers)
-                },
-                {
-                    nameof(AesirAttributeCategory.TypeSpecifics),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.TypeSpecifics)
-                },
-                {
-                    nameof(AesirAttributeCategory.Validation),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Validation)
-                },
-                {
-                    nameof(AesirAttributeCategory.Misc),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Misc)
-                },
-                {
-                    nameof(AesirAttributeCategory.Meta),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Meta)
-                },
-                {
-                    nameof(AesirAttributeCategory.Unity),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Unity)
-                },
-                {
-                    nameof(AesirAttributeCategory.Debug),
-                    Internal_FilterPanels(allPanels, AesirAttributeCategory.Debug)
-                }
-            };
-
-            AttributePanelMap = new Dictionary<string, AbstractAttributePanelSO>();
-            foreach (var (category, panelArray) in AttributePanelArrayMap)
-            {
-                foreach (var panel in panelArray)
-                {
-                    if (panel == null)
+                    foreach (var panel in panelArray)
                     {
-                        continue;
+                        if (panel == null)
+                        {
+                            continue;
+                        }
+
+                        if (EditorApplication.timeSinceStartup - startTime > timeout)
+                        {
+                            break;
+                        }
+
+                        processedCount++;
+                        EditorUtility.DisplayProgressBar("Initializing Aesir Inspector",
+                            $"Initializing Panel: {panel.name} ({processedCount}/{totalPanels})",
+                            0.5f + (float)processedCount / totalPanels * 0.5f);
+
+                        panel.Initialize();
+
+                        if (panel.BilingualHeaderControl?.headerName == null)
+                        {
+                            continue;
+                        }
+
+                        var menuName = panel.BilingualHeaderControl.headerName.ChineseDisplay;
+                        var key = category + "/" + menuName;
+                        AttributePanelMap.TryAdd(key, panel);
                     }
 
-                    panel.Initialize();
-
-                    if (panel.BilingualHeaderControl?.headerName == null)
+                    if (EditorApplication.timeSinceStartup - startTime > timeout)
                     {
-                        continue;
+                        break;
                     }
-
-                    var menuName = panel.BilingualHeaderControl.headerName.ChineseDisplay;
-                    var key = category + "/" + menuName;
-                    AttributePanelMap.TryAdd(key, panel);
                 }
             }
-
-            return this;
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
         }
 
-        static AbstractAttributePanelSO[] Internal_FilterPanels(AbstractAttributePanelSO[] panels,
+        static AbstractAttributePanelSO[] FilterPanels(AbstractAttributePanelSO[] panels,
             AesirAttributeCategory category)
         {
             return panels.Where(x =>
@@ -169,7 +176,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }).ToArray();
         }
 
-        static AbstractAttributePanelSO[] Internal_GetAllAttributePanels()
+        static AbstractAttributePanelSO[] GetAllAttributePanels()
         {
             var panelTypes = TypeCache.GetTypesDerivedFrom<AbstractAttributePanelSO>()
                 .Where(t => !t.IsAbstract && !t.IsInterface).ToArray();
@@ -183,8 +190,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             var list = new List<AbstractAttributePanelSO>();
             var needsRefresh = false;
 
-            foreach (var type in panelTypes)
+            for (int i = 0; i < panelTypes.Length; i++)
             {
+                var type = panelTypes[i];
+                EditorUtility.DisplayProgressBar("Initializing Aesir Inspector",
+                    $"Discovering Panel: {type.Name} ({i + 1}/{panelTypes.Length})",
+                    (float)i / panelTypes.Length * 0.5f);
+
                 if (existingAssets.TryGetValue(type, out var asset))
                 {
                     list.Add(asset);

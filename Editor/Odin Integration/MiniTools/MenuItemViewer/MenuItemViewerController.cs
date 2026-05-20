@@ -46,7 +46,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             AesirInspectorLogger.Info($"收集 {allAssemblies.Count} 个程序集中的 MenuItem");
             foreach (var assembly in allAssemblies)
             {
-                Internal_ProcessAssembly(assembly, menuItems);
+                ProcessAssembly(assembly, menuItems);
             }
 
             menuItems.Sort((a, b) =>
@@ -58,7 +58,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             return menuItems;
         }
 
-        static void Internal_ProcessAssembly(Assembly assembly, List<MenuItemInfo> menuItems)
+        static void ProcessAssembly(Assembly assembly, List<MenuItemInfo> menuItems)
         {
             var types = assembly.GetTypes();
             foreach (var type in types)

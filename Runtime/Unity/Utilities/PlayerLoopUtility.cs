@@ -58,7 +58,7 @@ namespace RunLab.AesirInspector
                 }
             }
 
-            Internal_HandleSubSystemLoopForRemoval<T>(ref loop, systemToRemove);
+            HandleSubSystemLoopForRemoval<T>(ref loop, systemToRemove);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace RunLab.AesirInspector
         {
             if (loop.type != typeof(T))
             {
-                return Internal_HandleSubSystemLoop<T>(ref loop, systemToInsert, index);
+                return HandleSubSystemLoop<T>(ref loop, systemToInsert, index);
             }
 
             var playerLoopSystemList = new List<PlayerLoopSystem>();
@@ -95,7 +95,7 @@ namespace RunLab.AesirInspector
             sb.AppendLine("Unity Player Loop:");
             foreach (var subSystem in loop.subSystemList)
             {
-                Internal_PrintSubSystem(subSystem, sb, 0);
+                PrintSubSystem(subSystem, sb, 0);
             }
 
             Debug.Log(sb.ToString());
@@ -119,7 +119,7 @@ namespace RunLab.AesirInspector
 
         #region Internal
 
-        static void Internal_HandleSubSystemLoopForRemoval<T>(ref PlayerLoopSystem loop,
+        static void HandleSubSystemLoopForRemoval<T>(ref PlayerLoopSystem loop,
             PlayerLoopSystem systemToRemove)
         {
             if (loop.subSystemList == null || loop.subSystemList.Length == 0)
@@ -133,7 +133,7 @@ namespace RunLab.AesirInspector
             }
         }
 
-        static bool Internal_HandleSubSystemLoop<T>(ref PlayerLoopSystem loop,
+        static bool HandleSubSystemLoop<T>(ref PlayerLoopSystem loop,
             PlayerLoopSystem systemToInsert,
             int index)
         {
@@ -155,7 +155,7 @@ namespace RunLab.AesirInspector
             return false;
         }
 
-        static void Internal_PrintSubSystem(PlayerLoopSystem system, StringBuilder sb, int depth)
+        static void PrintSubSystem(PlayerLoopSystem system, StringBuilder sb, int depth)
         {
             sb.Append(' ', depth * 2).AppendLine(system.type.ToString());
             if (system.subSystemList == null || system.subSystemList.Length == 0)
@@ -165,7 +165,7 @@ namespace RunLab.AesirInspector
 
             foreach (var subSubSystem in system.subSystemList)
             {
-                Internal_PrintSubSystem(subSubSystem, sb, depth + 1);
+                PrintSubSystem(subSubSystem, sb, depth + 1);
             }
         }
 

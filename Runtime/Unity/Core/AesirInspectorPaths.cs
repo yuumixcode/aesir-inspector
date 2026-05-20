@@ -56,6 +56,9 @@ namespace RunLab.AesirInspector
         public const string AttributePanelsPath =
             EditorDefaultResourcesPath + "/Attribute Overview Pro/Panels";
 
+        public const string AttributeExamplesPath =
+            EditorDefaultResourcesPath + "/Attribute Overview Pro/Attribute Examples";
+
         /// <summary>
         /// MiniTools 资源的存放路径
         /// </summary>

@@ -1,3 +1,4 @@
+using System.Linq;
 using RunLab.AesirInspector.Editor;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -15,9 +16,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     {
         static AttributeOverviewWindow _window;
         AttributeOverviewDatabaseSO _databaseSO;
-        OdinMenuTree _tree;
-
-        #region Public Methods
 
         /// <summary>
         /// 打开 Attribute Overview 窗口。
@@ -32,47 +30,79 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _window.Show();
         }
 
-        #endregion
-
         protected override void Initialize()
         {
             _databaseSO = AttributeOverviewDatabaseSO.Instance;
             WindowPadding = new Vector4(15, 15, 15, 5);
             MenuWidth = 230f;
-            _tree = new OdinMenuTree
+        }
+
+        protected override OdinMenuTree BuildMenuTree()
+        {
+            var tree = new OdinMenuTree
             {
                 Config =
                 {
                     DrawSearchToolbar = true,
-                    SearchTerm = "",
-                    SearchFunction = menuItem =>
-                    {
-                        var str = menuItem.Name.ToLower().Replace(" ", "");
-                        var searchStr = _tree.Config.SearchTerm.ToLower().Replace(" ", "");
-                        return str.Contains(searchStr);
-                    }
+                    SearchTerm = ""
                 },
                 DefaultMenuStyle = new OdinMenuStyle
                 {
                     Height = 24
                 }
             };
-        }
 
-        protected override OdinMenuTree BuildMenuTree()
-        {
-            if (_databaseSO == null || _databaseSO.AttributePanelMap == null)
+            tree.Config.SearchFunction = menuItem =>
             {
-                return _tree;
+                var str = menuItem.Name.ToLower().Replace(" ", "");
+                var searchStr = tree.Config.SearchTerm.ToLower().Replace(" ", "");
+                return str.Contains(searchStr);
+            };
+
+            if (_databaseSO == null || _databaseSO.AttributePanelArrayMap == null)
+            {
+                return tree;
             }
 
-            foreach (var keyValuePair in _databaseSO.AttributePanelMap)
+            // 按照分类数组映射的顺序添加，以保证 Essentials 在首位
+            var categories = new[]
             {
-                _tree.AddObjectAtPath(keyValuePair.Key, keyValuePair.Value);
+                nameof(AesirAttributeCategory.Essentials),
+                nameof(AesirAttributeCategory.Buttons),
+                nameof(AesirAttributeCategory.Collections),
+                nameof(AesirAttributeCategory.Groups),
+                nameof(AesirAttributeCategory.Conditionals),
+                nameof(AesirAttributeCategory.Numbers),
+                nameof(AesirAttributeCategory.TypeSpecifics),
+                nameof(AesirAttributeCategory.Validation),
+                nameof(AesirAttributeCategory.Misc),
+                nameof(AesirAttributeCategory.Meta),
+                nameof(AesirAttributeCategory.Unity),
+                nameof(AesirAttributeCategory.Debug)
+            };
+
+            foreach (var category in categories)
+            {
+                if (!_databaseSO.AttributePanelArrayMap.TryGetValue(category, out var panels) ||
+                    panels == null)
+                {
+                    continue;
+                }
+
+                // 分类内部按显示名称排序
+                var sortedPanels = panels
+                    .Where(p => p != null && p.BilingualHeaderControl?.headerName != null)
+                    .OrderBy(p => p.BilingualHeaderControl.headerName.ChineseDisplay).ToArray();
+
+                foreach (var panel in sortedPanels)
+                {
+                    var menuName = panel.BilingualHeaderControl.headerName.ChineseDisplay;
+                    var path = category + "/" + menuName;
+                    tree.AddObjectAtPath(path, panel);
+                }
             }
 
-            _tree.SortMenuItemsByName();
-            return _tree;
+            return tree;
         }
     }
 }

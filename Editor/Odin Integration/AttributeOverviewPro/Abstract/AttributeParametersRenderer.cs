@@ -42,11 +42,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
             Rect headerToolBarRect;
             var contentRect =
-                AbstractAttributePanelSO.Internal_BeginDrawContainerWithTitle(_attributeParametersTitleLabel,
+                AbstractAttributePanelSO.BeginDrawContainerWithTitle(_attributeParametersTitleLabel,
                     out headerToolBarRect);
             _attributeParametersTable.DrawTable();
-            Internal_ResizeAttributeParameterTable();
-            AbstractAttributePanelSO.Internal_EndDrawContainerWithTitle(contentRect);
+            ResizeAttributeParameterTable();
+            AbstractAttributePanelSO.EndDrawContainerWithTitle(contentRect);
         }
 
         public void OnLanguageChanged()
@@ -64,11 +64,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _attributeParameters = parameters;
             if (IsVisible)
             {
-                Internal_CreateAttributeParametersTable();
+                CreateAttributeParametersTable();
             }
         }
 
-        void Internal_CreateAttributeParametersTable()
+        void CreateAttributeParametersTable()
         {
             _attributeParametersTable = GUITable.Create(_attributeParameters, null, new GUITableColumn
             {
@@ -109,7 +109,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             });
         }
 
-        void Internal_ResizeAttributeParameterTable()
+        void ResizeAttributeParameterTable()
         {
             var tableRowHeight = new int[_attributeParametersTable.RowCount];
             for (var row = 0; row < _attributeParametersTable.RowCount; row++)
@@ -120,25 +120,25 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     if (row == 0)
                     {
                         tableRowHeight[0] = (int)Mathf.Max(
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameterReturnTypeLabel, width,
                                 _attributeParameterTextHeightCache),
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameterParamNameLabel, width, _attributeParameterTextHeightCache),
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameterParamDescriptionLabel, width,
                                 _attributeParameterTextHeightCache));
                     }
                     else
                     {
                         tableRowHeight[row] = (int)Mathf.Max(
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameters[row - 1].ReturnType, width,
                                 _attributeParameterTextHeightCache),
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameters[row - 1].ParameterName, width,
                                 _attributeParameterTextHeightCache),
-                            AbstractAttributePanelSO.Internal_GetCachedTextHeight(
+                            AbstractAttributePanelSO.GetCachedTextHeight(
                                 _attributeParameters[row - 1].GetDescription(), width,
                                 _attributeParameterTextHeightCache));
                     }

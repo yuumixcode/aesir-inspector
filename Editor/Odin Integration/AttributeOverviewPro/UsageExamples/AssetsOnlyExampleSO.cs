@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,6 +16,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         [AssetsOnly]
         public MeshRenderer someMeshRendererOnPrefab;
+
+        [AssetsOnly]
+        public List<GameObject> prefabs;
 
         public override void AesirInspectorReset()
         {

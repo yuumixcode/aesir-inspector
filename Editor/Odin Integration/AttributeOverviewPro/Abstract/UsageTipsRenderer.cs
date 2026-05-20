@@ -32,11 +32,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
             Rect headerToolBarRect;
             var contentRect =
-                AbstractAttributePanelSO.Internal_BeginDrawContainerWithTitle(_usageTipsLabel,
+                AbstractAttributePanelSO.BeginDrawContainerWithTitle(_usageTipsLabel,
                     out headerToolBarRect);
             _usageTipsTable.DrawTable();
-            Internal_ResizeUsageTipsTable();
-            AbstractAttributePanelSO.Internal_EndDrawContainerWithTitle(contentRect);
+            ResizeUsageTipsTable();
+            AbstractAttributePanelSO.EndDrawContainerWithTitle(contentRect);
         }
 
         public void OnLanguageChanged()
@@ -54,11 +54,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _usageTips = usageTips;
             if (IsVisible)
             {
-                Internal_CreateUsageTipsTable();
+                CreateUsageTipsTable();
             }
         }
 
-        void Internal_CreateUsageTipsTable()
+        void CreateUsageTipsTable()
         {
             _usageTipsTable = GUITable.Create(_usageTips, null, new GUITableColumn
             {
@@ -81,7 +81,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             });
         }
 
-        void Internal_ResizeUsageTipsTable()
+        void ResizeUsageTipsTable()
         {
             var tableRowHeight = new int[_usageTipsTable.RowCount];
             for (var row = 0; row < _usageTipsTable.RowCount; row++)
@@ -92,13 +92,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     if (row == 0)
                     {
                         tableRowHeight[0] =
-                            (int)AbstractAttributePanelSO.Internal_GetCachedTextHeight(_usageTipsLabel, width,
+                            (int)AbstractAttributePanelSO.GetCachedTextHeight(_usageTipsLabel, width,
                                 _usageTipsTextHeightCache);
                     }
                     else
                     {
                         tableRowHeight[row] =
-                            (int)AbstractAttributePanelSO.Internal_GetCachedTextHeight(_usageTips[row - 1],
+                            (int)AbstractAttributePanelSO.GetCachedTextHeight(_usageTips[row - 1],
                                 width, _usageTipsTextHeightCache);
                     }
                 }

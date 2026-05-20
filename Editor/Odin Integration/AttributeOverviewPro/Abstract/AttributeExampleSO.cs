@@ -25,7 +25,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 }
 
                 _asset = ScriptableObjectSafeEditorUtility.GetSingletonAssetAndDeleteOther<T>(
-                    AesirInspectorPaths.AttributePanelsPath);
+                    AesirInspectorPaths.AttributeExamplesPath);
                 return _asset;
             }
         }

@@ -133,7 +133,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         #region Internal
 
         [InitializeOnEnterPlayMode]
-        static void Internal_ResetStyles()
+        static void ResetStyles()
         {
             _containerTitleStyle = null;
             _containerContentStyle = null;
@@ -156,7 +156,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (exampleType != null)
             {
                 return TypeCache.GetTypesWithAttribute<AesirExampleAttribute>()
-                    .First(type => type == exampleType).GetCustomAttribute<AesirExampleAttribute>();
+                    .FirstOrDefault(type => type == exampleType)?.GetCustomAttribute<AesirExampleAttribute>();
             }
 
             Debug.LogError("[AttributeOverview] exampleType 不能为空");

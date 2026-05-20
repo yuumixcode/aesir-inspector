@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
@@ -52,7 +51,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
             var firstItem = ExamplePreviewItems[0];
             return firstItem.ExampleType == AttributeExampleType.OdinSerialized
-                ? (ScriptableObject)firstItem.OdinSerializedExample
+                ? firstItem.OdinSerializedExample
                 : firstItem.UnitySerializedExample;
         }
     }
