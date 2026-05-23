@@ -25,6 +25,7 @@ Aesir Inspector（`cn.runlab.aesir-inspector`）是一个 Unity/Tuanjie 编辑�
   * 版本号需在 `package.json` 和 `AesirInspectorVersion.cs` 两处同步
   * 采用自文档化代码原则，禁止 XML 注释，复杂逻辑用 `[Summary]` 解释"为什么"
   * 序列化字段使用 `camelCase`，私有非序列化字段使用 `_camelCase`
+  * 遵循 SOLID 原则，确保用户可独立扩展而不必修改包内源码（详见 CODELY.md）
 
 你当前就在代码的根目录，可以直接查看代码仓库的必要内容以协助对变更代码进行评估。
 
@@ -51,7 +52,15 @@ Aesir Inspector（`cn.runlab.aesir-inspector`）是一个 Unity/Tuanjie 编辑�
    * 版本号未在 `package.json` 和 `AesirInspectorVersion.cs` 同步更新
    * 缺乏单元测试覆盖
 
-4. **Unity/Tuanjie 特定问题**
+4. **SOLID 原则（开源可扩展性）**
+   * 违反 SRP：类承担多个变更原因（数据与渲染混杂、工具类跨领域）
+   * 违反 OCP：新增功能需修改已有代码，且该位置存在真实扩展场景却未提供扩展点
+   * 违反 LSP：子类覆写行为与基类契约不一致，或抛出 `NotImplementedException`
+   * 违反 ISP：接口过大，不同消费者只需部分方法却被迫依赖全部
+   * 违反 DIP：核心程序集直接依赖 Integration 程序集或第三方 API，而非通过接口 / Locator 逆转依赖方向
+   * 过度抽象：没有真实替换者的接口、没有继承者的抽象类、同程序集内不必要的间接层
+
+5. **Unity/Tuanjie 特定问题**
    * `CustomEditor` / `PropertyDrawer` 注册错误
    * `ScriptableObject` 生命周期管理不当
    * 编辑器窗口状态持久化问题

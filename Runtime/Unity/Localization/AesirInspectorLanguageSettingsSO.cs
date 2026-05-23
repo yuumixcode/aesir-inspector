@@ -1,27 +1,3 @@
-// ----------------------------------------------------------------------------
-// MIT License
-// 
-// Copyright (c) 2026 RunLab - Yuumix
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-// ----------------------------------------------------------------------------
-
 using System;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -47,28 +23,29 @@ namespace RunLab.AesirInspector
     /// Aesir Inspector 检查器语言设置。
     /// </summary>
     [Summary("Aesir Inspector 检查器语言管理")]
-    public class AesirInspectorLanguageSettingsSO : AesirInspectorSettings<AesirInspectorLanguageSettingsSO>,
-        ILanguageProvider
+    public class AesirInspectorLanguageSettingsSO : AesirInspectorSettings<AesirInspectorLanguageSettingsSO>
     {
         [SerializeField]
+        [HideInInspector]
         InspectorLanguage currentLanguage = InspectorLanguage.Chinese;
 
-        public static bool CurrentIsChinese => Instance != null && Instance.IsChinese;
+        [Summary("当前是否为中文")]
+        public static bool CurrentIsChinese => Instance.currentLanguage == InspectorLanguage.Chinese;
 
-        public static bool CurrentIsEnglish => Instance != null && Instance.IsEnglish;
+        [Summary("当前是否为英文")]
+        public static bool CurrentIsEnglish => Instance.currentLanguage == InspectorLanguage.English;
 
-        public bool IsChinese => currentLanguage == InspectorLanguage.Chinese;
-        public bool IsEnglish => currentLanguage == InspectorLanguage.English;
-        public InspectorLanguage CurrentLanguage => currentLanguage;
-
+        [Summary("语言变更事件")]
         public static event Action LanguageChanged;
 
+        [Summary("设置为中文")]
         public static void SetChinese()
         {
             Instance.currentLanguage = InspectorLanguage.Chinese;
             LanguageChanged?.Invoke();
         }
 
+        [Summary("设置为英文")]
         public static void SetEnglish()
         {
             Instance.currentLanguage = InspectorLanguage.English;

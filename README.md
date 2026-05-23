@@ -48,7 +48,7 @@ Aesir Inspector 会在编辑器加载时自动检测安装方式（UPM / Assets 
 ## 环境依赖
 
 - **Unity**: 2022.3.2t3 (Tuanjie) 或更高版本。
-- **Odin Inspector**: 3.3.x 或更高版本（可选依赖；导入后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinIntegration 增强程序集）。
+- **Odin Inspector**: 4.0.x 或更高版本（可选依赖；项目基于最新稳定版持续集成，当前基线 4.0.1.x。导入后会自动添加 `ODIN_INSPECTOR` 编译符号，启用 OdinIntegration 增强程序集）。
 
 ## 核心功能
 

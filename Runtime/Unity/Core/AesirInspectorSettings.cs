@@ -2,12 +2,7 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// Aesir Inspector 的编辑器单例设置基类。
-    /// 自动处理资源的获取、创建以及在 EditorBuildSettings 中的注册。
-    /// </summary>
-    /// <typeparam name="T">设置项类型</typeparam>
-    [Summary("Aesir Inspector 的编辑器单例设置基类，自动处理资源的获取、创建以及在 EditorBuildSettings 中的注册。")]
+    [Summary("编辑器单例设置基类，自动获取或创建 Preferences 资产。用于 ProjectSettings 等配置类的懒加载访问。")]
     public abstract class AesirInspectorSettings<T> : ScriptableObject where T : AesirInspectorSettings<T>
     {
         static T _instance;

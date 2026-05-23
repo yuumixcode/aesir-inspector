@@ -21,13 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // ----------------------------------------------------------------------------
-// 方法与区域规范 (Methods & Regions):
-// 1. Internal_ 前缀的方法名，必须是一个私有或者受保护或者内部的方法和一个公开方法重名，才能使用 Internal_ 前缀。
-// Odin Inspector 规范 (Odin Inspector Integration):
-// 特别注意：本文的 Odin Inspector 规范只针对 Aesir Inspector 插件。
-// 1. 优先使用 Odin Attribute 来构建 UI，而非编写原始的 Editor 代码。优先选择使用 OdinAttributeProcessor 的方式去动态添加特性。
-// 2. Odin 桥接方法请直接使用 OdinBridgeLocator.Bridge；反射工具方法请使用 ReflectionUtility。
-// ----------------------------------------------------------------------------
 
 using System;
 using UnityEngine;

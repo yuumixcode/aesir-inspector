@@ -3,45 +3,42 @@ using System.Text.RegularExpressions;
 
 namespace RunLab.AesirInspector.Editor
 {
-    /// <summary>
-    /// XML 注释部分和代码块的组合。
-    /// </summary>
     [Summary("XML 注释部分和代码块的组合")]
     [Serializable]
     public class XmlCodePart
     {
-        /// <summary>
-        /// 注释部分的源代码，以 /// 开头。
-        /// </summary>
-        [Summary("注释部分的源代码，以 /// 开头")]
-        public string xml;
+        static readonly Regex SummaryTagRegex = new(@"/// <summary>(.*?)</summary>", RegexOptions.Singleline);
+        static readonly Regex XmlSubTagRegex = new(@"<[^>]+>");
+        static readonly Regex CommentPrefixRegex = new(@"^\s*///\s*", RegexOptions.Multiline);
+        static readonly Regex BlankLineRegex = new(@"^\s*$\r?\n", RegexOptions.Multiline);
+        static readonly Regex WhitespaceRegex = new(@"\s+");
+        static readonly Regex LeadingIndentRegex = new(@"^\s*");
+        static readonly Regex SummaryAttributeRegex = new(
+            @"(?m)(?:^|\s)\s*\[Summary\(\""(?<content>[\s\S]*?)""\)\]", RegexOptions.Multiline);
 
-        /// <summary>
-        /// 不以注释开头的代码块，除了注释对应的成员外，可能包含多个成员。
-        /// </summary>
-        [Summary("不以注释开头的代码块，除了注释对应的成员外，可能包含多个成员")]
-        public string code;
+        readonly string _xml;
+        readonly string _code;
+
+        public string Xml => _xml;
+        public string Code => _code;
 
         public XmlCodePart(string xml, string code)
         {
-            this.xml = xml;
-            this.code = code;
+            _xml = xml;
+            _code = code;
         }
 
-        /// <summary>
-        /// code 开头的连续预处理指令行（如 #if、#elif、#else），确保添加 [Summary] 时位于条件编译块内部。
-        /// </summary>
         [Summary("code 开头的连续预处理指令行，确保添加 [Summary] 时位于条件编译块内部")]
         public string LeadingPreprocessorLines
         {
             get
             {
-                if (string.IsNullOrEmpty(code))
+                if (string.IsNullOrEmpty(_code))
                 {
                     return string.Empty;
                 }
 
-                var lines = code.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                var lines = _code.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                 var count = 0;
                 while (count < lines.Length && IsPreprocessorDirective(lines[count]))
                 {
@@ -52,144 +49,99 @@ namespace RunLab.AesirInspector.Editor
             }
         }
 
-        /// <summary>
-        /// code 去掉开头预处理指令行后的内容。
-        /// </summary>
-        [Summary("code 去掉开头预处理指令行后的内容")]
         public string CodeAfterLeadingPreprocessor
         {
             get
             {
                 var leading = LeadingPreprocessorLines;
-                return leading.Length > 0 ? code.Substring(leading.Length) : code;
+                return leading.Length > 0 ? _code.Substring(leading.Length) : _code;
             }
         }
 
-        /// <summary>
-        /// 从 xml 中提取 Summary 的内容。
-        /// </summary>
-        [Summary("从 xml 中提取 Summary 的内容")]
         public string SummaryValue
         {
             get
             {
-                var match = Regex.Match(xml, "/// <summary>(.*?)</summary>", RegexOptions.Singleline);
-                if (match.Success)
-                {
-                    var summaryContent = match.Groups[1].Value.Trim();
-                    // 移除 XML 子标签（如 <param>, <returns> 等）
-                    var cleanedSummaryContent = Regex.Replace(summaryContent, "<[^>]+>", "");
-                    // 移除多余的注释符号（///）
-                    cleanedSummaryContent = Regex.Replace(cleanedSummaryContent, @"^\s*///\s*", "",
-                        RegexOptions.Multiline);
-                    // 移除空行
-                    cleanedSummaryContent = Regex.Replace(cleanedSummaryContent, @"^\s*$\r?\n", "",
-                        RegexOptions.Multiline);
-                    // 压缩连续的空白字符
-                    cleanedSummaryContent = Regex.Replace(cleanedSummaryContent, @"\s+", " ").Trim();
-                    return cleanedSummaryContent;
-                }
-
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// 获取 SummaryAttribute 的代码文本。
-        /// </summary>
-        [Summary("获取 SummaryAttribute 的代码文本")]
-        public string SummaryAttributeText
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(SummaryValue))
+                var match = SummaryTagRegex.Match(_xml);
+                if (!match.Success)
                 {
                     return string.Empty;
                 }
 
-                var indent = Regex.Match(xml, @"^\s*").Value;
-                var attr = nameof(SummaryAttribute).Replace("Attribute", "");
-                return indent + "[" + attr + "(\"" + SummaryValue + "\")]\n";
+                var summaryContent = match.Groups[1].Value.Trim();
+                var cleaned = XmlSubTagRegex.Replace(summaryContent, "");
+                cleaned = CommentPrefixRegex.Replace(cleaned, "");
+                cleaned = BlankLineRegex.Replace(cleaned, "");
+                cleaned = WhitespaceRegex.Replace(cleaned, " ").Trim();
+                return cleaned;
             }
         }
 
-        /// <summary>
-        /// 删除了 summary 标签部分的 xml。
-        /// </summary>
-        [Summary("删除了 summary 标签部分的 xml")]
+        public string SummaryAttributeText
+        {
+            get
+            {
+                var value = SummaryValue;
+                if (string.IsNullOrEmpty(value))
+                {
+                    return string.Empty;
+                }
+
+                var indent = LeadingIndentRegex.Match(_xml).Value;
+                return $"{indent}[Summary(\"{value}\")]\n";
+            }
+        }
+
+        [Summary("删除了 summary 标签部分后的 xml")]
         public string RemovedSummaryXml
         {
             get
             {
-                var processedXml = xml;
-                var match = Regex.Match(xml, @"/// <summary>(.*?)</summary>", RegexOptions.Singleline);
-                if (match.Success)
+                var match = SummaryTagRegex.Match(_xml);
+                if (!match.Success)
                 {
-                    processedXml = xml.Replace(match.Value, "");
-                    processedXml = Regex.Replace(processedXml, @"^\s*$\r?\n", "", RegexOptions.Multiline);
+                    return _xml;
                 }
 
-                return processedXml;
+                var processed = _xml.Replace(match.Value, "");
+                return BlankLineRegex.Replace(processed, "");
             }
         }
 
-        /// <summary>
-        /// 删除了第一个 [Summary()] 部分的代码块（不含开头预处理指令行）。
-        /// </summary>
-        [Summary("删除了第一个 [Summary()] 部分的代码块")]
+        [Summary("删除了第一个 [Summary()] 后的代码块（不含开头预处理指令行）")]
         public string RemovedFirstSummaryAttributeCode
         {
             get
             {
                 var targetCode = CodeAfterLeadingPreprocessor;
-                var attr = nameof(SummaryAttribute).Replace("Attribute", "");
-                var match = Regex.Match(targetCode,
-                    @"(?m)(?:^|\s)\s*\[" + attr + @"\(""(?<content>[\s\S]*?)""\)\]", RegexOptions.Multiline);
+                var match = SummaryAttributeRegex.Match(targetCode);
                 if (match.Success)
                 {
                     targetCode = targetCode.Replace(match.Value, "");
-                    targetCode = Regex.Replace(targetCode, @"^\s*$\r?\n", "", RegexOptions.Multiline);
+                    targetCode = BlankLineRegex.Replace(targetCode, "");
                 }
 
                 return targetCode;
             }
         }
 
-        /// <summary>
-        /// 删除了所有 [Summary()] 部分的代码块（不含开头预处理指令行）。
-        /// </summary>
-        [Summary("删除了所有 [Summary()] 部分的代码块")]
+        [Summary("删除了所有 [Summary()] 后的代码块（不含开头预处理指令行）")]
         public string RemoveAllSummaryAttributeCode
         {
             get
             {
                 var targetCode = CodeAfterLeadingPreprocessor;
-                var attr = nameof(SummaryAttribute).Replace("Attribute", "");
-                targetCode = Regex.Replace(targetCode,
-                    @"(?m)(?:^|\s)\s*\[" + attr + @"\(""(?<content>[\s\S]*?)""\)\]", "",
-                    RegexOptions.Multiline);
-                targetCode = Regex.Replace(targetCode, @"^\s*$\r?\n", "", RegexOptions.Multiline);
-                return targetCode;
+                targetCode = SummaryAttributeRegex.Replace(targetCode, "");
+                return BlankLineRegex.Replace(targetCode, "");
             }
         }
 
-        /// <summary>
-        /// 获取删除了 SummaryAttribute 的代码。
-        /// </summary>
-        [Summary("获取删除了 SummaryAttribute 的代码")]
         public string GetReplaceAllOutput() =>
-            xml + LeadingPreprocessorLines + RemoveAllSummaryAttributeCode;
+            _xml + LeadingPreprocessorLines + RemoveAllSummaryAttributeCode;
 
-        /// <summary>
-        /// 获取同步 Summary 后的代码。
-        /// </summary>
         public string GetSyncOutput() =>
-            xml + LeadingPreprocessorLines + SummaryAttributeText + RemovedFirstSummaryAttributeCode;
+            _xml + LeadingPreprocessorLines + SummaryAttributeText + RemovedFirstSummaryAttributeCode;
 
-        /// <summary>
-        /// 获取替换了 summary 标签的代码。
-        /// </summary>
-        [Summary("获取替换了 summary 标签的代码")]
         public string GetReplaceOutput() =>
             RemovedSummaryXml + LeadingPreprocessorLines + SummaryAttributeText +
             RemovedFirstSummaryAttributeCode;

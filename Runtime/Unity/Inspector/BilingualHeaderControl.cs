@@ -11,14 +11,18 @@ namespace RunLab.AesirInspector
     [Summary("双语顶部说明控件，用于模块的简单介绍")]
     public class BilingualHeaderControl
     {
-        [SerializeField]
+        /// <summary>
+        /// 标题名称控件
+        /// </summary>
+        [Summary("标题名称控件")]
         public BilingualDisplayAsStringControl headerName;
 
-        [SerializeField]
+        /// <summary>
+        /// 标题介绍控件
+        /// </summary>
+        [Summary("标题介绍控件")]
         public BilingualDisplayAsStringControl headerIntroduction;
 
-        readonly string _chineseIntroduction;
-        readonly string _englishIntroduction;
         string _targetUrl;
 
         public BilingualHeaderControl(string chineseName,
@@ -32,15 +36,13 @@ namespace RunLab.AesirInspector
                 fontSize = 30,
                 alignment = TextAlignment.Left
             };
-            _chineseIntroduction = chineseIntroduction;
-            _englishIntroduction = englishIntroduction ?? chineseIntroduction;
-            headerIntroduction =
-                new BilingualDisplayAsStringControl(_chineseIntroduction, _englishIntroduction)
-                {
-                    fontSize = 14,
-                    enableRichText = true,
-                    alignment = TextAlignment.Left
-                };
+            headerIntroduction = new BilingualDisplayAsStringControl(chineseIntroduction,
+                englishIntroduction ?? chineseIntroduction)
+            {
+                fontSize = 14,
+                enableRichText = true,
+                alignment = TextAlignment.Left
+            };
             _targetUrl = targetUrl ?? AesirInspectorWebLinks.GitUrl;
         }
 
@@ -48,8 +50,8 @@ namespace RunLab.AesirInspector
         /// 是否隐藏标题介绍
         /// </summary>
         [Summary("是否隐藏标题介绍")]
-        public bool HideHeaderIntroduction => string.IsNullOrWhiteSpace(_chineseIntroduction) &&
-                                              string.IsNullOrWhiteSpace(_englishIntroduction);
+        public bool HideHeaderIntroduction => string.IsNullOrWhiteSpace(headerIntroduction.ChineseDisplay) &&
+                                              string.IsNullOrWhiteSpace(headerIntroduction.EnglishDisplay);
 
         /// <summary>
         /// 打开相关文档链接
@@ -60,8 +62,6 @@ namespace RunLab.AesirInspector
             var validatedUrl = UrlUtility.ValidateAndNormalizeUrl(_targetUrl, AesirInspectorWebLinks.GitUrl);
             Application.OpenURL(validatedUrl);
         }
-
-        public void PlaceholderMethod1() { }
 
         [Summary("切换当前语言")]
         [Conditional("UNITY_EDITOR")]
@@ -76,7 +76,5 @@ namespace RunLab.AesirInspector
                 AesirInspectorLanguageSettingsSO.SetChinese();
             }
         }
-
-        public void PlaceholderMethod2() { }
     }
 }

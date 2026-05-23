@@ -4,62 +4,23 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.Editor
 {
-    /// <summary>
-    /// 右键快捷处理 Summary 特性。
-    /// </summary>
     [Summary("右键快捷处理 Summary 特性")]
     public static class SummaryToolMenuItems
     {
         [MenuItem(AesirInspectorMenuItems.ProcessSummarySync, false,
             AesirInspectorMenuItems.ProcessSummarySyncOrder)]
-        public static void QuickSyncSummary()
-        {
-            if (Selection.objects.Length == 1)
-            {
-                WriteSyncSummary(AssetDatabase.GetAssetPath(Selection.activeObject));
-            }
-            else
-            {
-                foreach (var obj in Selection.objects)
-                {
-                    WriteSyncSummary(AssetDatabase.GetAssetPath(obj));
-                }
-            }
-        }
+        public static void QuickSyncSummary() =>
+            ProcessSelectedScripts(XmlSummaryTool.ProcessMode.SyncSummary);
 
         [MenuItem(AesirInspectorMenuItems.ProcessSummaryReplace, false,
             AesirInspectorMenuItems.ProcessSummaryReplaceOrder)]
-        public static void QuickReplaceSummary()
-        {
-            if (Selection.objects.Length == 1)
-            {
-                WriteReplaceSummary(AssetDatabase.GetAssetPath(Selection.activeObject));
-            }
-            else
-            {
-                foreach (var obj in Selection.objects)
-                {
-                    WriteReplaceSummary(AssetDatabase.GetAssetPath(obj));
-                }
-            }
-        }
+        public static void QuickReplaceSummary() =>
+            ProcessSelectedScripts(XmlSummaryTool.ProcessMode.ReplaceSummary);
 
         [MenuItem(AesirInspectorMenuItems.ProcessSummaryRemove, false,
             AesirInspectorMenuItems.ProcessSummaryRemoveOrder)]
-        public static void QuickRemoveSummary()
-        {
-            if (Selection.objects.Length == 1)
-            {
-                WriteRemoveSummary(AssetDatabase.GetAssetPath(Selection.activeObject));
-            }
-            else
-            {
-                foreach (var obj in Selection.objects)
-                {
-                    WriteRemoveSummary(AssetDatabase.GetAssetPath(obj));
-                }
-            }
-        }
+        public static void QuickRemoveSummary() =>
+            ProcessSelectedScripts(XmlSummaryTool.ProcessMode.RemoveSummary);
 
         [MenuItem(AesirInspectorMenuItems.ProcessSummarySync, true)]
         static bool CanSyncSummary() => IsScriptAsset();
@@ -70,35 +31,22 @@ namespace RunLab.AesirInspector.Editor
         [MenuItem(AesirInspectorMenuItems.ProcessSummaryRemove, true)]
         static bool CanRemoveSummary() => IsScriptAsset();
 
-        static bool IsScriptAsset()
+        static bool IsScriptAsset() =>
+            Selection.activeObject && Selection.objects.All(obj => obj is MonoScript);
+
+        static void ProcessSelectedScripts(XmlSummaryTool.ProcessMode processMode)
         {
-            var selectedObject = Selection.activeObject;
-            return selectedObject && Selection.objects.All(obj => obj is MonoScript);
+            foreach (var obj in Selection.objects)
+            {
+                WriteProcessedSummary(AssetDatabase.GetAssetPath(obj), processMode);
+            }
         }
 
-        static void WriteSyncSummary(string filePath)
+        static void WriteProcessedSummary(string filePath, XmlSummaryTool.ProcessMode processMode)
         {
             var sourceCode = File.ReadAllText(filePath);
             var processor = new XmlSummaryTool(sourceCode).ParseSourceScript();
-            sourceCode = processor.GetProcessedSourceScript(XmlSummaryTool.ProcessMode.SyncSummary);
-            File.WriteAllText(filePath, sourceCode);
-            AssetDatabase.Refresh();
-        }
-
-        static void WriteReplaceSummary(string filePath)
-        {
-            var sourceCode = File.ReadAllText(filePath);
-            var processor = new XmlSummaryTool(sourceCode).ParseSourceScript();
-            sourceCode = processor.GetProcessedSourceScript(XmlSummaryTool.ProcessMode.ReplaceSummary);
-            File.WriteAllText(filePath, sourceCode);
-            AssetDatabase.Refresh();
-        }
-
-        static void WriteRemoveSummary(string filePath)
-        {
-            var sourceCode = File.ReadAllText(filePath);
-            var processor = new XmlSummaryTool(sourceCode).ParseSourceScript();
-            sourceCode = processor.GetProcessedSourceScript(XmlSummaryTool.ProcessMode.RemoveSummary);
+            sourceCode = processor.GetProcessedSourceScript(processMode);
             File.WriteAllText(filePath, sourceCode);
             AssetDatabase.Refresh();
         }

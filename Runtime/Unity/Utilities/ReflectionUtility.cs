@@ -1,27 +1,3 @@
-// ----------------------------------------------------------------------------
-// MIT License
-// 
-// Copyright (c) 2026 RunLab - Yuumix
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-// ----------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -43,16 +19,9 @@ namespace RunLab.AesirInspector
         [Summary("获取名称中包含指定字符串的所有程序集")]
         public static Assembly[] GetAssembliesOfNameContainString(string partOfAssemblyName)
         {
-            try
-            {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(assembly => assembly.FullName.Contains(partOfAssemblyName)).ToArray();
-                return assemblies.Length > 0 ? assemblies : Array.Empty<Assembly>();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"发生错误: {ex.Message}");
-            }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(assembly => assembly.FullName.Contains(partOfAssemblyName)).ToArray();
+            return assemblies.Length > 0 ? assemblies : Array.Empty<Assembly>();
         }
 
         /// <summary>
@@ -72,14 +41,17 @@ namespace RunLab.AesirInspector
         [Summary("获取成员的值（支持字段和属性）。")]
         public static object GetMemberValue(MemberInfo member, object obj)
         {
-            if ((object)(member as FieldInfo) != null)
+            if (member is FieldInfo fieldInfo)
             {
-                return ((FieldInfo)member).GetValue(obj);
+                return fieldInfo.GetValue(obj);
             }
 
-            return (object)(member as PropertyInfo) != null
-                ? ((PropertyInfo)member).GetGetMethod(true).Invoke(obj, null)
-                : throw new ArgumentException($"Can't get the value of a {member.GetType().Name}");
+            if (member is PropertyInfo propertyInfo)
+            {
+                return propertyInfo.GetGetMethod(true).Invoke(obj, null);
+            }
+
+            throw new ArgumentException($"Can't get the value of a {member.GetType().Name}");
         }
 
         /// <summary>
@@ -88,26 +60,27 @@ namespace RunLab.AesirInspector
         [Summary("获取成员的返回类型（支持字段、属性、方法和事件）。")]
         public static Type GetReturnType(MemberInfo memberInfo)
         {
-            var fieldInfo = memberInfo as FieldInfo;
-            if (fieldInfo != null)
+            if (memberInfo is FieldInfo fieldInfo)
             {
                 return fieldInfo.FieldType;
             }
 
-            var propertyInfo = memberInfo as PropertyInfo;
-            if (propertyInfo != null)
+            if (memberInfo is PropertyInfo propertyInfo)
             {
                 return propertyInfo.PropertyType;
             }
 
-            var methodInfo = memberInfo as MethodInfo;
-            if (methodInfo != null)
+            if (memberInfo is MethodInfo methodInfo)
             {
                 return methodInfo.ReturnType;
             }
 
-            var eventInfo = memberInfo as EventInfo;
-            return eventInfo != null ? eventInfo.EventHandlerType : null;
+            if (memberInfo is EventInfo eventInfo)
+            {
+                return eventInfo.EventHandlerType;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -116,41 +89,36 @@ namespace RunLab.AesirInspector
         [Summary("判断成员是否为静态成员。")]
         public static bool IsStatic(MemberInfo member)
         {
-            var fieldInfo = member as FieldInfo;
-            if (fieldInfo != null)
+            if (member is FieldInfo fieldInfo)
             {
                 return fieldInfo.IsStatic;
             }
 
-            var propertyInfo = member as PropertyInfo;
-            if (propertyInfo != null)
+            if (member is PropertyInfo propertyInfo)
             {
                 return !propertyInfo.CanRead
                     ? propertyInfo.GetSetMethod(true).IsStatic
                     : propertyInfo.GetGetMethod(true).IsStatic;
             }
 
-            var methodBase = member as MethodBase;
-            if (methodBase != null)
+            if (member is MethodBase methodBase)
             {
                 return methodBase.IsStatic;
             }
 
-            var eventInfo = member as EventInfo;
-            if (eventInfo != null)
+            if (member is EventInfo eventInfo)
             {
                 return eventInfo.GetRaiseMethod(true).IsStatic;
             }
 
-            var type = member as Type;
-            if (!(type != null))
+            if (member is Type type)
             {
-                throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture,
-                    "Unable to determine IsStatic for member {0}.{1}MemberType was {2} but only fields, properties, methods, events and types are supported.",
-                    member.DeclaringType?.FullName, member.Name, member.GetType().FullName));
+                return type.IsSealed && type.IsAbstract;
             }
 
-            return type.IsSealed && type.IsAbstract;
+            throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture,
+                "Unable to determine IsStatic for member {0}.{1}MemberType was {2} but only fields, properties, methods, events and types are supported.",
+                member.DeclaringType?.FullName, member.Name, member.GetType().FullName));
         }
 
         /// <summary>
@@ -197,10 +165,7 @@ namespace RunLab.AesirInspector
             var first = GetBaseClasses(type, includeSelf).Concat(type.GetInterfaces());
             if (includeSelf && type.IsInterface)
             {
-                first = first.Concat(new[]
-                {
-                    type
-                });
+                first = first.Concat(new[] { type });
             }
 
             return first;

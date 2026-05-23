@@ -49,7 +49,7 @@
 
 - **Tuanjie Editor** 2022.3 或更高版本（Unity 2022.3 fork）
 - **Git**：用于版本控制
-- **Odin Inspector** 3.3.x 或更高（可选依赖，用于开发 OdinIntegration 增强功能）
+- **Odin Inspector** 4.0.x 或更高（可选依赖，用于开发 OdinIntegration 增强功能。项目基于最新稳定版持续集成，当前基线 4.0.1.x）
 
 ### 克隆项目
 
@@ -80,7 +80,7 @@ Aesir Inspector/
 │   │   ├── OdinBridge/            # IOdinBridge 桥接层
 │   │   ├── ScriptDocGenerator/    # 文档生成器运行时模型
 │   │   └── Utilities/             # 安全编辑器工具集
-│   └── Odin Integration/          # Odin 运行时 (ODIN_INSPECTOR)
+│   └── OdinIntegration/           # Odin 运行时 (ODIN_INSPECTOR)
 │       ├── Attributes/            # 双语特性
 │       └── OdinCodeHighlighter.cs
 ├── Editor/
@@ -88,7 +88,7 @@ Aesir Inspector/
 │   │   ├── Core/                  # 安装检测、菜单管理
 │   │   ├── MiniTools/             # QuickCreateSO
 │   │   └── SummaryTool/           # XML Summary 同步
-│   └── Odin Integration/          # Odin 编辑器 (ODIN_INSPECTOR)
+│   └── OdinIntegration/           # Odin 编辑器 (ODIN_INSPECTOR)
 │       ├── AttributeOverviewPro/  # 特性总览窗口
 │       ├── AttributeProcessors/   # OdinAttributeProcessor
 │       ├── Bridge/                # OdinInspectorBridge
@@ -155,8 +155,18 @@ public void ApplyDamage(float amount) { }
 - **严禁**对 `UnityEngine.Object` 派生类使用 `?.` / `??`。
 - 私有方法对应公开方法时，增加 `Internal_` 前缀。
 - `#if UNITY_EDITOR` 包裹编辑器专用代码。
-- Odin 依赖代码**必须**放在 `Odin Integration/` 子目录。
+- Odin 依赖代码**必须**放在 `OdinIntegration/` 子目录。
 - 核心程序集**不允许**直接引用 Odin API — 通过 `IOdinBridge` 桥接。
+
+### SOLID 原则
+
+本项目遵循 SOLID 原则，确保用户可以独立扩展而不必修改包内源码。**但不过度抽象——每一层抽象都必须有明确的理由**。详细规范参见 `.ai/CODELY.md` 中的 "SOLID Principles" 章节。
+
+- **SRP**：每个类只承担一个变更原因。数据与渲染分离，工具类单一领域。
+- **OCP**：只在有真实扩展场景时提供扩展点。无替换者的内部逻辑直接编写具体类。
+- **LSP**：子类必须能替换基类。默认实现需提供语义等价的降级行为。
+- **ISP**：接口按消费者角色分组。单一消费者的接口无需继续拆分。
+- **DIP**：跨程序集边界时必须通过接口 + Locator 逆转依赖方向。同程序集内直接引用即可。
 
 ### 事件规范
 
@@ -217,8 +227,11 @@ public void ApplyDamage(float amount) { }
 - [ ] 未引入 XML 文档注释（使用 `[Summary]` 或自文档化命名替代）
 - [ ] 未对 `UnityEngine.Object` 派生类使用 `?.` / `??`
 - [ ] 编辑器专用代码已用 `#if UNITY_EDITOR` 包裹
-- [ ] Odin 依赖代码放置在 `Odin Integration/` 子目录
+- [ ] Odin 依赖代码放置在 `OdinIntegration/` 子目录
 - [ ] 核心程序集未直接引用 Odin API
+- [ ] 新增的接口/抽象类有真实替换者或用户扩展场景（无过度抽象）
+- [ ] 接口方法按消费者角色分组，无不相关的方法混入（ISP）
+- [ ] 跨程序集依赖通过接口 + Locator 逆转方向，同程序集内直接引用（DIP）
 - [ ] 已添加必要的单元测试
 - [ ] 所有测试通过
 - [ ] 提交信息简洁且使用现在时态

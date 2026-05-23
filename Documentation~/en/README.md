@@ -48,7 +48,7 @@ Aesir Inspector automatically detects the installation mode (UPM / Assets direct
 ## Requirements
 
 - **Unity**: 2022.3.2t3 (Tuanjie) or later.
-- **Odin Inspector**: 3.3.x or later (optional dependency; importing it automatically adds the `ODIN_INSPECTOR` compilation symbol, enabling Odin Integration enhancement assemblies).
+- **Odin Inspector**: 4.0.x or later (optional dependency; the project is continuously integrated against the latest stable release, currently baseline 4.0.1.x. Importing Odin automatically adds the `ODIN_INSPECTOR` compilation symbol, enabling Odin Integration enhancement assemblies).
 
 ## Core Features
 

@@ -59,7 +59,7 @@ Aesir Inspector 是一个 Unity/Tuanjie 编辑器扩展库，提供双语 Inspec
 ## 系统要求
 
 - Unity 2022.3 或 Tuanjie 引擎
-- 可选：Odin Inspector
+- 可选：Odin Inspector 4.0.x 或更高（项目基于最新稳定版持续集成）
 
 ## 许可证
 

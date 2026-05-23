@@ -1,13 +1,11 @@
-This package contains third-party software components governed by the license(s) indicated below:
+[English](Documentation~/en/Third%20Party%20Notices.md)
 
-Component Name: Semver
+本包包含第三方软件组件，受以下许可证约束：
 
-License Type: "MIT"
+组件名称：Odin-Resolved-Parameters-Overview
 
-[SemVer License](https://github.com/myusername/semver/blob/master/License.txt)
+许可证类型："MIT"
 
-Component Name: MyComponent
+[Odin-Resolved-Parameters-Overview 许可证](https://github.com/schwapo/Odin-Resolved-Parameters-Overview/blob/main/LICENSE)
 
-License Type: "MyLicense"
 
-[MyComponent License](https://www.mycompany.com/licenses/License.txt)
