@@ -7,13 +7,9 @@ using Sirenix.OdinInspector.Editor;
 
 namespace RunLab.AesirInspector.OdinIntegration
 {
-    /// <summary>
-    /// 双语按钮特性。必须硬编码使用特性，不能使用 OdinAttributeProcessor 动态添加使用。
-    /// </summary>
     [Summary("双语按钮特性。必须硬编码使用特性，不能使用 OdinAttributeProcessor 动态添加使用。")]
     [AttributeUsage(AttributeTargets.All, Inherited = false)]
     [Conditional("UNITY_EDITOR")]
-  
     public class BilingualButtonAttribute : ShowInInspectorAttribute
     {
         public BilingualButtonAttribute(string chineseName,
@@ -45,89 +41,47 @@ namespace RunLab.AesirInspector.OdinIntegration
             DirtyOnClick = dirtyOnClick;
         }
 
-        /// <summary>
-        /// 按钮对齐方式 (0-1)
-        /// </summary>
         [Summary("按钮对齐方式 (0-1)")]
         public float ButtonAlignment { get; set; }
 
-        /// <summary>
-        /// 按钮高度
-        /// </summary>
         [Summary("按钮高度")]
         public int ButtonHeight { get; set; }
 
-        /// <summary>
-        /// 图标对齐方式
-        /// </summary>
         [Summary("图标对齐方式")]
         public IconAlignment ButtonIconAlignment { get; set; }
 
-        /// <summary>
-        /// 按钮大小
-        /// </summary>
         [Summary("按钮大小")]
         public ButtonSizes ButtonSize { get; set; }
 
-        /// <summary>
-        /// 中文名称
-        /// </summary>
         [Summary("中文名称")]
         [OdinDesignerBinding]
         public string ChineseName { get; set; }
 
-        /// <summary>
-        /// 点击时是否标记为脏
-        /// </summary>
         [Summary("点击时是否标记为脏")]
         public bool DirtyOnClick { get; set; }
 
-        /// <summary>
-        /// 是否显示参数
-        /// </summary>
         [Summary("是否显示参数")]
         public bool DisplayParameters { get; set; }
 
-        /// <summary>
-        /// 是否绘制结果
-        /// </summary>
         [Summary("是否绘制结果")]
         public bool DrawResult { get; set; }
 
-        /// <summary>
-        /// 英文名称
-        /// </summary>
         [Summary("英文名称")]
         [OdinDesignerBinding]
         public string EnglishName { get; set; }
 
-        /// <summary>
-        /// 是否展开
-        /// </summary>
         [Summary("是否展开")]
         public bool Expanded { get; set; }
 
-        /// <summary>
-        /// SDF 图标类型
-        /// </summary>
         [Summary("SDF 图标类型")]
         public SdfIconType Icon { get; set; }
 
-        /// <summary>
-        /// 是否拉伸
-        /// </summary>
         [Summary("是否拉伸")]
         public bool Stretch { get; set; }
 
-        /// <summary>
-        /// 按钮样式
-        /// </summary>
         [Summary("按钮样式")]
         public ButtonStyle Style { get; set; }
 
-        /// <summary>
-        /// 创建 Odin 的 Button 特性。
-        /// </summary>
         [Summary("创建 Odin 的 Button 特性")]
         public ButtonAttribute CreateButton()
         {

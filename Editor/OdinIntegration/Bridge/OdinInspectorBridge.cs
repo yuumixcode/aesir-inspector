@@ -4,9 +4,7 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Odin 环境下的 IOdinBridge 实现，委托给 Sirenix.Utilities 的扩展方法。
-    /// </summary>
+    [Summary("Odin 环境下的 IOdinBridge 实现，委托给 Sirenix.Utilities 的扩展方法")]
     public class OdinInspectorBridge : IOdinBridge
     {
         public bool IsAvailable => true;
@@ -17,9 +15,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             type.GetGenericConstraintsString(full);
     }
 
-    /// <summary>
-    /// 在 OdinIntegration 程序集加载时注入 OdinBridge 实现。
-    /// </summary>
+    [Summary("在 OdinIntegration 程序集加载时注入 OdinBridge 实现")]
     [InitializeOnLoad]
     public static class OdinBridgeInitializer
     {

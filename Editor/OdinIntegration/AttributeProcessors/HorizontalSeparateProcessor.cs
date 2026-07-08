@@ -6,7 +6,7 @@ using Sirenix.OdinInspector.Editor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    public class HorizontalSeparateProcessor : OdinAttributeProcessor<HorizontalSeparateControl>
+    internal sealed class HorizontalSeparateProcessor : OdinAttributeProcessor<HorizontalSeparateControl>
     {
         public override void ProcessChildMemberAttributes(InspectorProperty parentProperty,
             MemberInfo member,

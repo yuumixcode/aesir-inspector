@@ -3,15 +3,9 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 层级工具类，提供 Transform 层级路径相关的操作方法
-    /// </summary>
     [Summary("层级工具类，提供 Transform 层级路径相关的操作方法")]
     public static class HierarchyUtility
     {
-        /// <summary>
-        /// 获取物体在层级中的完整路径
-        /// </summary>
         [Summary("获取物体在层级中的完整路径")]
         public static string GetFullPath(Transform transform)
         {
@@ -31,9 +25,6 @@ namespace RunLab.AesirInspector
             return sb.ToString();
         }
 
-        /// <summary>
-        /// 获取子物体相对于父物体的路径
-        /// </summary>
         [Summary("获取子物体相对于父物体的路径")]
         public static string GetRelativePath(Transform parent, Transform child)
         {
@@ -64,9 +55,6 @@ namespace RunLab.AesirInspector
             return path;
         }
 
-        /// <summary>
-        /// 获取子物体相对于父物体的路径（基于路径字符串）
-        /// </summary>
         [Summary("获取子物体相对于父物体的路径（基于路径字符串）")]
         public static string GetRelativePath(string parentPath, string childPath)
         {
@@ -90,9 +78,6 @@ namespace RunLab.AesirInspector
             return childPath.Substring(parentPath.Length + 1);
         }
 
-        /// <summary>
-        /// 递归查找深层子物体
-        /// </summary>
         [Summary("递归查找深层子物体")]
         public static Transform FindDeepChild(Transform parent, string name)
         {

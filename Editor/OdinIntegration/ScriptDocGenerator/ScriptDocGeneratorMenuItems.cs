@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
+    [Summary("脚本文档生成器的右键菜单入口，快捷添加 ScriptDocGenerator 组件到选中脚本")]
     public static class ScriptDocGeneratorMenuItems
     {
         static MonoScript[] SelectionMonoScripts => Selection

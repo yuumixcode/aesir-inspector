@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 解析字符串参数渲染器，负责绘制 ResolvedStringParameterValue 列表。
-    /// </summary>
     [Summary("解析字符串参数渲染器，负责绘制 ResolvedStringParameterValue 列表")]
     public class ResolvedStringParametersRenderer : IAttributeComponentRenderer
     {

@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 示例预览渲染器，负责绘制特性的使用示例及其控制按钮。
-    /// </summary>
     [Summary("示例预览渲染器，负责绘制特性的使用示例及其控制按钮")]
     public class ExamplePreviewRenderer : IAttributeComponentRenderer
     {
@@ -51,9 +48,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _resetIconTexture = null;
         }
 
-        /// <summary>
-        /// 开始绘制示例预览容器。
-        /// </summary>
+        [Summary("开始绘制示例预览容器")]
         public void BeginDraw()
         {
             if (!IsVisible)
@@ -68,9 +63,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             DrawExamplePreviewItems();
         }
 
-        /// <summary>
-        /// 结束绘制示例预览容器。
-        /// </summary>
+        [Summary("结束绘制示例预览容器")]
         public void EndDraw()
         {
             if (!IsVisible)

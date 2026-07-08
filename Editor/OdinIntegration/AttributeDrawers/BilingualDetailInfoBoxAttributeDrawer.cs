@@ -9,9 +9,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 带有详细信息的双语信息框特性的 Drawer。
-    /// </summary>
     [DrawerPriority(0.0, 10001.0)]
     [Summary("带有详细信息的双语信息框特性的 Drawer，根据当前编辑器语言渲染对应语言的信息文本、详细内容与图标样式")]
     public class BilingualDetailInfoBoxAttributeDrawer : OdinAttributeDrawer<BilingualDetailedInfoBoxAttribute>,

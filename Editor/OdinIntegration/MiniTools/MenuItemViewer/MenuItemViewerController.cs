@@ -6,9 +6,6 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// MenuItemViewer 逻辑控制类，使用反射获取所有程序集中的 UnityEditor.MenuItem 特性
-    /// </summary>
     [Summary("MenuItemViewer 逻辑控制类，使用反射获取所有程序集中的 UnityEditor.MenuItem 特性")]
     public static class MenuItemViewerController
     {

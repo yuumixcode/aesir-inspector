@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.Editor
 {
-    [Summary("右键快捷处理 Summary 特性")]
+    [Summary("右键快捷处理 Summary 特性；选中 C# 脚本后右键可在 XML 注释与 [Summary] 特性之间同步、替换或移除")]
     public static class SummaryToolMenuItems
     {
         [MenuItem(AesirInspectorMenuItems.ProcessSummarySync, false,

@@ -10,9 +10,7 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 脚本文档生成器逻辑控制类，负责处理文档生成的核心逻辑
-    /// </summary>
+    [Summary("脚本文档生成器的编辑器控制逻辑，协调类型扫描、文档模板与输出流程")]
     public static class ScriptDocGeneratorController
     {
         const string IdentifierCn = "## Additional Notes";

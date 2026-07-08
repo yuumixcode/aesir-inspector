@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// InlineEditor 特性介绍面板。
     /// </summary>
     [Summary("InlineEditor 特性介绍面板，展示 InlineEditor 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Misc)]
+    [AttributeCategory(AesirAttributeCategory.Misc | AesirAttributeCategory.TypeSpecifics)]
     public class InlineEditorAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

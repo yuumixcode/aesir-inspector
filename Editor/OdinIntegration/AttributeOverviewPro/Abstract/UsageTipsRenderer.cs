@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 使用提示渲染器，负责绘制特性使用的提示表格。
-    /// </summary>
     [Summary("使用提示渲染器，负责绘制特性使用的提示表格")]
     public class UsageTipsRenderer : IAttributeComponentRenderer
     {

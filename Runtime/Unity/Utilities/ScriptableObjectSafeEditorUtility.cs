@@ -6,16 +6,9 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// ScriptableObject 的编辑器安全工具类，不需要编写宏定义。仅编辑器阶段有效，打包后运行时调用，返回 null 或者其他默认值。
-    /// </summary>
     [Summary("ScriptableObject 的编辑器安全工具类，不需要编写宏定义。仅编辑器阶段有效，打包后运行时调用，返回 null 或者其他默认值。")]
     public static class ScriptableObjectSafeEditorUtility
     {
-        /// <summary>
-        /// 获取对应类型的 SO 资源单例的相对路径。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。
-        /// 打包后此方法将失效，返回 string.Empty。
-        /// </summary>
         [Summary("获取对应类型的 SO 资源单例的相对路径。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 string.Empty。")]
         public static string GetSingletonAssetPathAndDeleteOther<T>(string relativeFolderPath = "")
             where T : ScriptableObject
@@ -27,10 +20,6 @@ namespace RunLab.AesirInspector
 #endif
         }
 
-        /// <summary>
-        /// 获取对应类型的 SO 资源单例。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。
-        /// 打包后此方法将失效，返回 null。
-        /// </summary>
         [Summary("获取对应类型的 SO 资源单例。若存在多个则保留第一个并删除其余；若不存在则在指定路径自动创建。打包后此方法将失效，返回 null。")]
         public static T GetSingletonAssetAndDeleteOther<T>(string relativeFolderPath = "")
             where T : ScriptableObject
@@ -42,11 +31,6 @@ namespace RunLab.AesirInspector
 #endif
         }
 
-        /// <summary>
-        /// 根据配置名称获取或创建编辑器 ScriptableObject 资源。
-        /// 如果资源不存在则自动创建并保存到指定路径，同时将资源注册到 EditorBuildSettings 中。
-        /// 打包后此方法将失效，返回 null。
-        /// </summary>
         [Summary(
             "根据配置名称获取或创建编辑器 ScriptableObject 资源。如果资源不存在则自动创建并保存到指定路径，同时将资源注册到 EditorBuildSettings 中。打包后此方法将失效，返回 null。")]
         public static T GetOrCreateEditorScriptableObject<T>(string configName,

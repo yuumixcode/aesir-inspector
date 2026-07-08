@@ -5,9 +5,6 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 存储 UnityEditor.MenuItem 特性的参数信息
-    /// </summary>
     [Summary("存储 UnityEditor.MenuItem 特性的参数信息")]
     [Serializable]
     public class MenuItemInfo : ISearchFilterable
@@ -56,13 +53,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         [Summary("完整的方法签名")]
         public string FullMethodSignature { get; set; }
 
-        #region ISearchFilterable Members
-
         [Summary("ISearchFilterable 接口方法，自定义搜索匹配规则")]
         public bool IsMatch(string searchString) =>
             MenuPath.ToLower().Contains(searchString.ToLower()) ||
             MethodName.ToLower().Contains(searchString.ToLower());
-
-        #endregion
     }
 }

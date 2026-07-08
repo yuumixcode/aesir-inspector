@@ -15,7 +15,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         public Material materialAsset;
 
         [AssetsOnly]
-        public MeshRenderer someMeshRendererOnPrefab;
+        public MeshRenderer someMeshRenderer;
 
         [AssetsOnly]
         public List<GameObject> prefabs;
@@ -24,7 +24,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         {
             somePrefab = null;
             materialAsset = null;
-            someMeshRendererOnPrefab = null;
+            someMeshRenderer = null;
         }
     }
 }

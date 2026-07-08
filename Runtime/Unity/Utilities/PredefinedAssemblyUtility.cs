@@ -3,48 +3,27 @@ using System.Collections.Generic;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 预定义程序集类型
-    /// </summary>
     [Summary("预定义程序集类型")]
     public enum PredefinedAssemblyType
     {
         None = 0,
 
-        /// <summary>
-        /// 程序集 CSharp
-        /// </summary>
         [Summary("程序集 CSharp")]
         AssemblyCSharp = 1,
 
-        /// <summary>
-        /// 程序集 CSharp-Editor
-        /// </summary>
         [Summary("程序集 CSharp-Editor")]
         AssemblyCSharpEditor = 2,
 
-        /// <summary>
-        /// 程序集 CSharp-Editor-firstpass
-        /// </summary>
         [Summary("程序集 CSharp-Editor-firstpass")]
         AssemblyCSharpEditorFirstPass = 3,
 
-        /// <summary>
-        /// 程序集 CSharp-firstpass
-        /// </summary>
         [Summary("程序集 CSharp-firstpass")]
         AssemblyCSharpFirstPass = 4
     }
 
-    /// <summary>
-    /// 预定义程序集工具类，提供获取程序集类型及运行时类型的方法
-    /// </summary>
     [Summary("预定义程序集工具类，提供获取程序集类型及运行时类型的方法")]
     public static class PredefinedAssemblyUtility
     {
-        /// <summary>
-        /// 根据程序集名称获取对应的预定义程序集类型
-        /// </summary>
         [Summary("根据程序集名称获取对应的预定义程序集类型")]
         public static PredefinedAssemblyType? GetAssemblyType(string assemblyName)
         {
@@ -58,9 +37,6 @@ namespace RunLab.AesirInspector
             };
         }
 
-        /// <summary>
-        /// 获取实现了指定接口的所有运行时类型
-        /// </summary>
         [Summary("获取实现了指定接口的所有运行时类型")]
         public static List<Type> GetRuntimeTypesWithInterface(Type interfaceType)
         {
@@ -76,9 +52,7 @@ namespace RunLab.AesirInspector
 
         #region Internal
 
-        static void AddTypesFromAssembly(Type[] assemblyTypes,
-            Type interfaceType,
-            ICollection<Type> results)
+        static void AddTypesFromAssembly(Type[] assemblyTypes, Type interfaceType, ICollection<Type> results)
         {
             if (assemblyTypes == null)
             {

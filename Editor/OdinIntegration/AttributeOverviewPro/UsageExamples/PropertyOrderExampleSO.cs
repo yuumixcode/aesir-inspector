@@ -9,12 +9,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     [AesirExample]
     internal class PropertyOrderExampleSO : AttributeExampleSO<PropertyOrderExampleSO>
     {
-        [Title("No Parameters")]
+        [Title("Parameter: Order")]
         [PropertyOrder(1)]
         public string second = "I am drawn second (Order = 1)";
 
         [PropertyOrder(-1)]
-        public string first = "I am drawn first, even though I'm defined later in code (Order = -1)";
+        public string first = "I am drawn first (Order = -1)";
 
         [PropertyOrder(10)]
         public string third = "I am drawn last (Order = 10)";
@@ -27,7 +27,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         public override void AesirInspectorReset()
         {
             second = "I am drawn second (Order = 1)";
-            first = "I am drawn first, even though I'm defined later in code (Order = -1)";
+            first = "I am drawn first (Order = -1)";
             third = "I am drawn last (Order = 10)";
         }
     }

@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// ShowIfGroup 特性介绍面板。
     /// </summary>
     [Summary("ShowIfGroup 特性介绍面板，展示 ShowIfGroup 各参数用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Conditionals)]
+    [AttributeCategory(AesirAttributeCategory.Conditionals | AesirAttributeCategory.Groups)]
     public class ShowIfGroupAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

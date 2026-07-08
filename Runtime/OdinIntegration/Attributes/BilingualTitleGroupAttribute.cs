@@ -28,9 +28,6 @@ using Sirenix.OdinInspector;
 
 namespace RunLab.AesirInspector.OdinIntegration
 {
-    /// <summary>
-    /// 双语标题分组特性。
-    /// </summary>
     [Summary("双语标题分组特性")]
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [Conditional("UNITY_EDITOR")]
@@ -56,45 +53,24 @@ namespace RunLab.AesirInspector.OdinIntegration
             Indent = indent;
         }
 
-        /// <summary>
-        /// 是否加粗标题
-        /// </summary>
         [Summary("是否加粗标题")]
         public bool BoldTitle { get; set; }
 
-        /// <summary>
-        /// 是否显示水平分割线
-        /// </summary>
         [Summary("是否显示水平分割线")]
         public bool HorizontalLine { get; set; }
 
-        /// <summary>
-        /// 是否缩进
-        /// </summary>
         [Summary("是否缩进")]
         public bool Indent { get; set; }
 
-        /// <summary>
-        /// 副标题数据
-        /// </summary>
         [Summary("副标题数据")]
         public BilingualData SubtitleData { get; set; }
 
-        /// <summary>
-        /// 标题对齐方式
-        /// </summary>
         [Summary("标题对齐方式")]
         public TitleAlignments TitleAlignment { get; set; }
 
-        /// <summary>
-        /// 标题数据
-        /// </summary>
         [Summary("标题数据")]
         public BilingualData TitleData { get; set; }
 
-        /// <summary>
-        /// 合并属性组特性值。
-        /// </summary>
         [Summary("合并属性组特性值")]
         protected override void CombineValuesWith(PropertyGroupAttribute other)
         {

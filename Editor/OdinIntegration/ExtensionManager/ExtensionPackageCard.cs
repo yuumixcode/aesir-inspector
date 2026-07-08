@@ -31,18 +31,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             "https://github.com/yuumixcode/AesirToolkit", "RunLab Yuumix",
             "https://github.com/yuumixcode/AesirToolkit.git?path=/Assets/RunLab/AesirToolkit/Core#main");
 
-        [Summary("Aesir Toolkit Modules 的卡片")]
-        public static ExtensionPackageCard AesirToolkitModules = new ExtensionPackageCard(
-            "com.runlab.aesir-toolkit-modules", "Aesir Toolkit 模块，包括多种功能模块，低侵入性模块。",
-            "https://github.com/yuumixcode/AesirToolkit", "RunLab Yuumix",
-            "https://github.com/yuumixcode/AesirToolkit.git?path=/Assets/RunLab/AesirToolkit/Modules#main");
-
-        [Summary("Unity-Improved-Timers 的卡片")]
-        public static ExtensionPackageCard GitAmendImprovedTimers = new ExtensionPackageCard(
-            "com.gitamend.improvedtimers", "Unity-Improved-Timers",
-            "https://github.com/adammyhre/Unity-Improved-Timers", "Git-Amend",
-            "https://github.com/adammyhre/Unity-Improved-Timers.git");
-
         [BoxGroup("A", ShowLabel = false)]
         [PropertyOrder(-900)]
         [HorizontalGroup("A/C")]
@@ -185,8 +173,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         [Summary("校验 Git URL 是否有效（最小校验：包含 .git 且非空）")]
         public bool HasValidGitUrl() => !string.IsNullOrEmpty(gitUrl) && gitUrl.Contains(".git");
 
-        #region Internal
-
         Color GetStateColor(PackageState state)
         {
             return state switch
@@ -196,7 +182,5 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 _ => new Color(0.6f, 0.6f, 0.6f)
             };
         }
-
-        #endregion
     }
 }

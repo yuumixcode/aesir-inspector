@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// MenuItemViewer 可视化面板
-    /// </summary>
     [Summary("MenuItemViewer 可视化面板")]
     public class MenuItemViewerSO : ScriptableObject, IAesirInspectorReset
     {
@@ -22,8 +19,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<MenuItemViewerSO>(ConfigName,
                 AesirInspectorPaths.MiniToolsAssetsFolderPath, "MenuItemViewer");
 
-        #region Event Functions
-
         void OnEnable()
         {
             bilingualHeaderControl = new BilingualHeaderControl("MenuItem 查看器", "MenuItem Viewer",
@@ -32,10 +27,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 AesirInspectorWebLinks.GitUrl);
         }
 
-        #endregion
-
-        #region IAesirInspectorReset Members
-
         [Summary("将所有字段重置为默认值")]
         public void AesirInspectorReset()
         {
@@ -43,16 +34,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             menuItemInfos = null;
         }
 
-        #endregion
-
         [PropertySpace(8, 8)]
         [BilingualButton("搜集项目所有菜单项，排除筛选项", "Collect MenuItems Exclude Filter", ButtonSizes.Large)]
         public void CollectMenuItems()
         {
             menuItemInfos = MenuItemViewerController.GetAllMenuItems(assemblyFilter);
         }
-
-        #region Serialized Fields
 
         public BilingualHeaderControl bilingualHeaderControl;
 
@@ -65,7 +52,5 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         [PropertyOrder(10)]
         [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
         public List<MenuItemInfo> menuItemInfos;
-
-        #endregion
     }
 }

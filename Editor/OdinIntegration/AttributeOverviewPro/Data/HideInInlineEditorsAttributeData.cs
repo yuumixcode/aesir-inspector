@@ -7,7 +7,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             new BilingualHeaderControl("HideInInlineEditors", "HideInInlineEditors",
                 "HideInInlineEditors 特性使属性在 InlineEditor 中隐藏。",
                 "The HideInInlineEditors attribute hides a property when displayed within an InlineEditor.",
-                OdinInspectorDocumentationLinks.HideInPlayModeUrl); // 暂时借用，链接不带s
+                OdinInspectorDocumentationLinks.HideInInlineEditorUrl);
 
         public override BilingualData[] UsageTips { get; set; } = { };
 

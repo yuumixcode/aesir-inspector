@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// FolderPath 特性介绍面板。
     /// </summary>
     [Summary("FolderPath 特性介绍面板，展示 FolderPath 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Misc)]
+    [AttributeCategory(AesirAttributeCategory.Validation | AesirAttributeCategory.TypeSpecifics)]
     public class FolderPathAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

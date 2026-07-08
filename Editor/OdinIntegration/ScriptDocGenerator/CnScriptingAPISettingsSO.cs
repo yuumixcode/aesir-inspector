@@ -4,9 +4,6 @@ using System.Text;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 中文 API 文档生成设置
-    /// </summary>
     [Summary("中文 API 文档生成设置")]
     public class CnScriptingAPISettingsSO : DocGeneratorSettingsSO
     {

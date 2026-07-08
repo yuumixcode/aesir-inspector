@@ -6,9 +6,6 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 检查器语言枚举。
-    /// </summary>
     [Summary("检查器语言枚举")]
     public enum InspectorLanguage
     {
@@ -19,9 +16,6 @@ namespace RunLab.AesirInspector
         English = 1
     }
 
-    /// <summary>
-    /// Aesir Inspector 检查器语言设置。
-    /// </summary>
     [Summary("Aesir Inspector 检查器语言管理")]
     public class AesirInspectorLanguageSettingsSO : AesirInspectorSettings<AesirInspectorLanguageSettingsSO>
     {

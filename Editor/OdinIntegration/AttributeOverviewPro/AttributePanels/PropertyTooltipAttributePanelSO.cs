@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// PropertyTooltip 特性介绍面板。
     /// </summary>
     [Summary("PropertyTooltip 特性介绍面板，展示 PropertyTooltip 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Essentials)]
+    [AttributeCategory(AesirAttributeCategory.Misc)]
     public class PropertyTooltipAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

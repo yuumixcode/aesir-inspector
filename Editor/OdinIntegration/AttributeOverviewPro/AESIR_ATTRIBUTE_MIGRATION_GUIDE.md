@@ -5,10 +5,10 @@
 移植来源如下：
 
 1. [OdinToolkits 的 AttributeOverviewPro] `Assets/Plugins/Yuumix/OdinToolkits/AttributeOverviewPro`
-2. [Yuumix 的 ResolvedParametersOverview] `Assets/Plugins/Yuumix/Community/Modules/ResolvedParametersOverview`
+2. [ResolvedParametersOverview] `Assets/ResolvedParametersOverviewWindow`
 3. [Odin Inspector 官方文档] `https://odininspector.com/attributes`
 
-来源优先级为：优先依据 [OdinToolkits 的 AttributeOverviewPro]，然后依据 [Yuumix 的 ResolvedParametersOverview] 补充被解析字符串参数的信息，最后搜索 [Odin Inspector 官方文档] 官方文档进行验证补充，不因为官方文档而删除案例。
+来源优先级为：优先依据 [OdinToolkits 的 AttributeOverviewPro]，然后依据 [ResolvedParametersOverview] 补充被解析字符串参数的信息，最后搜索 [Odin Inspector 官方文档] 官方文档进行验证补充，不因为官方文档而删除案例。
 
 移植目标： [Aesir Inspector 的 OdinIntegration 的 AttributeOverviewPro] `Assets/RunLab/Aesir Inspector/Editor/OdinIntegration/AttributeOverviewPro`
 

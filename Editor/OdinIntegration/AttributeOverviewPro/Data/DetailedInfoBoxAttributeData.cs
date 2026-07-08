@@ -6,40 +6,34 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     {
         public override BilingualHeaderControl BilingualHeaderControl { get; set; } =
             new BilingualHeaderControl("DetailedInfoBox", "DetailedInfoBox",
-                "DetailedInfoBox 特性用于在属性上方绘制一个带有详细信息的可折叠消息框。",
-                "The DetailedInfoBox attribute is used to draw a collapsible message box with detailed information above a property.",
+                "DetailedInfoBox 特性用于在属性上方绘制一个可折叠的消息框，点击可展开显示详细信息。",
+                "The DetailedInfoBox attribute is used to draw a collapsible message box above a property that can be expanded to show more details.",
                 OdinInspectorDocumentationLinks.DetailedInfoBoxUrl);
 
         public override BilingualData[] UsageTips { get; set; } =
         {
-            new BilingualData("支持双语显示主消息和详细内容。",
-                "Supports bilingual display of the main message and detailed content."),
-            new BilingualData("详细内容区域可以手动展开或折叠。",
-                "The detailed content area can be manually expanded or collapsed."),
-            new BilingualData("支持根据成员名或表达式动态解析消息和详细内容。",
-                "Supports dynamic resolution of messages and detailed content based on member names or expressions.")
+            new BilingualData("与 InfoBox 类似，但支持可折叠的详细内容区域。",
+                "Similar to InfoBox, but supports a collapsible details section."),
+            new BilingualData("详细内容区域可以手动展开或折叠，减少编辑器中的视觉杂乱。",
+                "The details section can be manually expanded or collapsed, reducing visual clutter in the editor."),
+            new BilingualData("Message、Details 和 VisibleIf 参数均支持字符串解析（$ 和 @ 表达式）。",
+                "Message, Details, and VisibleIf parameters all support string resolution ($ and @ expressions).")
         };
 
         public override ParameterValue[] AttributeParameters { get; set; } =
         {
-            new ParameterValue(typeof(string).FullName, "chinese",
-                new BilingualData("默认（中文）消息框中显示的文本。",
-                    "Text displayed in the default (Chinese) message box.")),
-            new ParameterValue(typeof(string).FullName, "english",
-                new BilingualData("英文模式下消息框中显示的文本。", "Text displayed in the message box in English mode.")),
-            new ParameterValue(typeof(string).FullName, "detailsChinese",
-                new BilingualData("默认（中文）详细内容文本。", "Default (Chinese) detailed content text.")),
-            new ParameterValue(typeof(string).FullName, "detailsEnglish",
-                new BilingualData("英文模式下详细内容文本。", "Detailed content text in English mode.")),
+            new ParameterValue(typeof(string).FullName, "message",
+                new BilingualData("折叠状态下显示的文本。",
+                    "The text displayed in the collapsed state.")),
+            new ParameterValue(typeof(string).FullName, "details",
+                new BilingualData("展开状态下显示的详细内容文本。",
+                    "The detailed content text displayed when expanded.")),
             new ParameterValue("InfoMessageType", "infoMessageType",
                 new BilingualData("消息框的类型（Info, Warning, Error, None）。",
                     "The type of the message box (Info, Warning, Error, None).")),
             new ParameterValue(typeof(string).FullName, "visibleIf",
                 new BilingualData("可选成员名或表达式，用于控制消息框是否显示。",
-                    "An optional member name or expression used to control whether the message box is displayed.")),
-            new ParameterValue(typeof(bool).FullName, "guiAlwaysEnabled",
-                new BilingualData("即使属性被禁用，是否也始终启用消息框。",
-                    "Whether the message box is always enabled even if the property is disabled."))
+                    "An optional member name or expression used to control whether the message box is displayed."))
         };
 
         public override ResolvedStringParameterValue[] ResolvedStringParameters { get; set; } =
@@ -49,13 +43,19 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             new ResolvedStringParameterValue("Details", ResolverType.ValueResolver, typeof(string).FullName,
                 "None", new List<ParameterValue>()),
             new ResolvedStringParameterValue("Visible If", ResolverType.ValueResolver, typeof(bool).FullName,
-                "None", new List<ParameterValue>())
+                "True", new List<ParameterValue>())
         };
 
         public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } =
         {
-            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Bilingual Usage",
-                DetailInfoBoxBilingualExampleSO.Instance),
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Basic Usage",
+                DetailedInfoBoxExampleSO.Instance),
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Message Expression",
+                DetailedInfoBoxExampleWithMessageSO.Instance),
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Details Expression",
+                DetailedInfoBoxExampleWithDetailsSO.Instance),
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("VisibleIf Expression",
+                DetailedInfoBoxExampleWithVisibleIfSO.Instance)
         };
     }
 }

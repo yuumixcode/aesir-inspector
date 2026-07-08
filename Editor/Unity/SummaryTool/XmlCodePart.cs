@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace RunLab.AesirInspector.Editor
 {
-    [Summary("XML 注释部分和代码块的组合")]
+    [Summary("XML 文档注释与代码块的配对模型，供 XmlSummaryTool 在 Sync / Replace / Remove 模式下组装输出")]
     [Serializable]
     public class XmlCodePart
     {
@@ -29,122 +29,101 @@ namespace RunLab.AesirInspector.Editor
         }
 
         [Summary("code 开头的连续预处理指令行，确保添加 [Summary] 时位于条件编译块内部")]
-        public string LeadingPreprocessorLines
+        public string GetLeadingPreprocessorLines()
         {
-            get
+            if (string.IsNullOrEmpty(_code))
             {
-                if (string.IsNullOrEmpty(_code))
-                {
-                    return string.Empty;
-                }
-
-                var lines = _code.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                var count = 0;
-                while (count < lines.Length && IsPreprocessorDirective(lines[count]))
-                {
-                    count++;
-                }
-
-                return count > 0 ? string.Join("\n", lines, 0, count) + "\n" : string.Empty;
+                return string.Empty;
             }
+
+            var lines = _code.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            var count = 0;
+            while (count < lines.Length && IsPreprocessorDirective(lines[count]))
+            {
+                count++;
+            }
+
+            return count > 0 ? string.Join("\n", lines, 0, count) + "\n" : string.Empty;
         }
 
-        public string CodeAfterLeadingPreprocessor
+        public string GetCodeAfterLeadingPreprocessor()
         {
-            get
-            {
-                var leading = LeadingPreprocessorLines;
-                return leading.Length > 0 ? _code.Substring(leading.Length) : _code;
-            }
+            var leading = GetLeadingPreprocessorLines();
+            return leading.Length > 0 ? _code.Substring(leading.Length) : _code;
         }
 
-        public string SummaryValue
+        public string GetSummaryValue()
         {
-            get
+            var match = SummaryTagRegex.Match(_xml);
+            if (!match.Success)
             {
-                var match = SummaryTagRegex.Match(_xml);
-                if (!match.Success)
-                {
-                    return string.Empty;
-                }
-
-                var summaryContent = match.Groups[1].Value.Trim();
-                var cleaned = XmlSubTagRegex.Replace(summaryContent, "");
-                cleaned = CommentPrefixRegex.Replace(cleaned, "");
-                cleaned = BlankLineRegex.Replace(cleaned, "");
-                cleaned = WhitespaceRegex.Replace(cleaned, " ").Trim();
-                return cleaned;
+                return string.Empty;
             }
+
+            var summaryContent = match.Groups[1].Value.Trim();
+            var cleaned = XmlSubTagRegex.Replace(summaryContent, "");
+            cleaned = CommentPrefixRegex.Replace(cleaned, "");
+            cleaned = BlankLineRegex.Replace(cleaned, "");
+            cleaned = WhitespaceRegex.Replace(cleaned, " ").Trim();
+            return cleaned;
         }
 
-        public string SummaryAttributeText
+        public string GetSummaryAttributeText()
         {
-            get
+            var value = GetSummaryValue();
+            if (string.IsNullOrEmpty(value))
             {
-                var value = SummaryValue;
-                if (string.IsNullOrEmpty(value))
-                {
-                    return string.Empty;
-                }
-
-                var indent = LeadingIndentRegex.Match(_xml).Value;
-                return $"{indent}[Summary(\"{value}\")]\n";
+                return string.Empty;
             }
+
+            var indent = LeadingIndentRegex.Match(_xml).Value;
+            return $"{indent}[Summary(\"{value}\")]\n";
         }
 
         [Summary("删除了 summary 标签部分后的 xml")]
-        public string RemovedSummaryXml
+        public string GetRemovedSummaryXml()
         {
-            get
+            var match = SummaryTagRegex.Match(_xml);
+            if (!match.Success)
             {
-                var match = SummaryTagRegex.Match(_xml);
-                if (!match.Success)
-                {
-                    return _xml;
-                }
-
-                var processed = _xml.Replace(match.Value, "");
-                return BlankLineRegex.Replace(processed, "");
+                return _xml;
             }
+
+            var processed = _xml.Replace(match.Value, "");
+            return BlankLineRegex.Replace(processed, "");
         }
 
         [Summary("删除了第一个 [Summary()] 后的代码块（不含开头预处理指令行）")]
-        public string RemovedFirstSummaryAttributeCode
+        public string GetRemovedFirstSummaryAttributeCode()
         {
-            get
+            var targetCode = GetCodeAfterLeadingPreprocessor();
+            var match = SummaryAttributeRegex.Match(targetCode);
+            if (match.Success)
             {
-                var targetCode = CodeAfterLeadingPreprocessor;
-                var match = SummaryAttributeRegex.Match(targetCode);
-                if (match.Success)
-                {
-                    targetCode = targetCode.Replace(match.Value, "");
-                    targetCode = BlankLineRegex.Replace(targetCode, "");
-                }
-
-                return targetCode;
+                targetCode = targetCode.Replace(match.Value, "");
+                targetCode = BlankLineRegex.Replace(targetCode, "");
             }
+
+            return targetCode;
         }
 
         [Summary("删除了所有 [Summary()] 后的代码块（不含开头预处理指令行）")]
-        public string RemoveAllSummaryAttributeCode
+        public string GetRemovedAllSummaryAttributeCode()
         {
-            get
-            {
-                var targetCode = CodeAfterLeadingPreprocessor;
-                targetCode = SummaryAttributeRegex.Replace(targetCode, "");
-                return BlankLineRegex.Replace(targetCode, "");
-            }
+            var targetCode = GetCodeAfterLeadingPreprocessor();
+            targetCode = SummaryAttributeRegex.Replace(targetCode, "");
+            return BlankLineRegex.Replace(targetCode, "");
         }
 
         public string GetReplaceAllOutput() =>
-            _xml + LeadingPreprocessorLines + RemoveAllSummaryAttributeCode;
+            _xml + GetLeadingPreprocessorLines() + GetRemovedAllSummaryAttributeCode();
 
         public string GetSyncOutput() =>
-            _xml + LeadingPreprocessorLines + SummaryAttributeText + RemovedFirstSummaryAttributeCode;
+            _xml + GetLeadingPreprocessorLines() + GetSummaryAttributeText() + GetRemovedFirstSummaryAttributeCode();
 
         public string GetReplaceOutput() =>
-            RemovedSummaryXml + LeadingPreprocessorLines + SummaryAttributeText +
-            RemovedFirstSummaryAttributeCode;
+            GetRemovedSummaryXml() + GetLeadingPreprocessorLines() + GetSummaryAttributeText() +
+            GetRemovedFirstSummaryAttributeCode();
 
         static bool IsPreprocessorDirective(string line) => line.TrimStart().StartsWith("#");
     }

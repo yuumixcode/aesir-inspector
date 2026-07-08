@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// AssetsOnly 特性介绍面板，展示 AssetsOnly 用法及案例预览。
     /// </summary>
     [Summary("AssetsOnly 特性介绍面板，展示 AssetsOnly 用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Essentials)]
+    [AttributeCategory(AesirAttributeCategory.Essentials | AesirAttributeCategory.Validation)]
     public class AssetsOnlyAttributePanelSO : AbstractAttributePanelSO
     {
         /// <summary>

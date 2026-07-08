@@ -12,9 +12,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// ScriptDocGenerator 可视化操作面板类
-    /// </summary>
     [Summary("ScriptDocGenerator 可视化操作面板类")]
     public class ScriptDocGeneratorSO : SerializedScriptableObject, IAesirInspectorReset
     {
@@ -64,7 +61,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         [PropertyOrder(25)]
         [OdinSerialize]
-        Type _targetType;
+        Type targetType;
 
         [PropertyOrder(25)]
         [SerializeField]
@@ -76,7 +73,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         [PropertyOrder(25)]
         [OdinSerialize]
-        List<Type> _temporaryTypes = new List<Type>();
+        List<Type> temporaryTypes = new List<Type>();
 
         [PropertyOrder(25)]
         [SerializeField]
@@ -88,11 +85,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         [PropertyOrder(90)]
         [OdinSerialize]
-        ITypeData _typeData;
+        ITypeData typeData;
 
         [PropertyOrder(90)]
         [OdinSerialize]
-        List<ITypeData> _typeDataList;
+        List<ITypeData> typeDataList;
 
         public static ScriptDocGeneratorSO Instance =>
             ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<ScriptDocGeneratorSO>(
@@ -100,8 +97,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         public Type TargetType
         {
-            get => _targetType;
-            set => _targetType = value;
+            get => targetType;
+            set => targetType = value;
         }
 
         public TypeSource TypeSourceProperty
@@ -112,8 +109,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         public List<Type> TemporaryTypes
         {
-            get => _temporaryTypes;
-            set => _temporaryTypes = value;
+            get => temporaryTypes;
+            set => temporaryTypes = value;
         }
 
         bool IsSingleType => typeSource == TypeSource.SingleType;
@@ -123,10 +120,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         bool ShowSaveFolderPath => IsMultipleType && _isCustomizingSaveConfig && !typesCache;
         bool CanShowTemporaryTypes => IsMultipleType && !typesCache;
 
-        bool CanShowGenerateButton => _hasFinishedAnalyze && ((IsSingleType && _typeData != null) ||
-                                                              (IsMultipleType && _typeDataList is
+        bool CanShowGenerateButton => _hasFinishedAnalyze && ((IsSingleType && typeData != null) ||
+                                                              (IsMultipleType && typeDataList is
                                                                   { Count: > 0 }) ||
-                                                              (IsSingleAssembly && _typeDataList is
+                                                              (IsSingleAssembly && typeDataList is
                                                                   { Count: > 0 }));
 
         bool IsNeedTypeAnalysisDataList => IsMultipleType || IsSingleAssembly;
@@ -220,8 +217,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         {
             if (selectedMonoScript)
             {
-                _targetType = selectedMonoScript.GetClass();
-                Debug.Log("识别到 Type: " + _targetType + "，已更新 TargetType");
+                targetType = selectedMonoScript.GetClass();
+                Debug.Log("识别到 Type: " + targetType + "，已更新 TargetType");
             }
         }
 
@@ -230,9 +227,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (selectedMonoScriptArray.Length > 0)
             {
                 var types = selectedMonoScriptArray.Distinct().Select(x => x.GetClass()).ToList();
-                _temporaryTypes.AddRange(types);
-                var distinctTypes = _temporaryTypes.Distinct().ToList();
-                _temporaryTypes = distinctTypes;
+                temporaryTypes.AddRange(types);
+                var distinctTypes = temporaryTypes.Distinct().ToList();
+                temporaryTypes = distinctTypes;
             }
         }
 
@@ -242,11 +239,11 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             var content = new GUIContent(" 保存为SO资源 ", image,
                 "保存为 " + nameof(TypesCacheSO) + " 资源到 " + typesCacheSOFolderPath);
             var filePathWithExtension = typesCacheSOFolderPath + "/" + nameof(TypesCacheSO) + ".asset";
-            if (_temporaryTypes.Count > 0 && SirenixEditorGUI.ToolbarButton(content))
+            if (temporaryTypes.Count > 0 && SirenixEditorGUI.ToolbarButton(content))
             {
                 var so = CreateInstance<TypesCacheSO>();
                 PathSafeEditorUtility.EnsureDirectoryExists(typesCacheSOFolderPath);
-                so.Types = _temporaryTypes;
+                so.Types = temporaryTypes;
                 ProjectWindowUtil.CreateAsset(so, filePathWithExtension);
                 ProjectSafeEditorUtility.PingAndSelectAsset(filePathWithExtension);
                 Debug.Log("请更改资源名称，避免下次生成时覆盖内容");
@@ -292,24 +289,24 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             switch (typeSource)
             {
                 case TypeSource.SingleType:
-                    if (_targetType == null)
+                    if (targetType == null)
                     {
                         Debug.LogError("请选择有效的目标类型");
                         return;
                     }
 
-                    _typeData = ScriptDocGeneratorController.AnalyzeSingleType(_targetType);
+                    typeData = ScriptDocGeneratorController.AnalyzeSingleType(targetType);
                     break;
                 case TypeSource.MultipleTypes:
-                    if (!typesCache && _temporaryTypes.Count <= 0)
+                    if (!typesCache && temporaryTypes.Count <= 0)
                     {
                         Debug.LogError("设置有效的 Type 对象列表或者设置 TypeCacheSO 资源");
                         return;
                     }
 
-                    _typeDataList = typesCache
+                    typeDataList = typesCache
                         ? ScriptDocGeneratorController.AnalyzeMultipleTypes(typesCache)
-                        : ScriptDocGeneratorController.AnalyzeMultipleTypes(_temporaryTypes);
+                        : ScriptDocGeneratorController.AnalyzeMultipleTypes(temporaryTypes);
 
                     break;
                 case TypeSource.SingleAssembly:
@@ -319,7 +316,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                         return;
                     }
 
-                    _typeDataList =
+                    typeDataList =
                         ScriptDocGeneratorController.AnalyzeSingleAssembly(targetAssemblyFullName);
                     break;
             }
@@ -344,12 +341,12 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             switch (typeSource)
             {
                 case TypeSource.SingleType:
-                    ScriptDocGeneratorController.GenerateSingleTypeDoc(_typeData, docGeneratorSettings,
+                    ScriptDocGeneratorController.GenerateSingleTypeDoc(typeData, docGeneratorSettings,
                         docFolderPath);
                     break;
                 case TypeSource.MultipleTypes:
                 case TypeSource.SingleAssembly:
-                    ScriptDocGeneratorController.GenerateMultipleTypeDocs(_typeDataList, docGeneratorSettings,
+                    ScriptDocGeneratorController.GenerateMultipleTypeDocs(typeDataList, docGeneratorSettings,
                         docFolderPath);
                     break;
             }
@@ -414,7 +411,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     attributes.Add(new OnValueChangedAttribute(nameof(OnSelectedMonoScriptChanged)));
                 }
 
-                if (member.Name == nameof(_targetType))
+                if (member.Name == nameof(targetType))
                 {
                     attributes.Add(new ShowIfAttribute(nameof(IsSingleType)));
                     attributes.Add(new LabelWidthAttribute(130));
@@ -455,7 +452,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     attributes.Add(new OnValueChangedAttribute(nameof(OnSelectedMonoScriptArrayChanged)));
                 }
 
-                if (member.Name == nameof(_temporaryTypes))
+                if (member.Name == nameof(temporaryTypes))
                 {
                     attributes.Add(new ShowIfAttribute(nameof(CanShowTemporaryTypes)));
                     attributes.Add(new ListDrawerSettingsAttribute
@@ -497,13 +494,13 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                         nameof(ResetSingleAssemblyFullName)));
                 }
 
-                if (member.Name == nameof(_typeData))
+                if (member.Name == nameof(typeData))
                 {
                     attributes.Add(new TitleGroupAttribute("$" + nameof(_typeAnalysisResultLabel)));
                     attributes.Add(new ShowIfAttribute(nameof(IsSingleType)));
                 }
 
-                if (member.Name == nameof(_typeDataList))
+                if (member.Name == nameof(typeDataList))
                 {
                     attributes.Add(new TitleGroupAttribute("$" + nameof(_typeAnalysisResultLabel)));
                     attributes.Add(new ShowIfAttribute(nameof(IsNeedTypeAnalysisDataList)));
@@ -530,7 +527,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         void ResetSingleType()
         {
-            _targetType = null;
+            targetType = null;
         }
 
         void ResetSelectedMonoScript()
@@ -545,7 +542,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         void ResetTemporaryTypes()
         {
-            _temporaryTypes = new List<Type>();
+            temporaryTypes = new List<Type>();
         }
 
         void ResetSelectedMonoScriptArray()
@@ -575,8 +572,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         void ResetTypeAnalysisData()
         {
-            _typeData = null;
-            _typeDataList = null;
+            typeData = null;
+            typeDataList = null;
         }
 
         #endregion

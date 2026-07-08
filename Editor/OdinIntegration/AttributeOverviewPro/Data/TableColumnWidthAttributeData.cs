@@ -25,6 +25,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         public override ResolvedStringParameterValue[] ResolvedStringParameters { get; set; } = { };
 
-        public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } = { };
+        public override AttributeExamplePreviewItem[] ExamplePreviewItems { get; set; } =
+        {
+            new AttributeExamplePreviewItem().InitializeUnitySerializedExample("Basic Usage",
+                TableColumnWidthExampleSO.Instance)
+        };
     }
 }

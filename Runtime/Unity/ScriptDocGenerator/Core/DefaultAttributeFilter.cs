@@ -3,34 +3,19 @@ using System.Linq;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 特性过滤器接口，用于过滤掉不需要的特性
-    /// </summary>
     [Summary("特性过滤器接口，用于过滤掉不需要的特性")]
     public interface IAttributeFilter
     {
-        /// <summary>
-        /// 排除的特性类型
-        /// </summary>
         [Summary("排除的特性类型")]
         Type[] ExcludeTypes { get; }
 
-        /// <summary>
-        /// 判断传入的特性类型是否应该被过滤掉
-        /// </summary>
         [Summary("判断传入的特性类型是否应该被过滤掉")]
         bool ShouldFilterOut(Type type);
     }
 
-    /// <summary>
-    /// 默认特性过滤器，构造函数中传入需要排除的 Attribute 类型
-    /// </summary>
     [Summary("默认特性过滤器，构造函数中传入需要排除的 Attribute 类型")]
     public class DefaultAttributeFilter : IAttributeFilter
     {
-        /// <summary>
-        /// 创建默认特性过滤器
-        /// </summary>
         public DefaultAttributeFilter(Type[] excludeTypes)
         {
             if (excludeTypes != null)
@@ -41,15 +26,9 @@ namespace RunLab.AesirInspector
 
         #region IAttributeFilter Members
 
-        /// <summary>
-        /// 排除的特性类型
-        /// </summary>
         [Summary("排除的特性类型")]
         public Type[] ExcludeTypes { get; }
 
-        /// <summary>
-        /// 判断传入的特性类型是否应该被过滤掉
-        /// </summary>
         [Summary("判断传入的特性类型是否应该被过滤掉")]
         public bool ShouldFilterOut(Type type) => ExcludeTypes.Contains(type);
 

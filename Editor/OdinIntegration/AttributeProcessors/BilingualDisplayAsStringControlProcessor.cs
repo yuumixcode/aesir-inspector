@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    public class BilingualDisplayAsStringControlProcessor : OdinAttributeProcessor<BilingualDisplayAsStringControl>
+    internal sealed class BilingualDisplayAsStringControlProcessor : OdinAttributeProcessor<BilingualDisplayAsStringControl>
     {
         public override void ProcessSelfAttributes(InspectorProperty property, List<Attribute> attributes)
         {

@@ -10,9 +10,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Aesir Inspector Getting Started 窗口
-    /// </summary>
     [Summary("Aesir Inspector Getting Started 窗口")]
     [InitializeOnLoad]
     public class AesirInspectorGettingStartedWindow : OdinEditorWindow
@@ -214,9 +211,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             GUILayout.Space(10f);
         }
 
-        /// <summary>
-        /// 打开 Getting Started 窗口
-        /// </summary>
         [Summary("打开 Getting Started 窗口")]
         [MenuItem(AesirInspectorMenuItems.GettingStarted, false, AesirInspectorMenuItems.GettingStartedOrder)]
         public static void OpenWindow()
@@ -248,9 +242,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             };
         }
 
-        /// <summary>
-        /// 功能摘要-详情组，用于在 Getting Started 窗口中展示功能列表
-        /// </summary>
         [Summary("功能摘要-详情组，用于在 Getting Started 窗口中展示功能列表")]
         [Serializable]
         public class SummaryDetailGroup

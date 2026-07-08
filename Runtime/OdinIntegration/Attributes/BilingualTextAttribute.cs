@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 
 namespace RunLab.AesirInspector.OdinIntegration
 {
+    [Summary("双语文本特性")]
     [DontApplyToListElements]
     [AttributeUsage(AttributeTargets.All)]
     [Conditional("UNITY_EDITOR")]

@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Aesir Inspector Mini Tools 窗口，整合常用编辑器小工具入口
-    /// </summary>
     [Summary("Aesir Inspector Mini Tools 窗口，整合常用编辑器小工具入口")]
     public class AesirInspectorMiniToolsWindow : OdinMenuEditorWindow
     {
@@ -60,9 +57,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _lastSelection = null;
         }
 
-        /// <summary>
-        /// 打开 Aesir Inspector Mini Tools 窗口
-        /// </summary>
         [Summary("打开 Aesir Inspector Mini Tools 窗口")]
         [MenuItem(AesirInspectorMenuItems.MiniTools, false, AesirInspectorMenuItems.MiniToolsOrder)]
         public static void Open()

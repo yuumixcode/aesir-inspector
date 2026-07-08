@@ -41,7 +41,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             AesirInspectorLogger.Info("打开 Extension Package Manager 窗口，检测预设包的安装状态。");
         }
 
-        #region Event Functions
+        
 
         protected override void OnEnable()
         {
@@ -67,8 +67,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             cardList = new List<ExtensionPackageCard>
             {
                 ExtensionPackageCard.AesirToolkitCore,
-                ExtensionPackageCard.AesirToolkitModules,
-                ExtensionPackageCard.GitAmendImprovedTimers
             };
         }
 
@@ -80,7 +78,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             Events.registeredPackages -= OnRegisteredPackagesEditor;
         }
 
-        #endregion
+   
 
         #region Internal
 

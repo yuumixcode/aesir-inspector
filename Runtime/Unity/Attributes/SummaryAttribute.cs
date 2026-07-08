@@ -2,9 +2,6 @@ using System;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 提供类似于 XML 文档 summary 部分的描述性元数据。
-    /// </summary>
     [Summary("提供类似于 XML 文档 summary 部分的描述性元数据。")]
     [AttributeUsage(AttributeTargets.All)]
     public class SummaryAttribute : Attribute

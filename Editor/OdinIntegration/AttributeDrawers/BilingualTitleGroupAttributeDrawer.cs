@@ -30,9 +30,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 在 Odin Inspector 中绘制 BilingualTitleGroupAttribute 分组标题。
-    /// </summary>
     [Summary("在 Odin Inspector 中绘制 BilingualTitleGroupAttribute 分组标题，支持根据检查器语言动态切换标题与子标题")]
     public class BilingualTitleGroupAttributeDrawer : OdinGroupDrawer<BilingualTitleGroupAttribute>
     {

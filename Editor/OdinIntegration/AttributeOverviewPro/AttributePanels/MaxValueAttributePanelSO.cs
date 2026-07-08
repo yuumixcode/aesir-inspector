@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// MaxValue 特性介绍面板。
     /// </summary>
     [Summary("MaxValue 特性介绍面板，展示 MaxValue 各参数用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Numbers)]
+    [AttributeCategory(AesirAttributeCategory.Numbers | AesirAttributeCategory.Validation)]
     public class MaxValueAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

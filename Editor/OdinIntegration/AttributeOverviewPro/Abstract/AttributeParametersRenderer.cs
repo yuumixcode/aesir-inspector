@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 特性参数渲染器，负责绘制特性参数表格。
-    /// </summary>
     [Summary("特性参数渲染器，负责绘制特性参数表格")]
     public class AttributeParametersRenderer : IAttributeComponentRenderer
     {

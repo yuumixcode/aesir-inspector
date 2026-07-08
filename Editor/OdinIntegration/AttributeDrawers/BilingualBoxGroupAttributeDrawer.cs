@@ -29,9 +29,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 在 Odin Inspector 框架中渲染由 BilingualBoxGroupAttribute 分组的属性。
-    /// </summary>
     [Summary("在 Odin Inspector 框架中渲染由 BilingualBoxGroupAttribute 分组的属性。")]
     public class BilingualBoxGroupAttributeDrawer : OdinGroupDrawer<BilingualBoxGroupAttribute>
     {

@@ -6,7 +6,7 @@ using Sirenix.OdinInspector.Editor;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    public class BilingualHeaderControlProcessor : OdinAttributeProcessor<BilingualHeaderControl>
+    internal sealed class BilingualHeaderControlProcessor : OdinAttributeProcessor<BilingualHeaderControl>
     {
         public override void ProcessSelfAttributes(InspectorProperty property, List<Attribute> attributes)
         {

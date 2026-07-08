@@ -8,9 +8,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 类型分析器静态扩展类，统一管理类型分析器有关的静态扩展方法
-    /// </summary>
     [Summary("类型分析器静态扩展类，统一管理类型分析器有关的静态扩展方法")]
     public static class TypeAnalyzerStaticExtensions
     {
@@ -58,16 +55,10 @@ namespace RunLab.AesirInspector
             { "op_PointerDereference", "operator * " }
         };
 
-        /// <summary>
-        /// 判断是否为 API 成员，返回 true 表示是 API 成员，返回 false 表示不是。API 成员指的是公共成员或受保护成员。
-        /// </summary>
         [Summary("判断是否为 API 成员，返回 true 表示是 API 成员，返回 false 表示不是。API 成员指的是公共成员或受保护成员。")]
         public static bool IsApiMember(this IDerivedMemberData derivedMemberData) =>
             derivedMemberData.AccessModifier is AccessModifierType.Public or AccessModifierType.Protected;
 
-        /// <summary>
-        /// 判断成员是否从继承中获取，这里的成员不包括 Type 类型
-        /// </summary>
         [Summary("判断成员是否从继承中获取，这里的成员不包括 Type 类型")]
         public static bool IsFromInheritance(this MemberInfo member)
         {
@@ -85,9 +76,6 @@ namespace RunLab.AesirInspector
             return member.DeclaringType != member.ReflectedType;
         }
 
-        /// <summary>
-        /// 获取特性声明字符串，多行显示
-        /// </summary>
         [Summary("获取特性声明字符串，多行显示")]
         public static string GetAttributesDeclarationWithMultiLine(this MemberInfo member,
             IAttributeFilter filter = null)
@@ -121,24 +109,15 @@ namespace RunLab.AesirInspector
             return attributesStringBuilder.ToString();
         }
 
-        /// <summary>
-        /// 判断是否为静态属性
-        /// </summary>
         [Summary("判断是否为静态属性")]
         public static bool IsStaticProperty(this PropertyInfo propertyInfo) =>
             propertyInfo.GetGetMethod(true)?.IsStatic ?? propertyInfo.GetSetMethod(true)?.IsStatic ?? false;
 
-        /// <summary>
-        /// 判断是否为动态字段
-        /// </summary>
         [Summary("判断是否为动态字段")]
         public static bool IsDynamicField(this FieldInfo fieldInfo) =>
             fieldInfo.FieldType == typeof(object) && fieldInfo
                 .GetCustomAttributes(typeof(DynamicAttribute), false).Length > 0;
 
-        /// <summary>
-        /// 将 IDerivedMemberData 转换为 IMemberData，转换成功返回 true，转换失败返回 false
-        /// </summary>
         [Summary("将 IDerivedMemberData 转换为 IMemberData，转换成功返回 true，转换失败返回 false")]
         public static bool TryAsIMemberData(this IDerivedMemberData derivedMemberData,
             out IMemberData memberData)
@@ -152,9 +131,6 @@ namespace RunLab.AesirInspector
             return memberData != null;
         }
 
-        /// <summary>
-        /// 获取属性的自定义默认值，不能获取到值则返回 null，只获取静态属性的默认值。
-        /// </summary>
         [Summary("获取属性的自定义默认值，不能获取到值则返回 null，只获取静态属性的默认值。")]
         public static bool TryGetPropertyCustomDefaultValue(this PropertyInfo propertyInfo,
             out object defaultValue)
@@ -185,9 +161,6 @@ namespace RunLab.AesirInspector
             return false;
         }
 
-        /// <summary>
-        /// 获取字段的自定义默认值，不能获取到值则返回 null。只获取静态字段和常量字段的默认值。
-        /// </summary>
         [Summary("获取字段的自定义默认值，不能获取到值则返回 null。只获取静态字段和常量字段的默认值。")]
         public static bool TryGetFieldCustomDefaultValue(this FieldInfo fieldInfo, out object defaultValue)
         {
@@ -233,9 +206,6 @@ namespace RunLab.AesirInspector
 
         #region Type
 
-        /// <summary>
-        /// 获取类型的种类
-        /// </summary>
         [Summary("获取类型的种类")]
         public static TypeCategory GetTypeCategory(this Type type)
         {
@@ -268,9 +238,6 @@ namespace RunLab.AesirInspector
             return TypeCategory.Unknown;
         }
 
-        /// <summary>
-        /// 将反射获取到的系统类型名称转换为人类可读的 C# 风格类型名称
-        /// </summary>
         [Summary("将反射获取到的系统类型名称转换为人类可读的 C# 风格类型名称")]
         public static string GetReadableTypeName(this Type type, bool useFullName = false)
         {
@@ -294,9 +261,6 @@ namespace RunLab.AesirInspector
             return targetTypeName;
         }
 
-        /// <summary>
-        /// 获取开发者声明的字段，剔除自动属性生成的字段
-        /// </summary>
         [Summary("获取开发者声明的字段，剔除自动属性生成的字段")]
         public static FieldInfo[] GetUserDefinedFields(this Type type)
         {
@@ -305,9 +269,6 @@ namespace RunLab.AesirInspector
                                       f.Name.Contains("__BackingField"))).ToArray();
         }
 
-        /// <summary>
-        /// 获取一个数组，内容是所有的 ReferenceLinkURL 特性中的网页链接字符串
-        /// </summary>
         [Summary("获取一个数组，内容是所有的 ReferenceLinkURL 特性中的网页链接字符串")]
         public static string[] GetReferenceLinks(this Type type)
         {
@@ -315,9 +276,6 @@ namespace RunLab.AesirInspector
             return links.Select(x => x.WebUrl).ToArray();
         }
 
-        /// <summary>
-        /// 获取一个类型的继承链，不包括接口
-        /// </summary>
         [Summary("获取一个类型的继承链，不包括接口")]
         public static string[] GetInheritanceChain(this Type type)
         {
@@ -325,39 +283,24 @@ namespace RunLab.AesirInspector
                 baseType.GetReadableTypeName(true).Replace("object", "System.Object")).ToArray();
         }
 
-        /// <summary>
-        /// 获取一个类型继承的所有接口
-        /// </summary>
         [Summary("获取一个类型继承的所有接口")]
         public static string[] GetInterfaceArray(this Type type)
         {
             return type.GetInterfaces().Select(i => i.GetReadableTypeName(true)).ToArray();
         }
 
-        /// <summary>
-        /// 判断一个类型是否为非字符串的引用类型（非值类型）
-        /// </summary>
         [Summary("判断一个类型是否为非字符串的引用类型（非值类型）")]
         public static bool IsReferenceTypeExcludeString(this Type type) =>
             !type.IsPrimitive && !type.IsValueType && type != typeof(string);
 
-        /// <summary>
-        /// 判断一个类型是否为抽象类或接口
-        /// </summary>
         [Summary("判断一个类型是否为抽象类或接口")]
         public static bool IsAbstractOrInterface(this Type type) =>
             type.IsAbstract || type.IsInterface;
 
-        /// <summary>
-        /// 判断指定类型是否为委托类型
-        /// </summary>
         [Summary("判断指定类型是否为委托类型")]
         public static bool IsDelegate(this Type type) =>
             type.IsSubclassOf(typeof(Delegate)) || type.IsSubclassOf(typeof(MulticastDelegate));
 
-        /// <summary>
-        /// 判断类型是否为 record struct（值类型 record）
-        /// </summary>
         [Summary("判断类型是否为 record struct（值类型 record）")]
         public static bool IsRecordStruct(this Type type)
         {
@@ -369,9 +312,6 @@ namespace RunLab.AesirInspector
             return type.IsValueType && !type.IsEnum && type.IsRecord();
         }
 
-        /// <summary>
-        /// 判断指定类型是否为 record（包括 record class 和 record struct）
-        /// </summary>
         [Summary("判断指定类型是否为 record（包括 record class 和 record struct）")]
         public static bool IsRecord(this Type type)
         {
@@ -390,9 +330,6 @@ namespace RunLab.AesirInspector
 
         #region Method
 
-        /// <summary>
-        /// 获取方法名称和参数列表，不包含返回值和修饰符
-        /// </summary>
         [Summary("获取方法名称和参数列表，不包含返回值和修饰符")]
         public static string GetMethodNameAndParameters(this MethodBase method)
         {
@@ -441,9 +378,6 @@ namespace RunLab.AesirInspector
             return stringBuilder.ToString();
         }
 
-        /// <summary>
-        /// 获取方法的参数签名，包含默认值
-        /// </summary>
         [Summary("获取方法的参数签名，包含默认值")]
         public static string GetParametersNameWithDefaultValue(this MethodBase method)
         {
@@ -470,9 +404,6 @@ namespace RunLab.AesirInspector
             return stringBuilder.ToString();
         }
 
-        /// <summary>
-        /// 判断是否为接口的实现方法
-        /// </summary>
         [Summary("判断是否为接口的实现方法")]
         public static bool IsFromInterfaceImplementMethod(this MethodBase method)
         {
@@ -493,9 +424,6 @@ namespace RunLab.AesirInspector
                 .Any(targetMethods => targetMethods.Contains(method));
         }
 
-        /// <summary>
-        /// 判断方法是否为从祖先类继承的重写方法，重写声明不是在当前类中
-        /// </summary>
         [Summary("判断方法是否为从祖先类继承的重写方法，重写声明不是在当前类中")]
         public static bool IsInheritedOverrideFromAncestor(this MethodInfo method, Type currentType)
         {
@@ -517,9 +445,6 @@ namespace RunLab.AesirInspector
             return false;
         }
 
-        /// <summary>
-        /// 方法是否具有 override 的特性
-        /// </summary>
         [Summary("方法是否具有 override 的特性")]
         public static bool IsOverrideMethod(this MethodInfo methodInfo) =>
             (methodInfo.IsVirtual && methodInfo.DeclaringType != methodInfo.GetBaseDefinition()
@@ -527,16 +452,10 @@ namespace RunLab.AesirInspector
             (methodInfo.DeclaringType == methodInfo.GetBaseDefinition().DeclaringType &&
              methodInfo.IsVirtual && methodInfo.IsFromInterfaceImplementMethod());
 
-        /// <summary>
-        /// 判断方法是否是异步方法
-        /// </summary>
         [Summary("判断方法是否是异步方法")]
         public static bool IsAsyncMethod(this MethodBase methodBase) =>
             methodBase.GetCustomAttribute<AsyncStateMachineAttribute>() != null;
 
-        /// <summary>
-        /// 判断方法是否是运算符方法
-        /// </summary>
         [Summary("判断方法是否是运算符方法")]
         public static bool IsOperatorMethod(this MethodBase methodInfo) =>
             methodInfo.IsSpecialName && methodInfo.Name.StartsWith("op_");
@@ -545,9 +464,6 @@ namespace RunLab.AesirInspector
 
         #region AccessModifierType
 
-        /// <summary>
-        /// 获取类型的访问修饰符
-        /// </summary>
         [Summary("获取类型的访问修饰符")]
         public static AccessModifierType GetTypeAccessModifier(this Type type)
         {
@@ -586,9 +502,6 @@ namespace RunLab.AesirInspector
             return AccessModifierType.Public;
         }
 
-        /// <summary>
-        /// 获取事件的访问修饰符类型
-        /// </summary>
         [Summary("获取事件的访问修饰符类型")]
         public static AccessModifierType GetEventAccessModifierType(this EventInfo eventInfo)
         {
@@ -618,9 +531,6 @@ namespace RunLab.AesirInspector
                 : AccessModifierType.None;
         }
 
-        /// <summary>
-        /// 获取方法的访问修饰符类型
-        /// </summary>
         [Summary("获取方法的访问修饰符类型")]
         public static AccessModifierType GetMethodAccessModifierType(this MethodBase method)
         {
@@ -652,9 +562,6 @@ namespace RunLab.AesirInspector
             return method.IsFamilyAndAssembly ? AccessModifierType.PrivateProtected : AccessModifierType.None;
         }
 
-        /// <summary>
-        /// 获取属性的访问修饰符类型
-        /// </summary>
         [Summary("获取属性的访问修饰符类型")]
         public static AccessModifierType GetPropertyAccessModifierType(this PropertyInfo propertyInfo)
         {
@@ -684,9 +591,6 @@ namespace RunLab.AesirInspector
             return (int)getAccess.Value <= (int)setAccess.Value ? getAccess.Value : setAccess.Value;
         }
 
-        /// <summary>
-        /// 获取字段访问修饰符
-        /// </summary>
         [Summary("获取字段访问修饰符")]
         public static AccessModifierType GetFieldAccessModifier(this FieldInfo fieldInfo)
         {

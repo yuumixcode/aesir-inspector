@@ -28,9 +28,6 @@ using Sirenix.OdinInspector;
 
 namespace RunLab.AesirInspector.OdinIntegration
 {
-    /// <summary>
-    /// 双语盒状分组特性。
-    /// </summary>
     [Summary("双语盒状分组特性")]
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [Conditional("UNITY_EDITOR")]
@@ -53,33 +50,18 @@ namespace RunLab.AesirInspector.OdinIntegration
 
         public BilingualBoxGroupAttribute() : this("_DefaultMultiLanguageBoxGroup", "Null", "Null", false) { }
 
-        /// <summary>
-        /// 双语数据
-        /// </summary>
         [Summary("双语数据")]
         public BilingualData LanguageData { get; set; }
 
-        /// <summary>
-        /// 是否显示标签
-        /// </summary>
         [Summary("是否显示标签")]
         public bool ShowLabel { get; set; }
 
-        /// <summary>
-        /// 是否居中标签
-        /// </summary>
         [Summary("是否居中标签")]
         public bool CenterLabel { get; set; }
 
-        /// <summary>
-        /// 是否包含合并值
-        /// </summary>
         [Summary("是否包含合并值")]
         public bool HasCombineValues { get; set; }
 
-        /// <summary>
-        /// 统一 Group 的设置，自定义合并规则。
-        /// </summary>
         protected override void CombineValuesWith(PropertyGroupAttribute other)
         {
             if (other is not BilingualBoxGroupAttribute multiLanguageBoxGroupAttribute)

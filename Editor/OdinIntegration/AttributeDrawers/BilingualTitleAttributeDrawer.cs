@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 在 Odin Inspector 中绘制 BilingualTitleAttribute 标题。
-    /// </summary>
     [DrawerPriority(1)]
     [Summary("在 Odin Inspector 中绘制 BilingualTitleAttribute 标题，支持根据检查器语言动态切换标题与子标题")]
     public class BilingualTitleAttributeDrawer : OdinAttributeDrawer<BilingualTitleAttribute>,

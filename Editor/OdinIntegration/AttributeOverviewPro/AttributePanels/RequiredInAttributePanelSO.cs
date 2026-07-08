@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// RequiredIn 特性介绍面板。
     /// </summary>
     [Summary("RequiredIn 特性介绍面板，展示 RequiredIn 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Validation)]
+    [AttributeCategory(AesirAttributeCategory.Validation | AesirAttributeCategory.Essentials)]
     public class RequiredInAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

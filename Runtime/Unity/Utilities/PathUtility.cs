@@ -3,22 +3,13 @@ using System.Linq;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// Path 路径字符串工具类，提供路径相关的操作方法
-    /// </summary>
     [Summary("Path 路径字符串工具类，提供路径相关的操作方法")]
     public static class PathUtility
     {
-        /// <summary>
-        /// 将路径中的反斜杠替换为正斜杠
-        /// </summary>
         [Summary("将路径中的反斜杠替换为正斜杠")]
         public static string ToUnityPath(string path) =>
             string.IsNullOrEmpty(path) ? string.Empty : path.Replace("\\", "/");
 
-        /// <summary>
-        /// 尝试获取完整路径中以目标字符串结尾的子路径，匹配最后一个出现的目标字符串。如果没有找到，返回 false
-        /// </summary>
         [Summary("尝试获取完整路径中以目标字符串结尾的子路径，匹配最后一个出现的目标字符串。如果没有找到，返回 false")]
         public static bool TryGetSubPathWithSpecialEnd(string fullRelativePath,
             string endWithString,
@@ -52,9 +43,6 @@ namespace RunLab.AesirInspector
             return true;
         }
 
-        /// <summary>
-        /// 合并两个路径字符串并规范化为 Unity 格式
-        /// </summary>
         [Summary("合并两个路径字符串并规范化为 Unity 格式")]
         public static string CombinePath(string a, string b)
         {

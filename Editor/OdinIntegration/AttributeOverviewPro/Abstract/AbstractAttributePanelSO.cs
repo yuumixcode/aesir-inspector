@@ -7,18 +7,12 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 特性面板 SO 泛型单例基类，继承自 SerializedScriptableObject。
-    /// </summary>
     [Summary("特性面板 SO 泛型单例基类，继承自 SerializedScriptableObject")]
     public abstract class AttributeOverviewPanelSO<T> : SerializedScriptableObject, IAesirInspectorReset
         where T : AttributeOverviewPanelSO<T>
     {
         static T _asset;
 
-        /// <summary>
-        /// 获取单例实例，若不存在则自动创建。
-        /// </summary>
         [Summary("获取单例实例，若不存在则自动创建")]
         public static T Instance
         {
@@ -35,16 +29,10 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 重置面板状态。
-        /// </summary>
         [Summary("重置面板状态")]
         public abstract void AesirInspectorReset();
     }
 
-    /// <summary>
-    /// 特性介绍面板抽象基类，负责渲染顶部控件、使用提示、参数表、案例预览与代码预览。
-    /// </summary>
     [Summary("特性介绍面板抽象基类，负责渲染顶部控件、使用提示、参数表、案例预览与代码预览")]
     public abstract class AbstractAttributePanelSO : AttributeOverviewPanelSO<AbstractAttributePanelSO>
     {
@@ -62,9 +50,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         ExamplePreviewRenderer _examplePreviewRenderer;
         CodePreviewRenderer _codePreviewRenderer;
 
-        /// <summary>
-        /// 当前选中的示例对象。
-        /// </summary>
+        [Summary("当前选中的示例对象")]
         public ScriptableObject CurrentSelectedExample
         {
             get => currentSelectedExample;
@@ -78,9 +64,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 顶部说明控件引用。
-        /// </summary>
         [Summary("顶部说明控件引用")]
         public BilingualHeaderControl BilingualHeaderControl => bilingualHeaderControl;
 
@@ -94,9 +77,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         [Summary("初始化面板，子类中调用 SetData 完成数据绑定")]
         public abstract void Initialize();
 
-        /// <summary>
-        /// 重置面板至初始状态。
-        /// </summary>
         [Summary("重置面板至初始状态")]
         public override void AesirInspectorReset()
         {
@@ -123,9 +103,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #region Performance Cache
 
-        internal static float GetCachedTextHeight(string text,
-            float width,
-            Dictionary<string, float> cache)
+        internal static float GetCachedTextHeight(string text, float width, Dictionary<string, float> cache)
         {
             var key = text + "_" + width;
             if (cache.TryGetValue(key, out var height))
@@ -141,23 +119,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #endregion
 
-        /// <summary>
-        /// 子类设置数据
-        /// </summary>
-        protected void SetData(AbstractAttributeData attributeData) => Internal_SetData(attributeData);
-
-        #region Internal
-
-        void UpdateExampleCode()
-        {
-            _currentExampleSourceCode =
-                AttributeOverviewEditorUtility.GetExampleSourceCodeWithoutNamespace(
-                    MarkExampleAttribute);
-            _codePreviewRenderer?.SetData(_currentExampleSourceCode);
-            _codePreviewRenderer?.Reset();
-        }
-
-        void Internal_SetData(AbstractAttributeData attributeData)
+        [Summary("子类设置数据")]
+        protected void SetData(AbstractAttributeData attributeData)
         {
             _data = attributeData;
             bilingualHeaderControl = _data.BilingualHeaderControl;
@@ -185,6 +148,14 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             AesirInspectorLanguageSettingsSO.LanguageChanged += OnLanguageChanged;
         }
 
+        void UpdateExampleCode()
+        {
+            _currentExampleSourceCode =
+                AttributeOverviewEditorUtility.GetExampleSourceCodeWithoutNamespace(MarkExampleAttribute);
+            _codePreviewRenderer?.SetData(_currentExampleSourceCode);
+            _codePreviewRenderer?.Reset();
+        }
+
         void OnLanguageChanged()
         {
             _usageTipsRenderer?.OnLanguageChanged();
@@ -204,8 +175,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                 }
             }
         }
-
-        #endregion
 
         #region Usage Tips
 

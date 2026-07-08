@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// DisplayAsString 特性介绍面板。
     /// </summary>
     [Summary("DisplayAsString 特性介绍面板，展示 DisplayAsString 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Essentials)]
+    [AttributeCategory(AesirAttributeCategory.TypeSpecifics)]
     public class DisplayAsStringAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// ValidateInput 特性介绍面板。
     /// </summary>
     [Summary("ValidateInput 特性介绍面板，展示 ValidateInput 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Validation)]
+    [AttributeCategory(AesirAttributeCategory.Validation | AesirAttributeCategory.Essentials)]
     public class ValidateInputAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

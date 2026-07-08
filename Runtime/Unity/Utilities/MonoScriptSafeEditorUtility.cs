@@ -6,15 +6,9 @@ using UnityEditor;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 关于 MonoScript 的编辑器安全工具类。仅在编辑器阶段可用，打包后调用返回默认值。
-    /// </summary>
     [Summary("关于 MonoScript 的编辑器安全工具类。仅在编辑器阶段可用，打包后调用返回默认值。")]
     public static class MonoScriptSafeEditorUtility
     {
-        /// <summary>
-        /// 在项目中根据脚本文件名称查找脚本文件，并在编辑器中选择。仅在编辑器阶段可用，打包后自动剔除。
-        /// </summary>
         [Summary("在项目中根据脚本文件名称查找脚本文件，并在编辑器中选择。")]
         [Conditional("UNITY_EDITOR")]
         public static void SelectMonoScript(string scriptName)
@@ -24,9 +18,6 @@ namespace RunLab.AesirInspector
 #endif
         }
 #if UNITY_EDITOR
-        /// <summary>
-        /// 在项目中根据脚本文件名称查找脚本文件，返回找到的 MonoScript。仅在编辑器阶段可用，打包后返回 null。
-        /// </summary>
         [Summary("在项目中根据脚本文件名称查找脚本文件，返回找到的 MonoScript。")]
         public static MonoScript GetMonoScript(string scriptName)
         {
@@ -40,9 +31,6 @@ namespace RunLab.AesirInspector
             return foundMonoScript;
         }
 #endif
-        /// <summary>
-        /// 在项目中根据脚本文件名称查找脚本文件，返回脚本文件路径。仅在编辑器阶段可用，打包后返回 string.Empty
-        /// </summary>
         [Summary("在项目中根据脚本文件名称查找脚本文件，返回脚本文件路径。")]
         public static string FindScriptPath(string scriptName)
         {

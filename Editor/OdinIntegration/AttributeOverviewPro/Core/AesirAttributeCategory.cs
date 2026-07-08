@@ -2,9 +2,6 @@ using System;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Odin Inspector 特性分类枚举，用于将特性面板归入对应分类。
-    /// </summary>
     [Summary("Odin Inspector 特性分类枚举，用于将特性面板归入对应分类")]
     [Flags]
     public enum AesirAttributeCategory
@@ -24,15 +21,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         Debug = 1 << 11
     }
 
-    /// <summary>
-    /// AesirAttributeCategory 枚举扩展方法。
-    /// </summary>
     [Summary("AesirAttributeCategory 枚举扩展方法")]
     public static class AesirAttributeCategoryExtensions
     {
-        /// <summary>
-        /// 高性能 HasFlag 实现，避免装箱操作。
-        /// </summary>
         [Summary("高性能 HasFlag 实现，避免装箱操作")]
         public static bool HasFlagFast(this AesirAttributeCategory value, AesirAttributeCategory flag) =>
             (value & flag) != 0;

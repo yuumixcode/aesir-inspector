@@ -4,15 +4,9 @@ using Debug = UnityEngine.Debug;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// Aesir Inspector 日志工具。编译后自动剔除，Console 双击可跳转到调用方。
-    /// </summary>
     [Summary("Aesir Inspector 日志工具")]
     public static class AesirInspectorLogger
     {
-        /// <summary>
-        /// 输出信息日志，前缀 <c>[Aesir Inspector]</c> 显示为绿色。
-        /// </summary>
         [Summary("输出信息日志")]
         [Conditional("UNITY_EDITOR")]
         public static void Info(string message)
@@ -25,9 +19,6 @@ namespace RunLab.AesirInspector
             Debug.Log($"<color=#00FF00>[Aesir Inspector]</color> {message}");
         }
 
-        /// <summary>
-        /// 输出警告日志，前缀 <c>[Aesir Inspector]</c> 显示为黄色。
-        /// </summary>
         [Summary("输出警告日志")]
         [Conditional("UNITY_EDITOR")]
         public static void Warning(string message)
@@ -40,9 +31,6 @@ namespace RunLab.AesirInspector
             Debug.LogWarning($"<color=#FFFF00>[Aesir Inspector]</color> {message}");
         }
 
-        /// <summary>
-        /// 输出错误日志，前缀 <c>[Aesir Inspector]</c> 显示为红色。
-        /// </summary>
         [Summary("输出错误日志")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]
@@ -51,9 +39,6 @@ namespace RunLab.AesirInspector
             Debug.LogError($"<color=#FF0000>[Aesir Inspector]</color> {message}");
         }
 
-        /// <summary>
-        /// 输出自定义前缀的信息日志，前缀显示为绿色。
-        /// </summary>
         [Summary("输出自定义前缀的信息日志")]
         [Conditional("UNITY_EDITOR")]
         public static void Info(string prefix, string message)
@@ -66,9 +51,6 @@ namespace RunLab.AesirInspector
             Debug.Log($"<color=#00FF00>[{prefix}]</color> {message}");
         }
 
-        /// <summary>
-        /// 输出自定义前缀的警告日志，前缀显示为黄色。
-        /// </summary>
         [Summary("输出自定义前缀的警告日志")]
         [Conditional("UNITY_EDITOR")]
         public static void Warning(string prefix, string message)
@@ -81,9 +63,6 @@ namespace RunLab.AesirInspector
             Debug.LogWarning($"<color=#FFFF00>[{prefix}]</color> {message}");
         }
 
-        /// <summary>
-        /// 输出自定义前缀的错误日志，前缀显示为红色。
-        /// </summary>
         [Summary("输出自定义前缀的错误日志")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Conditional("UNITY_EDITOR")]

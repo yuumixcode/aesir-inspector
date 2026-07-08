@@ -7,15 +7,9 @@ using System.Runtime.CompilerServices;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 反射工具类，提供程序集、命名空间及成员的反射操作方法
-    /// </summary>
     [Summary("反射工具类，提供程序集、命名空间及成员的反射操作方法")]
     public static class ReflectionUtility
     {
-        /// <summary>
-        /// 获取名称中包含指定字符串的所有程序集
-        /// </summary>
         [Summary("获取名称中包含指定字符串的所有程序集")]
         public static Assembly[] GetAssembliesOfNameContainString(string partOfAssemblyName)
         {
@@ -24,9 +18,6 @@ namespace RunLab.AesirInspector
             return assemblies.Length > 0 ? assemblies : Array.Empty<Assembly>();
         }
 
-        /// <summary>
-        /// 获取指定程序集中的所有命名空间
-        /// </summary>
         [Summary("获取指定程序集中的所有命名空间")]
         public static List<string> GetNamespacesInAssembly(Assembly assembly)
         {
@@ -35,9 +26,6 @@ namespace RunLab.AesirInspector
             return namespaces;
         }
 
-        /// <summary>
-        /// 获取成员的值（支持字段和属性）。
-        /// </summary>
         [Summary("获取成员的值（支持字段和属性）。")]
         public static object GetMemberValue(MemberInfo member, object obj)
         {
@@ -54,9 +42,6 @@ namespace RunLab.AesirInspector
             throw new ArgumentException($"Can't get the value of a {member.GetType().Name}");
         }
 
-        /// <summary>
-        /// 获取成员的返回类型（支持字段、属性、方法和事件）。
-        /// </summary>
         [Summary("获取成员的返回类型（支持字段、属性、方法和事件）。")]
         public static Type GetReturnType(MemberInfo memberInfo)
         {
@@ -83,9 +68,6 @@ namespace RunLab.AesirInspector
             return null;
         }
 
-        /// <summary>
-        /// 判断成员是否为静态成员。
-        /// </summary>
         [Summary("判断成员是否为静态成员。")]
         public static bool IsStatic(MemberInfo member)
         {
@@ -121,16 +103,10 @@ namespace RunLab.AesirInspector
                 member.DeclaringType?.FullName, member.Name, member.GetType().FullName));
         }
 
-        /// <summary>
-        /// 获取成员上的指定类型特性。
-        /// </summary>
         [Summary("获取成员上的指定类型特性。")]
         public static IEnumerable<T> GetAttributes<T>(ICustomAttributeProvider member) where T : Attribute =>
             GetAttributes<T>(member, false);
 
-        /// <summary>
-        /// 获取成员上的指定类型特性。
-        /// </summary>
         [Summary("获取成员上的指定类型特性。")]
         public static IEnumerable<T> GetAttributes<T>(ICustomAttributeProvider member, bool inherit)
             where T : Attribute
@@ -145,9 +121,6 @@ namespace RunLab.AesirInspector
             }
         }
 
-        /// <summary>
-        /// 判断方法是否为扩展方法。
-        /// </summary>
         [Summary("判断方法是否为扩展方法。")]
         public static bool IsExtensionMethod(MethodBase method)
         {
@@ -156,9 +129,6 @@ namespace RunLab.AesirInspector
                    !declaringType.IsNested && method.IsDefined(typeof(ExtensionAttribute), false);
         }
 
-        /// <summary>
-        /// 获取类型的所有基类和接口。
-        /// </summary>
         [Summary("获取类型的所有基类和接口。")]
         public static IEnumerable<Type> GetBaseTypes(Type type, bool includeSelf = false)
         {
@@ -171,9 +141,6 @@ namespace RunLab.AesirInspector
             return first;
         }
 
-        /// <summary>
-        /// 获取类型的所有基类。
-        /// </summary>
         [Summary("获取类型的所有基类。")]
         public static IEnumerable<Type> GetBaseClasses(Type type, bool includeSelf = false)
         {

@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
+    [Summary("脚本文档生成器编辑器窗口，提供可视化界面配置和生成脚本 API 文档")]
     public class ScriptDocGeneratorWindow : OdinEditorWindow
     {
         const string ScriptDocGenWindowName = "Script Doc Generator";

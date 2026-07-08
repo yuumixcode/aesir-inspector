@@ -9,9 +9,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Attribute Overview 功能的编辑器 GUI 工具类，提供懒加载样式与代码处理方法。
-    /// </summary>
     [Summary("Attribute Overview 功能的编辑器 GUI 工具类，提供懒加载样式与代码处理方法")]
     public static class AttributeOverviewEditorUtility
     {
@@ -24,9 +21,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         static GUIStyle _tabButtonCellTextStyle;
         static GUIStyle _codeTextEditorStyle;
 
-        /// <summary>
-        /// 容器标题样式。
-        /// </summary>
         [Summary("容器标题样式")]
         public static GUIStyle ContainerTitleStyle
         {
@@ -37,9 +31,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 容器内容区域样式。
-        /// </summary>
         [Summary("容器内容区域样式")]
         public static GUIStyle ContainerContentStyle
         {
@@ -55,9 +46,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 表格单元格文本样式。
-        /// </summary>
         [Summary("表格单元格文本样式")]
         public static GUIStyle TableCellTextStyle
         {
@@ -73,9 +61,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 被解析字符串参数标题样式。
-        /// </summary>
         [Summary("被解析字符串参数标题样式")]
         public static GUIStyle ResolvedStringParameterValueTitleStyle
         {
@@ -87,9 +72,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 案例标签页按钮样式。
-        /// </summary>
         [Summary("案例标签页按钮样式")]
         public static GUIStyle TabButtonCellTextStyle
         {
@@ -110,9 +92,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             }
         }
 
-        /// <summary>
-        /// 代码预览文本编辑器样式。
-        /// </summary>
         [Summary("代码预览文本编辑器样式")]
         public static GUIStyle CodeTextEditorStyle
         {
@@ -120,9 +99,9 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             {
                 _codeTextEditorStyle ??= new GUIStyle(SirenixGUIStyles.MultiLineLabel)
                 {
-                    normal = new GUIStyleState { textColor = OdinCodeHighlighter.TextColor },
-                    active = new GUIStyleState { textColor = OdinCodeHighlighter.TextColor },
-                    focused = new GUIStyleState { textColor = OdinCodeHighlighter.TextColor },
+                    normal = new GUIStyleState { textColor = OdinCodeHighlighterUtility.TextColor },
+                    active = new GUIStyleState { textColor = OdinCodeHighlighterUtility.TextColor },
+                    focused = new GUIStyleState { textColor = OdinCodeHighlighterUtility.TextColor },
                     wordWrap = false,
                     fontSize = 12
                 };
@@ -145,11 +124,8 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #endregion
 
-        #region --- Public Methods ---
+        #region Public Methods
 
-        /// <summary>
-        /// 从示例类型获取 AesirExampleAttribute。
-        /// </summary>
         [Summary("从示例类型获取 AesirExampleAttribute")]
         public static AesirExampleAttribute GetAttributeInExampleType(Type exampleType)
         {
@@ -159,28 +135,25 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     .FirstOrDefault(type => type == exampleType)?.GetCustomAttribute<AesirExampleAttribute>();
             }
 
-            Debug.LogError("[AttributeOverview] exampleType 不能为空");
+            AesirInspectorLogger.Error(nameof(AttributeOverviewEditorUtility), "exampleType 不能为空");
             return null;
         }
 
-        /// <summary>
-        /// 读取示例文件源码并移除 namespace 包裹层与 AesirExample 特性标注行。
-        /// </summary>
         [Summary("读取示例文件源码并移除 namespace 包裹层与 AesirExample 特性标注行")]
         public static string GetExampleSourceCodeWithoutNamespace(AesirExampleAttribute attribute)
         {
             if (attribute == null)
             {
-                const string Msg = "attribute 不能为空，可能是案例没有添加 [AesirExample] 特性";
-                Debug.LogError("[AttributeOverview] " + Msg);
-                return Msg;
+                const string msg = "attribute 不能为空，可能是案例没有添加 [AesirExample] 特性";
+                AesirInspectorLogger.Error(nameof(AttributeOverviewEditorUtility), msg);
+                return msg;
             }
 
             var readLines = File.ReadLines(attribute.FilePath);
             var result = new List<string>();
             var isInNamespace = false;
-            var exampleAttrShort = nameof(AesirExampleAttribute)[
-                ..(nameof(AesirExampleAttribute).Length - "Attribute".Length)];
+            var exampleAttrShort =
+                nameof(AesirExampleAttribute)[..(nameof(AesirExampleAttribute).Length - "Attribute".Length)];
 
             foreach (var line in readLines)
             {
@@ -225,9 +198,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             return string.Join("\n", result);
         }
 
-        /// <summary>
-        /// 从完整源码提取简化代码（仅保留字段特性与字段声明行）。
-        /// </summary>
         [Summary("从完整源码提取简化代码（仅保留字段特性与字段声明行）")]
         public static string GetExampleShortenCode(string sourceCode)
         {
@@ -291,36 +261,30 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             return string.Join("\n", shortenLines);
         }
 
-        /// <summary>
-        /// 输出重置成功日志（双语）。
-        /// </summary>
         [Summary("输出重置成功日志（双语）")]
         public static void LogEditorResetSuccess(string typeName)
         {
             if (AesirInspectorLanguageSettingsSO.CurrentIsChinese)
             {
-                Debug.Log(typeName + " 重置成功！");
+                AesirInspectorLogger.Info(typeName + " 重置成功！");
             }
             else
             {
-                Debug.Log(typeName + " reset success!");
+                AesirInspectorLogger.Info(typeName + " reset success!");
             }
         }
 
-        /// <summary>
-        /// 输出未实现重置接口的警告日志（双语）。
-        /// </summary>
         [Summary("输出未实现重置接口的警告日志（双语）")]
         public static void LogEditorResetWarning(string typeName)
         {
             if (AesirInspectorLanguageSettingsSO.CurrentIsChinese)
             {
-                Debug.LogWarning("当前案例脚本类为：" + typeName + "，没有实现 IAesirInspectorReset 接口！");
+                AesirInspectorLogger.Warning("当前案例脚本类为：" + typeName + "，没有实现 IAesirInspectorReset 接口！");
             }
             else
             {
-                Debug.LogWarning("Current example script class: " + typeName +
-                                 " does not implement IAesirInspectorReset interface!");
+                AesirInspectorLogger.Warning("Current example script class: " + typeName +
+                                             " does not implement IAesirInspectorReset interface!");
             }
         }
 

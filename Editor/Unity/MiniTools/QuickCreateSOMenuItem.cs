@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace RunLab.AesirInspector.Editor
 {
-    [Summary("右键快捷生成 ScriptableObject 资源文件")]
+    [Summary("右键快捷生成 ScriptableObject 资源文件；选中 MonoScript 后右键即可自动实例化对应 SO 并创建资源")]
     public static class QuickCreateSOMenuItem
     {
         const string MenuName = "Assets/Aesir Inspector/Create SO Asset From Selected";

@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.Editor
 {
-    [Summary("C# 脚本的 XML 中的 Summary 注释的处理器")]
+    [Summary("C# 脚本 XML 文档注释处理器，在 Sync / Replace / Remove 三种模式下生成 [Summary] 特性或清理注释，供 SummaryToolMenuItems 右键菜单调用")]
     [Serializable]
     public class XmlSummaryTool
     {
         static readonly Regex NamespaceRegex = new(@"namespace\s+([\w.]+)");
-        static readonly Regex BlankLineRegex = new(@"(^\s*$\r?\n)", RegexOptions.Multiline);
+        static readonly Regex BlankLineRegex = new(@"(?:^\s*$\r?\n)", RegexOptions.Multiline);
         static readonly string[] LineSeparators = { "\r\n", "\r", "\n" };
 
         public enum ProcessMode
@@ -42,7 +42,7 @@ namespace RunLab.AesirInspector.Editor
             InitializeSourceLines();
         }
 
-        public string HeaderScript => string.Join("\n", _headerLines);
+        public string GetHeaderScript() => string.Join("\n", _headerLines);
 
         [Summary("解析源脚本，分解为头部部分和 XML 文档注释与代码块的组合列表")]
         public XmlSummaryTool ParseSourceScript()
@@ -57,13 +57,18 @@ namespace RunLab.AesirInspector.Editor
             var sb = new StringBuilder(GetProcessedHeaderScript()).Append('\n');
             foreach (var xmlCodePart in XmlCodeParts)
             {
-                _ = processMode switch
+                switch (processMode)
                 {
-                    ProcessMode.SyncSummary => sb.Append(xmlCodePart.GetSyncOutput()),
-                    ProcessMode.ReplaceSummary => sb.Append(xmlCodePart.GetReplaceOutput()),
-                    ProcessMode.RemoveSummary => sb.Append(xmlCodePart.GetReplaceAllOutput()),
-                    _ => sb
-                };
+                    case ProcessMode.SyncSummary:
+                        sb.Append(xmlCodePart.GetSyncOutput());
+                        break;
+                    case ProcessMode.ReplaceSummary:
+                        sb.Append(xmlCodePart.GetReplaceOutput());
+                        break;
+                    case ProcessMode.RemoveSummary:
+                        sb.Append(xmlCodePart.GetReplaceAllOutput());
+                        break;
+                }
             }
 
             return BlankLineRegex.Replace(sb.ToString(), "\n");
@@ -76,7 +81,7 @@ namespace RunLab.AesirInspector.Editor
 
         string GetProcessedHeaderScript()
         {
-            var headerScript = HeaderScript;
+            var headerScript = GetHeaderScript();
             var match = NamespaceRegex.Match(headerScript);
             if (match.Success)
             {

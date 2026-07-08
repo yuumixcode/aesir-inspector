@@ -6,15 +6,9 @@ using UnityEngine.LowLevel;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 玩家循环工具类，提供自定义 Unity PlayerLoop 的相关方法
-    /// </summary>
     [Summary("玩家循环工具类，提供自定义 Unity PlayerLoop 的相关方法")]
     public static class PlayerLoopUtility
     {
-        /// <summary>
-        /// 从指定的循环系统中移除特定的系统
-        /// </summary>
         [Summary("从指定的循环系统中移除特定的系统")]
         public static void RemoveSystem<T>(ref PlayerLoopSystem loop, PlayerLoopSystem systemToRemove)
         {
@@ -37,9 +31,6 @@ namespace RunLab.AesirInspector
             HandleSubSystemLoopForRemoval<T>(ref loop, systemToRemove);
         }
 
-        /// <summary>
-        /// 在指定的循环系统中插入特定的系统
-        /// </summary>
         [Summary("在指定的循环系统中插入特定的系统")]
         public static bool InsertSystem<T>(ref PlayerLoopSystem loop,
             PlayerLoopSystem systemToInsert,
@@ -61,9 +52,6 @@ namespace RunLab.AesirInspector
             return true;
         }
 
-        /// <summary>
-        /// 打印当前的 PlayerLoop 结构到控制台
-        /// </summary>
         [Summary("打印当前的 PlayerLoop 结构到控制台")]
         public static void PrintPlayerLoop(PlayerLoopSystem loop)
         {
@@ -77,9 +65,6 @@ namespace RunLab.AesirInspector
             Debug.Log(sb.ToString());
         }
 
-        /// <summary>
-        /// 获取一个新的自定义 PlayerLoopSystem 实例
-        /// </summary>
         [Summary("获取一个新的自定义 PlayerLoopSystem 实例")]
         public static PlayerLoopSystem GetNewCustomPlayerLoopSystem(Type target,
             PlayerLoopSystem.UpdateFunction update = null,

@@ -4,15 +4,9 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// 类型分析器工具类
-    /// </summary>
     [Summary("类型分析器工具类")]
     public static class TypeAnalyzerUtility
     {
-        /// <summary>
-        /// 将系统类型名称映射到其 C# 别名的字典
-        /// </summary>
         [Summary("将系统类型名称映射到其 C# 别名的字典")]
         public static readonly IReadOnlyDictionary<Type, string> TypeAliasMap = new Dictionary<Type, string>
         {
@@ -48,9 +42,6 @@ namespace RunLab.AesirInspector
             { typeof(object), "object" }
         };
 
-        /// <summary>
-        /// 获取没有后缀的 Attribute 名称
-        /// </summary>
         [Summary("获取没有后缀的 Attribute 名称")]
         public static string GetAttributeNameWithoutSuffix(string attributeName)
         {
@@ -62,9 +53,6 @@ namespace RunLab.AesirInspector
             return attributeName;
         }
 
-        /// <summary>
-        /// 获取字段的关键字片段字符串
-        /// </summary>
         [Summary("获取字段的关键字片段字符串")]
         public static string GetFieldKeywordSnippet(bool isConst, bool isStatic, bool isReadOnly)
         {
@@ -97,9 +85,6 @@ namespace RunLab.AesirInspector
             return keyword;
         }
 
-        /// <summary>
-        /// 获取格式化的默认值字符串，用于生成签名
-        /// </summary>
         [Summary("获取格式化的默认值字符串，用于生成签名")]
         public static string GetFormattedDefaultValue(Type memberType, object value)
         {
@@ -138,9 +123,6 @@ namespace RunLab.AesirInspector
             };
         }
 
-        /// <summary>
-        /// 获取格式化的完整特性签名字符串，返回 true 表示该特性支持格式化为完整特性签名字符串，返回 false 表示不支持。
-        /// </summary>
         [Summary("获取格式化的完整特性签名字符串，返回 true 表示该特性支持格式化为完整特性签名字符串，返回 false 表示不支持。")]
         public static bool TryGetFormatedAttributeWithFullParameter(object attrInstance,
             out string attributeFullSignature)
@@ -174,9 +156,6 @@ namespace RunLab.AesirInspector
             return false;
         }
 
-        /// <summary>
-        /// 提供的值被视为类型的默认值，返回 true 表示被视为类型的默认值，返回 false 表示不是。
-        /// </summary>
         [Summary("提供的值被视为类型的默认值，返回 true 表示被视为类型的默认值，返回 false 表示不是。")]
         public static bool TreatedAsTypeDefaultValue(object value, Type type)
         {

@@ -3,15 +3,9 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Odin 语法高亮处理器可视化面板，基于 AesirCodeHighlighter 提供语法高亮测试功能
-    /// </summary>
     [Summary("Odin 语法高亮处理器可视化面板，基于 AesirCodeHighlighter 提供语法高亮测试功能")]
     public class OdinSyntaxHighlighterPanelSO : ScriptableObject
     {
-        /// <summary>
-        /// EditorBuildSettings 存储引用的 Key
-        /// </summary>
         [Summary("EditorBuildSettings 存储引用的 Key")]
         static readonly string ConfigName =
             OdinBridgeLocator.Bridge.GetFriendlyFullName(typeof(OdinSyntaxHighlighterPanelSO));
@@ -52,9 +46,6 @@ public class Example : ScriptableObject
         [PropertyOrder(-5)]
         public BilingualDisplayAsStringControl fourthTip;
 
-        /// <summary>
-        /// 获取 OdinSyntaxHighlighterSO 单例
-        /// </summary>
         [Summary("获取 OdinSyntaxHighlighterSO 单例")]
         public static OdinSyntaxHighlighterPanelSO Instance =>
             ScriptableObjectSafeEditorUtility.GetOrCreateEditorScriptableObject<OdinSyntaxHighlighterPanelSO>(
@@ -74,12 +65,9 @@ public class Example : ScriptableObject
                 "4.Processed Code Should Pay Attention To Rich Text Tag Usage, Check For Such Reasons When It Fails.");
         }
 
-        /// <summary>
-        /// 使用富文本标记进行脚本语法高亮。委托给 AesirCodeHighlighter 实现。
-        /// </summary>
         [Summary("使用富文本标记进行脚本语法高亮。委托给 AesirCodeHighlighter 实现。")]
         public static string ApplyCodeHighlighting(string code) =>
-            OdinCodeHighlighter.ApplyHighlighting(code);
+            OdinCodeHighlighterUtility.ApplyHighlighting(code);
 
         [PropertySpace(10)]
         [BilingualInfoBox("查看 Console 窗口输出", "See Console Window Output")]

@@ -92,7 +92,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             if (!string.IsNullOrEmpty(gitUrl) && gitUrl.Contains(".git"))
             {
                 _addRequest = Client.Add(gitUrl);
-                EditorApplication.update += InstallProgressUpdate;
+                EditorApplication.update += Internal_InstallProgressUpdate;
             }
             else
             {
@@ -132,7 +132,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
 
         #region Internal
 
-        static void InstallProgressUpdate()
+        static void Internal_InstallProgressUpdate()
         {
             if (_addRequest == null || !_addRequest.IsCompleted)
             {
@@ -150,7 +150,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
                     break;
             }
 
-            EditorApplication.update -= InstallProgressUpdate;
+            EditorApplication.update -= Internal_InstallProgressUpdate;
             _addRequest = null;
         }
 

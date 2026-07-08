@@ -4,7 +4,7 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
     /// Searchable 特性介绍面板。
     /// </summary>
     [Summary("Searchable 特性介绍面板，展示 Searchable 特性的用法及案例预览")]
-    [AttributeCategory(AesirAttributeCategory.Collections)]
+    [AttributeCategory(AesirAttributeCategory.Essentials)]
     public class SearchableAttributePanelSO : AbstractAttributePanelSO
     {
         public override void Initialize()

@@ -26,10 +26,17 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         public override ParameterValue[] AttributeParameters { get; set; } =
         {
             new ParameterValue(typeof(string).FullName, "label",
-                new BilingualData("后缀标签显示的文本或表达式。", "The suffix label text or expression.")),
+                new BilingualData("后缀标签显示的文本或表达式，支持所有解析器。",
+                    "The suffix label text or expression. Supports all resolvers.")),
             new ParameterValue(typeof(bool).FullName, "overlay",
-                new BilingualData("是否将标签覆盖在属性输入框上（内部显示）。",
-                    "Whether the label should be overlaid on top of the property's input field."))
+                new BilingualData("是否将标签覆盖在属性输入框上（内部显示），默认为 false。",
+                    "Whether the label should be overlaid on top of the property's input field. Defaults to false.")),
+            new ParameterValue("SdfIconType", "icon",
+                new BilingualData("后缀图标类型，默认为 SdfIconType.None。",
+                    "The suffix icon type. Defaults to SdfIconType.None.")),
+            new ParameterValue(typeof(string).FullName, "IconColor",
+                new BilingualData("图标的颜色，支持命名颜色、十六进制和 RGBA 表达式。",
+                    "The color of the icon. Supports named colors, hex, and RGBA expressions."))
         };
 
         public override ResolvedStringParameterValue[] ResolvedStringParameters { get; set; } =

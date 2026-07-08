@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// Aesir Inspector 日志配置，存放在 Preferences 目录下。
-    /// 控制普通日志和警告日志的显示开关，错误日志始终输出。
-    /// </summary>
     [Summary("Aesir Inspector 日志配置")]
     public class AesirInspectorLoggerSettings : AesirInspectorSettings<AesirInspectorLoggerSettings>
     {
@@ -15,15 +11,9 @@ namespace RunLab.AesirInspector
         [SerializeField]
         bool enableWarningLog = true;
 
-        /// <summary>
-        /// 普通日志是否启用。Instance 为 null 时返回 false。
-        /// </summary>
         [Summary("普通日志是否启用")]
         public static bool IsInfoEnabled => Instance != null && Instance.enableInfoLog;
 
-        /// <summary>
-        /// 警告日志是否启用。Instance 为 null 时返回 true，确保编辑器初始化期间不丢失警告。
-        /// </summary>
         [Summary("警告日志是否启用")]
         public static bool IsWarningEnabled => Instance == null || Instance.enableWarningLog;
     }

@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// Aesir Inspector 偏好设置窗口，集中管理核心设置项
-    /// </summary>
     [Summary("Aesir Inspector 偏好设置窗口，集中管理核心设置项")]
     public class AesirInspectorPreferencesWindow : OdinMenuEditorWindow
     {
@@ -61,9 +58,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             _lastSelection = null;
         }
 
-        /// <summary>
-        /// 打开 Aesir Inspector 偏好设置窗口
-        /// </summary>
         [Summary("打开 Aesir Inspector 偏好设置窗口")]
         [MenuItem(AesirInspectorMenuItems.Preferences, false, AesirInspectorMenuItems.PreferencesOrder)]
         public static void Open()

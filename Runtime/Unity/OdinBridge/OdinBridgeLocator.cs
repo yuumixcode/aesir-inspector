@@ -1,8 +1,5 @@
 namespace RunLab.AesirInspector
 {
-    /// <summary>
-    /// IOdinBridge 的静态定位器。OdinIntegration 程序集在加载时注入 OdinBridge 实现。
-    /// </summary>
     [Summary("IOdinBridge 的静态定位器。OdinIntegration 程序集在加载时注入 OdinBridge 实现。")]
     public static class OdinBridgeLocator
     {

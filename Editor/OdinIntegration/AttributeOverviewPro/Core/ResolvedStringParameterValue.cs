@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace RunLab.AesirInspector.OdinIntegration.Editor
 {
-    /// <summary>
-    /// 解析器类型枚举。
-    /// </summary>
     [Summary("解析器类型枚举")]
     public enum ResolverType
     {
@@ -16,9 +13,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
         ActionResolver = 1
     }
 
-    /// <summary>
-    /// 被解析的字符串参数数据类，包含解析器信息表与命名值表的绘制逻辑。
-    /// </summary>
     [Summary("被解析的字符串参数数据类，包含解析器信息表与命名值表的绘制逻辑")]
     public class ResolvedStringParameterValue
     {
@@ -60,51 +54,27 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             ResizeAllTables();
         }
 
-        /// <summary>
-        /// 参数名称。
-        /// </summary>
         [Summary("参数名称")]
         public string ParameterName { get; }
 
-        /// <summary>
-        /// 解析器类型。
-        /// </summary>
         [Summary("解析器类型")]
         public ResolverType ResolverType { get; }
 
-        /// <summary>
-        /// 解析器目标类型名。
-        /// </summary>
         [Summary("解析器目标类型名")]
         public string ResolverTargetType { get; }
 
-        /// <summary>
-        /// 回退值。
-        /// </summary>
         [Summary("回退值")]
         public string FallbackValue { get; }
 
-        /// <summary>
-        /// 命名参数值列表。
-        /// </summary>
         [Summary("命名参数值列表")]
         public List<ParameterValue> NamedValues { get; }
 
-        /// <summary>
-        /// 解析器信息 GUI 表格。
-        /// </summary>
         [Summary("解析器信息 GUI 表格")]
         public GUITable ResolverInfoTable { get; private set; }
 
-        /// <summary>
-        /// 命名参数值 GUI 表格。
-        /// </summary>
         [Summary("命名参数值 GUI 表格")]
         public GUITable NamedValueTable { get; private set; }
 
-        /// <summary>
-        /// 重建解析器信息表格。
-        /// </summary>
         [Summary("重建解析器信息表格")]
         public void CreateResolverInfoTable()
         {
@@ -126,9 +96,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             });
         }
 
-        /// <summary>
-        /// 重建命名参数值表格。
-        /// </summary>
         [Summary("重建命名参数值表格")]
         public void CreateNamedValueTable()
         {
@@ -150,9 +117,6 @@ namespace RunLab.AesirInspector.OdinIntegration.Editor
             });
         }
 
-        /// <summary>
-        /// 根据当前宽度重新计算所有表格行高。
-        /// </summary>
         [Summary("根据当前宽度重新计算所有表格行高")]
         public void ResizeAllTables()
         {
